@@ -21,7 +21,7 @@ public class MTSExtract {
 	    	}
 	    }
     } catch(Throwable t) {
-    	JOptionPane.showMessageDialog(null, "($t)\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+    	JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
         t.printStackTrace()
     }
     return result
