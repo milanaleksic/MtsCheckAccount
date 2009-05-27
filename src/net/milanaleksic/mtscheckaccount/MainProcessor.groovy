@@ -1,4 +1,4 @@
-package rs.in.milanaleksic
+package net.milanaleksic.mtscheckaccount
 
 import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
@@ -95,14 +95,22 @@ public class MainProcessor {
         edGprs.text = informationBean.Gprs
       }
     } catch (RuntimeException t) {
-      JOptionPane.showMessageDialog(null, "($t) ${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+      JOptionPane.showMessageDialog(null, "($t)\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
       t.printStackTrace()
       System.exit(1);
     } catch (Throwable t) {
-      JOptionPane.showMessageDialog(null, "($t) ${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+      JOptionPane.showMessageDialog(null, "($t)\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
       t.printStackTrace()
       System.exit(1);
     }
   }
 
 }
+
+public class ThreadExcHandler implements Thread.UncaughtExceptionHandler {
+    void uncaughtException(Thread thr, Throwable t) {
+    	JOptionPane.showMessageDialog(null, "[$thr]\n($t)\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+        e.printStackTrace();
+    	System.exit(1);
+    }
+  }

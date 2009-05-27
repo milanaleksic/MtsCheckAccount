@@ -1,4 +1,4 @@
-package rs.in.milanaleksic
+package net.milanaleksic.mtscheckaccount
 /**
  * Created by IntelliJ IDEA.
  * User: Milan Aleksic
