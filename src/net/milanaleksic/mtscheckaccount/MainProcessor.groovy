@@ -34,7 +34,7 @@ public class MainProcessor {
     result.each { key, value -> println "Parametar ${key} je postavljen na ${value}" }
     
     // detaljna obrada za port, posto je on neophodan parametar...
-    def autoResolvedPort = tryToResolvePort() 
+    def autoResolvedPort = tryToResolvePort(result) 
     if (autoResolvedPort)
         result.port = autoResolvedPort
     else {
@@ -49,14 +49,19 @@ public class MainProcessor {
     return result
   }
   
-  def tryToResolvePort() {
+  def tryToResolvePort(config) {
 	  def result = null
 	  try {
 		  def extractor = new RegistryExtractor()
 	        
-	      def identifier = extractor.extractValueOfRegistryKey(/SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum/, '0')
+	      def identifier = extractor.extractValueOfRegistryKey(
+	    		  config.'enum-descriptor-location', 
+	    		  config.'enum-descriptor-key')
 	        
-	      result = extractor.extractValueOfRegistryKey(/SYSTEM\CurrentControlSet\Enum\$identifier\Device Parameters/, 'PortName')
+	      result = extractor.extractValueOfRegistryKey(
+	    		  config.'port-identifier-location'.replace('{identifier}',identifier), 
+	    		  config.'port-identifier-key')
+	      
 	      if (result)
 	    	  println "Uspesno je dovucena informacija o portu modema - port koristi $result"
 	  } catch (Throwable t) {
@@ -81,12 +86,12 @@ public class MainProcessor {
       panel {
         tableLayout {
           tr {
-            td { label 'Zaduzenje' }
-            td { edZaduzenje = textField (editable:false, text: "molim, sacekajte...") }
+            td { label 'Zaduzenje: ' }
+            td { edZaduzenje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td { label 'Stanje' }
-            td { edStanje = textField (editable:false, text: "molim, sacekajte...") }
+            td { label 'Stanje: ' }
+            td { edStanje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
             td (colspan:2) { label ' ' }
@@ -96,19 +101,19 @@ public class MainProcessor {
           }
           tr {
             td () { label 'U mrezi mt:s: ' }
-            td { edUMrezi = textField (editable:false, text: "molim, sacekajte...") }
+            td { edUMrezi = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td () { label 'Van mreze:' }
-            td { edVanMreze = textField (editable:false, text: "molim, sacekajte...") }
+            td () { label 'Van mreze: ' }
+            td { edVanMreze = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td () { label 'SMS:' }
-            td { edSms = textField (editable:false, text: "molim, sacekajte...") }
+            td () { label 'SMS: ' }
+            td { edSms = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td () { label 'Gprs(KB):' }
-            td { edGprs = textField (editable:false, text: "molim, sacekajte...") }
+            td () { label 'Gprs: ' }
+            td { edGprs = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
             td (colspan:2) { label ' ' }
@@ -141,7 +146,14 @@ public class MainProcessor {
         edUMrezi.text = informationBean.UMrezi
         edVanMreze.text = informationBean.VanMreze
         edSms.text = informationBean.Sms
-        edGprs.text = informationBean.Gprs
+        def gprstext = null 
+        try {
+        	def inMB = new BigDecimal(Long.parseLong(informationBean.Gprs) / 1024).setScale(2)
+        	gprstext = "${informationBean.Gprs}KB (${inMB}MB)"
+        } catch (Throwable t) {
+        	gprstext = informationBean.Gprs;
+        }
+        edGprs.text = gprstext
       }
     } catch (RuntimeException t) {
       JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)

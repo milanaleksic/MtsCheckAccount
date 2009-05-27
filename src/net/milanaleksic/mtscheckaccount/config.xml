@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zte-status-config>
     <port>COM7</port>
+
+    <enum-descriptor-location>SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum</enum-descriptor-location>
+    <enum-descriptor-key>0</enum-descriptor-key>
+    
+    <port-identifier-location>SYSTEM\CurrentControlSet\Enum\{identifier}\Device Parameters</port-identifier-location>
+    <port-identifier-key>PortName</port-identifier-key>
+
 </zte-status-config>
