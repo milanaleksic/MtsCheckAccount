@@ -1,4 +1,4 @@
-package rs.in.milanaleksic
+package net.milanaleksic.mtscheckaccount
 /**
  * Created by IntelliJ IDEA.
  * User: Milan Aleksic
@@ -17,6 +17,7 @@ public class ZTECommPortReader implements Runnable {
   
 
   public void run() {
+	Thread.currentThread().setUncaughtExceptionHandler(new ThreadExcHandler()) 
     byte[] buffer = new byte[1024];
     int len;
     try {

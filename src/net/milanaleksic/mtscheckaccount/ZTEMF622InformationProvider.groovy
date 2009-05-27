@@ -1,14 +1,9 @@
-package rs.in.milanaleksic
+package net.milanaleksic.mtscheckaccount
+
+import javax.swing.JOptionPane
 
 import gnu.io.*
 
-/**
- * Created by IntelliJ IDEA.
- * User: Milan Aleksic
- * Date: 14-May-2009
- * Time: 23:08:37
- * To change this template use File | Settings | File Templates.
- */
 public class ZTEMF622InformationProvider implements InformationProvider {
 
   public def provideInformation(parameterHash, Closure closure) {
@@ -52,18 +47,20 @@ public class ZTEMF622InformationProvider implements InformationProvider {
 
       println 'Saljem zahtev...'
       str.println 'AT+CUSD=1,"*797#",15'
-      def response = reader.waitFor(/([+]+)CUSD: 0,"/)
+      def response = reader.waitFor(/\s*([+]+)CUSD: 0,"/)
       closure ( new MTSExtract().extract(response) )
       
       println 'Gasim modem...'
-      str.println('AT+ZOPRT=6')
+      str.println 'AT+ZOPRT=6'
       reader.waitFor(/\s*OK\s*/)
-
+      
     } finally {
       if (reader)
         reader.Shutdown = true
-      if (commPort)
-        commPort.close()
+      try {
+	      if (commPort)
+	        commPort.close()
+      } catch (Throwable t) {}
     }
   }
 

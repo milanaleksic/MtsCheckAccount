@@ -1,33 +1,43 @@
 <html>
 <head>
-	<title>ZTE MF622 3G Modem - mt:s CheckPostpaidAccount v0.1</title>
+	<title>ZTE MF622 3G Modem - mt:s CheckPostpaidAccount v0.2</title>
 </head>
 <body>
-<h2>ZTE MF622 3G Modem - mt:s CheckPostpaidAccount v0.1</h2>
+<h2>ZTE MF622 3G Modem - mt:s CheckPostpaidAccount v0.2</h2>
 
 <h3>Sta je ovo?</h3>
-<p>Jedostavan programcic za proveru trenutnog statusa na mt:s provajderu, za gorenavedeni modem. Nisam imao prilike da isprobam program na drugim modemima, moguce je da ce raditi na bilo kojem modemu koji koristi mt:s, ali - ne smem da garantujem :)</p>
+<p>Jedostavan programcic za proveru trenutnog statusa na mt:s provajderu, za gorenavedeni modem. 
+Nisam imao prilike da isprobam program na drugim modemima, moguce je da ce raditi na bilo kojem 
+modemu koji koristi mt:s, ali - ne smem da garantujem :)</p>
 
-<p>Program NE zloupotrebljava Vase poverenje ili trosi racun ili bilo sta nalik tome. Programcic je zapravo mali skup komandi koje se rutiraju ka modemu i izdvaja se samo odredjeni deo odgovora modema (postojace i visak u ispisu kao sto cete videti, ali mislim da Vam nece smetati).</p>
+<p>Program NE zloupotrebljava Vase poverenje ili trosi racun ili bilo sta nalik tome. 
+Programcic je zapravo mali skup komandi koje se rutiraju ka modemu i izdvaja se samo odredjeni deo odgovora.</p>
 
 <hr />
 
 <h3>Uslovi za pokretanje</h3>
-<p>Da bi program mogao uopste raditi, ne smete biti na Internetu u tom trenutku (posto ne mogu dva programa koristiti modem na nivou serijskog porta), a takodje program "MODEM Mobile Connection" mora biti iskljucen.</p>
+<p>Da bi program mogao uopste raditi, ne smete biti na Internetu u tom trenutku (posto ne mogu dva 
+programa koristiti modem na nivou serijskog porta), a takodje program "MODEM Mobile Connection" mora biti iskljucen.</p>
 
-<p>Potrebna je Java JRE 1.6. Ukoliko je nemate (ima i takvih, sigurno :), morate je instalirati: <a href="http://java.sun.com/javase/downloads/index.jsp">http://java.sun.com/javase/downloads/index.jsp</a></p>
+<p>Potrebna je Java JRE 1.6. Ukoliko je nemate (ima i takvih, sigurno :), morate je instalirati: 
+<a href="http://java.sun.com/javase/downloads/index.jsp">http://java.sun.com/javase/downloads/index.jsp</a></p>
 
-<p>Ukoliko program i dalje ne moze da se pokrene, moguce je da u pokreni.bat morate promeniti mozda liniju koja pocinje sa:
+<p>Ukoliko program i dalje ne moze da se pokrene, moguce je da u pokreni.bat morate promeniti mozda liniju koja pocinje sa:</p>
 	<pre>set JAVA_APLIKACIJA=java</pre>
-Ono sto je potrebno da uradite jeste pronalazenje gde je java.exe program koji se nalazi obicno na: <strong>c:\Program Files\Java\jre6\bin\java.exe</strong>. Dakle, nakon izmene prethodna linija treba da izgleda ovako:
+<p>Ono sto je potrebno da uradite je sledece: pronadjite gde se nalazi java.exe program koji je obicno ovde:</p> 
+<p><strong>c:\Program Files\Java\jre6\bin\java.exe</strong>. Dakle, nakon izmene prethodna linija treba da izgleda ovako:</p>
 	<pre>set JAVA_APLIKACIJA=c:\Program Files\Java\jre6\bin\java.exe</pre>
-</p>
 
 <hr />
 
 <h3>Parametri (za slucaj da program i dalje ne radi)</h3>
 <h4>Port modema</h4>
-<p>Da bi program mogao pristupiti Vasem modemu, morate mu proslediti port na kojem je isti registrovan (videcete ovaj parametar unutar pokreni.bat). Kod mene je to COM7, kod vas mozda i nije. Da bi bili sigurni da je port modema upravo taj, idite na Start -> Control Panel -> System -> Hardware -> Device Manager -> Modems -> ZTE Proprietary USB Modem -> Properties... -> Advanced -> Advanced Port Settings -> COM Port number. Kod mene tu stoji COM7. <strong>Nemojte da menjate vrednost koju vidite tu</strong>, vec samo to sto pise tu stavite umesto COM7 unutar pokreni.bat</p>
+<p>Da bi program mogao pristupiti Vasem modemu, morate mu proslediti port na kojem je isti registrovan 
+(videcete ovaj parametar unutar pokreni.bat). Kod mene je to COM7, kod vas mozda i nije. Da bi bili sigurni da 
+je port modema upravo taj, idite na Start -> Control Panel -> System -> Hardware -> Device Manager -> Modems -> 
+ZTE Proprietary USB Modem -> Properties... -> Advanced -> Advanced Port Settings -> COM Port number. 
+Kod mene tu stoji COM7. <strong>Nemojte da menjate vrednost koju vidite tu</strong>, vec samo to sto pise tu stavite 
+umesto COM7 unutar pokreni.bat</p>
 
 <h4>Vreme cekanja</h4>
 <p>Program izmedju komandi ceka na odgovor od modema. Ukoliko ne dobijate teskt o zaduzenju izmedju "Molim Vas sacekajte" i "Gasim modem", moguce je da Vas modem duze obradjuje konekciju na mrezu od mog, pa bi bilo dobro da unutar pokreni.bat zamenite drugi parametar sa 5000 (u pitanju su milisekunde) na 10000.</p>
@@ -35,35 +45,16 @@ Ono sto je potrebno da uradite jeste pronalazenje gde je java.exe program koji s
 <hr />
 
 <h3>Kako izgleda ispis programa?</h3>
-<p>Primeticete ispis kao na mobilnom aparatu, uz dodatni tekst pre i posle teksta o stanju. Nije neki problem da se ovaj tekst ukloni, ali (iskreno) - mrzelo me je. Nemojte gasiti program sve dok ne vidite tekst "Press any key to continue", jer je jedino tada modem sigurno slobodan za koriscenje.
-<div><pre style="border:#808080 1px solid; margin: 5px; padding:5px">
-ZTE MF622 3G Modem - mt:s CheckPostpaidAccount v0.1
-===
-
-Molim Vas sacekajte dok upalim modem i SIM kartica pristupi mrezi...
-
-
-
-Zaduzenje: 0.00
-Stanje: 17.00
-Preostali besplatni saobracaj:
-U mrezi mts: 0:00
-Van mreze: 0:00
-Sms: 0
-Gprs(KB): 472780
-
-
-Gasim modem...
-Press any key to continue . . .
-</pre></div>
-</p>
+<p>Bitna razlika izmedju verzije 0.1 i 0.2 je ta sto se sada prikaz trenutnog stanja vrsi unutar forme (a ne u konzoli):</p>
+<div><img src="screenshot.jpg" style="margin-left: 100px" /></div>
 
 <hr />
 
 <h3>Informacije i kontakt</h3>
 <p>Program je potpuno besplatan.</p>
 
-<p>Autor programa je dipl.ing. Milan Aleksic. Ako zelite, posaljite komentar na: <a href="mailto:milan.aleksic@gmail.com">milan.aleksic@gmail.com</a></p>
+<p>Autor programa je dipl.ing. Milan Aleksic. Ako zelite, posaljite komentar na: 
+<a href="mailto:milan.aleksic@gmail.com">milan.aleksic@gmail.com</a>, ili posetite moj Web sajt na: <a href="http://www.milanaleksic.net">http://www.milanaleksic.net</a></p>
 
 </body>
 </html>
