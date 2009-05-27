@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: 11.0-b15 (Sun Microsystems Inc.)
-Main-Class: rs.in.milanaleksic.Startup
+Main-Class: net.milanaleksic.Startup
 Class-Path: groovy-all-1.6.2.jar RXTXcomm.jar
 
