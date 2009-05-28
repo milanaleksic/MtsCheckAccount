@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zte-status-config>
+
+    <port>COM7</port>
+
+    <descriptor location="SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum" key="0" />
+    <identifier location="SYSTEM\CurrentControlSet\Enum\{identifier}\Device Parameters" key="PortName"/>
+    
+    <check request="AT+ZOPRT?" response="([+]+)ZOPRT" />
+    <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR" />
+    <main request="AT+CUSD=1,&quot;*797#&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
+    <stop request="AT+ZOPRT=6" response="\s*OK\s*" />
+    
+</zte-status-config>

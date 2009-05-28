@@ -9,13 +9,19 @@ package net.milanaleksic.mtscheckaccount
 
 public class MockInformationProvider implements InformationProvider {
 
-  public def provideInformation(parameterHash, Closure closure) {
-    closure(new InformationBean(
-            Stanje:"100.14",
-            Zaduzenje:"1256.12",
-            Sms:"14",
-            Gprs:"${5*1024*1024}",
-            UMrezi: "150",
-            VanMreze: "245.19"))
+  public def provideInformation(params, Closure closure) {
+	closure 'Mozete ugasiti program'
+	
+	def testReceivedFromMts ="""
++CUSD: 0,"Zaduzenje: 0.00
+Stanje: 1.70
+Preostali besplatni saobracaj:
+U mrezi mts: 1
+Van mreze: 2
+Sms: 3
+Gprs(KB): ${5*1024*1024}",15
+"""
+	
+    closure(new MTSExtract().extract(testReceivedFromMts))
   }
 }

@@ -1,4 +1,4 @@
-executor = javaw
+executor = c:\Program Files\Java\jre6\bin\javaw.exe
 mainClass = net.milanaleksic.mtscheckaccount.Startup
 showSplash = false 
 extra = -Dfile.encoding=UTF-8

@@ -15,28 +15,23 @@ public class MainProcessor {
   InformationProvider DataProvider;
 
   def edZaduzenje, edStanje, edUMrezi, edVanMreze, edSms, edGprs
+  def edStatus
 
   def params() {
     def config=null
-    def stream = MainProcessor.class.getResourceAsStream('config.xml')
-    
     try {
-      config = new XmlParser().parseText(stream.getText())
+      config = new XmlSlurper().parse('config.xml')
     }
     catch (Throwable t) {
       t.printStackTrace()
-      println 'Greska - nisam uspeo da otvorim config.xml'
+      println 'Greska - nisam uspeo da otvorim konfiguraciju'
       System.exit(0)
     }
 
-    def result = [:];
-    config.each { result[it.name()] = it.text() }
-    result.each { key, value -> println "Parametar ${key} je postavljen na ${value}" }
-    
     // detaljna obrada za port, posto je on neophodan parametar...
-    def autoResolvedPort = tryToResolvePort(result) 
+    def autoResolvedPort = tryToResolvePort(config) 
     if (autoResolvedPort)
-        result.port = autoResolvedPort
+    	config.port = autoResolvedPort
     else {
         def newPort = JOptionPane.showInputDialog(null, 
             'Na zalost, nisam bio u stanju da automatski saznam koji port koristi modem.\n'+
@@ -44,9 +39,9 @@ public class MainProcessor {
             'Nepoznat port modema',
             JOptionPane.INFORMATION_MESSAGE)
         if (newPort)
-            result.port = newPort
+            config.port = newPort
     }
-    return result
+    return config
   }
   
   def tryToResolvePort(config) {
@@ -55,12 +50,12 @@ public class MainProcessor {
 		  def extractor = new RegistryExtractor()
 	        
 	      def identifier = extractor.extractValueOfRegistryKey(
-	    		  config.'enum-descriptor-location', 
-	    		  config.'enum-descriptor-key')
+	    		  config.descriptor.@location.text(), 
+	    		  config.descriptor.@key.text())
 	        
 	      result = extractor.extractValueOfRegistryKey(
-	    		  config.'port-identifier-location'.replace('{identifier}',identifier), 
-	    		  config.'port-identifier-key')
+	    		  config.identifier.@location.text().replace('{identifier}',identifier), 
+	    		  config.identifier.@key.text())
 	      
 	      if (result)
 	    	  println "Uspesno je dovucena informacija o portu modema - port koristi $result"
@@ -79,50 +74,57 @@ public class MainProcessor {
   def showForm() {
     def swing = new SwingBuilder()
     swing.lookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
-    def frame = swing.frame(title:'ZTE MF622 3G Modem - mt:s CheckPostpaidAccount v0.2',
+    def frame = swing.frame(title:'MtsCheckAccount v0.2',
             location: [100,100],
             resizable: false,
             windowClosing : { event: System.exit(0) }) {
       panel {
         tableLayout {
+    	  tr {
+    		td { label 'Status: ' }
+            td (colfill:true) { edStatus = textField (editable:false, text: 'Ucitavanje') }
+          }
+          tr {
+            td (colspan:2) { label ' ' }
+          }
           tr {
             td { label 'Zaduzenje: ' }
-            td { edZaduzenje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
+            td (colfill:true) { edZaduzenje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
             td { label 'Stanje: ' }
-            td { edStanje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
+            td (colfill:true) { edStanje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td (colspan:2) { label ' ' }
+            td (colspan:2, colfill:true) { label ' ' }
           }
           tr {
-            td (colspan:2) { label 'Preostali besplatni saobracaj:' }
+            td (colspan:2, colfill:true) { label 'Preostali besplatni saobracaj:' }
           }
           tr {
-            td () { label 'U mrezi mt:s: ' }
-            td { edUMrezi = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
+            td { label 'U mrezi mt:s: ' }
+            td (colfill:true) { edUMrezi = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td () { label 'Van mreze: ' }
-            td { edVanMreze = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
+            td { label 'Van mreze: ' }
+            td (colfill:true) { edVanMreze = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td () { label 'SMS: ' }
-            td { edSms = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
+            td { label 'SMS: ' }
+            td (colfill:true) { edSms = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
             td () { label 'Gprs: ' }
-            td { edGprs = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
+            td (colfill:true) { edGprs = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
-            td (colspan:2) { label ' ' }
+            td (colspan:2, colfill:true) { label ' ' }
           }
           tr {
-            td (colspan:2, align:'CENTER') { label('milanaleksic@gmail.com', 
+            td (colspan:2, align:'CENTER') { label('milan.aleksic@gmail.com', 
             		font: new Font(null, Font.BOLD, 10),
             		cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
-            		mouseClicked: {event: Desktop.getDesktop().mail('mailto:milanaleksic@gmail.com'.toURI())} ) }
+            		mouseClicked: {event: Desktop.getDesktop().mail('mailto:milan.aleksic@gmail.com'.toURI())} ) }
 	      }
           tr {
             td (colspan:2, align:'CENTER') { label('http://www.milanaleksic.net',
@@ -140,20 +142,25 @@ public class MainProcessor {
   def start() {
     try {
       showForm()
-      provide ( params() ) { informationBean ->
-        edZaduzenje.text = informationBean.Zaduzenje
-        edStanje.text = informationBean.Stanje
-        edUMrezi.text = informationBean.UMrezi
-        edVanMreze.text = informationBean.VanMreze
-        edSms.text = informationBean.Sms
-        def gprstext = null 
-        try {
-        	def inMB = new BigDecimal(Long.parseLong(informationBean.Gprs) / 1024).setScale(2)
-        	gprstext = "${informationBean.Gprs}KB (${inMB}MB)"
-        } catch (Throwable t) {
-        	gprstext = informationBean.Gprs;
-        }
-        edGprs.text = gprstext
+      provide ( params() ) { info ->
+        println info
+        if (info instanceof String)
+        	edStatus.text = info
+    	else if (info instanceof InformationBean) {
+    		edZaduzenje.text = info.Zaduzenje
+            edStanje.text = info.Stanje
+            edUMrezi.text = info.UMrezi
+            edVanMreze.text = info.VanMreze
+            edSms.text = info.Sms
+            def gprstext = null 
+            try {
+                def inMB = new BigDecimal(Long.parseLong(info.Gprs.trim()) / 1024).setScale(2, BigDecimal.ROUND_CEILING)
+                gprstext = "${info.Gprs}KB (${inMB}MB)"
+            } catch (Throwable t) {
+                gprstext = info.Gprs;
+            }
+            edGprs.text = gprstext	
+    	}
       }
     } catch (RuntimeException t) {
       JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
