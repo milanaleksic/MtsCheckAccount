@@ -6,7 +6,7 @@ import gnu.io.*
 
 public class ZTEMF622InformationProvider implements InformationProvider {
 
-  public def provideInformation(parameterHash, Closure closure) {
+  public def provideInformation(params, Closure closure) {
 
     def commPort = null
     def portIdentifier
@@ -15,9 +15,9 @@ public class ZTEMF622InformationProvider implements InformationProvider {
     try {
 
       try {
-        portIdentifier = CommPortIdentifier.getPortIdentifier(parameterHash.port)
+        portIdentifier = CommPortIdentifier.getPortIdentifier(params.port.text())
       } catch (Throwable t) {
-        throw new RuntimeException("Proverite uz pomoc uputstva da li je port ${parameterHash.port} zaista onaj koji se koristi od strane modema");
+        throw new RuntimeException("Proverite uz pomoc uputstva da li je port ${params.port} zaista onaj koji se koristi od strane modema");
       }
 
       if (portIdentifier.isCurrentlyOwned())
@@ -35,24 +35,28 @@ public class ZTEMF622InformationProvider implements InformationProvider {
 
       def str = new PrintStream(output)
 
-      println 'Proveravam status modema...'
-      str.println 'AT+ZOPRT?'
-      def modemStatus= "[[${reader.waitFor(/([+]+)ZOPRT/)}]]"
+      closure 'Proveravam status modema...'
+      str.println params.check.@request
+      def checkCommand = params.check.@response
+      def modemStatus= "[[${reader.waitFor(/$checkCommand/)}]]"
 
       if (modemStatus =~ /: 6/) {
-        println 'Palim modem...'
-        str.println 'AT+ZOPRT=5'
-        reader.waitFor(/\s*([+]+)ZPASR/)
+    	closure 'Palim modem...'
+        str.println params.start.@request
+        reader.waitFor(params.start.@response)
       }
 
-      println 'Saljem zahtev...'
-      str.println 'AT+CUSD=1,"*797#",15'
-      def response = reader.waitFor(/\s*([+]+)CUSD: 0,"/)
-      closure ( new MTSExtract().extract(response) )
+      closure 'Saljem zahtev...'
+      str.println params.main.@request
+      def response = reader.waitFor(params.main.@response) 
+      closure  new MTSExtract().extract(response) 
       
-      println 'Gasim modem...'
-      str.println 'AT+ZOPRT=6'
-      reader.waitFor(/\s*OK\s*/)
+      closure 'Gasim modem...'
+      str.println params.stop.@request
+      reader.waitFor(params.stop.@response)
+          
+      
+      closure 'Mozete ugasiti program'
       
     } finally {
       if (reader)

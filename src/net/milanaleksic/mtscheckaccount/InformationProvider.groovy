@@ -8,5 +8,5 @@ package net.milanaleksic.mtscheckaccount
  */
 
 public interface InformationProvider {
-  def provideInformation(parameterHash, Closure closure)
+  def provideInformation(params, Closure closure)
 }

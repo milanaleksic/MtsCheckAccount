@@ -1,11 +1,4 @@
 package net.milanaleksic.mtscheckaccount
-/**
- * Created by IntelliJ IDEA.
- * User: Milan Aleksic
- * Date: 14-May-2009
- * Time: 23:29:25
- * To change this template use File | Settings | File Templates.
- */
 
 public class ZTECommPortReader implements Runnable {
 
@@ -13,8 +6,6 @@ public class ZTECommPortReader implements Runnable {
 
   volatile def Shutdown = false
   volatile lastRead = null
-
-  
 
   public void run() {
 	Thread.currentThread().setUncaughtExceptionHandler(new ThreadExcHandler()) 
@@ -39,8 +30,12 @@ public class ZTECommPortReader implements Runnable {
   }
 
   public def waitFor(whatToWaitFor) {
+	int tickCount = 0
     while (!(lastRead =~ whatToWaitFor)) {
-      Thread.sleep(200)
+      Thread.sleep(100)
+      tickCount++
+      if (tickCount>=100)
+    	  throw new IllegalStateException("Nije dobijen odgovor od modema. Moguce je da je doslo do problema u obradi, restartujte program")
     }
     return lastRead
   }

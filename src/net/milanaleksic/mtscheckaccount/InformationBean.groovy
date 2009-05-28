@@ -14,4 +14,9 @@ public class InformationBean {
     def VanMreze= "NEDOSTUPNO"
     def Sms= "NEDOSTUPNO"
     def Gprs= "NEDOSTUPNO"
+    
+    public String toString() {
+    	return "Zaduzenje=[$Zaduzenje], Stanje=[$Stanje],"+
+    		"UMrezi=[$UMrezi], VanMreze=[$VanMreze], Sms=[$Sms], Gprs=[$Gprs]"
+    }
 }

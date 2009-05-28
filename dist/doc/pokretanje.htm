@@ -1,0 +1,108 @@
+<html>
+<head>
+	<title>ZTE MF622 3G Modem - mt:s MtsCheckAccount v0.2</title>
+	<style type="text/css">
+	   body {
+	       font-family: Candara, Verdana;
+	       line-height: 1.5em;
+	   }
+	   div .parag, li {
+	       margin: 10px 20px 10px 20px;
+	       text-align: justify;
+	   }
+	   div .title {
+	       margin: 10px 0 20px 0;
+	       font-size: 1.5em;
+	       font-weight: bold;
+	       text-align: center;
+	   }
+       div .section {
+           margin: 30px 0 10px 60px;
+           font-size: 1.2em;
+           font-weight: bold;
+       }
+       div .code {
+           margin: 10px 40px 10px 40px;
+           font-family: monospace;
+           border: solid 1px #000;
+           padding: 10px 
+       }
+       div .footer {
+           margin: 0 20px 20px 20px;
+           font-size: 0.9em;
+           text-align: center;
+           color: #888;
+       }
+	</style>
+</head>
+<body>
+<div class="title">ZTE MF622 3Г Модем - mt:s MtsCheckAccount v0.2</div>
+
+<div class="section">Шта је овај програм?</div>
+<div class="parag">Једноставан програмчић за проверу статња на мт:с провајдеру, за USB 3Г модем ZTE MF-622. 
+Нисам имао прилике да испробам програм на другим модемима, могуће је да ће радити на било којем 
+модему у понуди мт:с-а, али - не смем да гарантујем :)</div>
+
+<div class="parag">Програм не злоупотребљава Ваше поверење или троши паре са вашег рачуна или било шта налик томе.
+Програмчић је заправо мали скуп команди које се рутирају ка модему и издваја се само одређени део одговора.
+Да би ово могао да изведе, програм ће пре тога приступити одређеним подешавањима вашег рачунара. 
+MtsCheckAccount програм <strong>ништа неће записивати или мењати</strong> у Вашем рачунару.</div>
+
+<div class="parag">Програм је потпуно бесплатан и изворни код је доступан под GNU лиценцом. 
+Званичан сајт пројекта је 
+<a href="http://mtscheckaccount.sourceforge.net">http://mtscheckaccount.sourceforge.net</a>
+</div>
+
+<div class="parag">Аутор програма је дипл.инг. Милан Алексић. Ако желите, пошаљите коментар на 
+<a href="mailto:milan.aleksic@gmail.com">milan.aleksic@gmail.com</a>, или посетите мој Интернет сајт - <a href="http://www.milanaleksic.net">http://www.milanaleksic.net</a></div>
+
+<div class="section">Како изгледа испис програма?</div>
+<div class="parag">Битна разлика између верзије 0.1 и 0.2 је та што се сада приказ тренутно стања врши унутар форме, а не у конзоли:</div>
+<img src="screenshot.jpg" style="margin-left: 100px" />
+
+<div class="section">Услови за покретање</div>
+<div class="parag">Да би програм могао уопште радити, морају бити испуњена 2 услова:</div>
+
+<ol>
+    <li>модем не сме бити активан, тј. не смете бити закачени на Интернет кроз ZTE модем (пошто не могу два 
+        програма користити модем на нивоу серијског порта),</li>
+    <li>програм је написан у дијалекту Јаве (прецизније, у језику Groovy који користи Јавину виртуелну машину), 
+        тако да је неопходно да поседујете Јаву да бисте могли да покренете програм. Верзија коју морате имати 
+        јесте 1.6 или новија. Уколико немате Јаву, скините је са 
+        <a href="http://java.sun.com/javase/downloads/index.jsp">ове локације</a> (око 20МБ).</li>
+</ol>
+
+<div class="section">Мануелно постављање порта</div>
+<div class="parag">Када се програм стартује, покушава да дође до информације о томе где би требало да се налази модем.
+Уколико не може да дође до те информације, питаће Вас где се исти налази. До те информације можете доћи на наредном месту:
+<div class="code"> Start -&gt; Control Panel -&gt; System -&gt; Hardware -&gt; Device Manager -&gt; Modems -&gt; 
+ZTE Proprietary USB Modem -&gt; Properties... -&gt; Advanced -&gt; Advanced Port Settings -&gt; COM Port number</div> 
+Е сада, код мене у том пољу стоји COM7, али код Вас то можда и није. <strong>Немојте да мењате вредност коју видите на том месту,
+већ је само унесите када Вас програм буде упитао за исту.</strong> Уколико изаберете 'Cancel' када Вас програм пита за порт,
+биће употребљен подразумевани, COM7, који можете променити променом конфигурације (config.xml фајл).</div>
+
+<div class="section">Windows cannot find 'javaw'. Make sure you typed the name correctly...</div>
+<div class="parag">Уколико сте приликом покретања програма добили системску информацију која почиње са претодним текстом,
+то значи да, иако је можда Јава успешно инсталирана, није у системском "path"-у. Ако желите да исправите овај проблем,
+то можете урадити веома једноставно, из неколико корака:</div>
+
+<ol>
+    <li>Пронађите где је Јава инсталирана. Обично је та локација налик наредној: 
+        <div class="code">c:\Program Files\Java\jre6\bin\javaw.exe</div></li>
+    <li>На месту где сте инсталирали програм MtsCheckAccount ћете пронаћи фајл
+        <div class="code">bin\.launcher</div>
+    <li>Отворите га у програму Notepad и пронађите линију (требало би да је прва) 
+        <div class="code">executor=javaw</div>
+    <li>Преправите је тако да буде налик наредној:
+        <div class="code">executor=c:\Program Files\Java\jre6\bin\javaw.exe</div></li>
+</ol>
+
+<div class="section">Немогућност конекције на Интернет након употребе програма MtsCheckAccount</div>
+<div class="parag">Као спорадичан ефекат провере стања на Вашем mt:s рачуну, а као последица привременог преузимања контроле
+над модемом, програм за контролу модема "MODEM Mobile Connection" неће бити у стању да се закачи на Интернет, већ га морате
+рестартовати (само га искључите и укључите). Да се ово не би дешавало, препоручујем да угасите "MODEM Mobile Connection"
+пре употребе MtsCheckAccount.</div>
+
+<div class="footer">Copyright (C)2009 by Milan Aleksic</div>
+</body>
+</html>
