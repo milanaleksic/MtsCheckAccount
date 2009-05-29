@@ -9,30 +9,30 @@
 	       font-family: Candara, Verdana;
 	       line-height: 1.5em;
 	   }
-	   div .parag, li {
-	       margin: 10px 20px 10px 20px;
+	   div.parag, li {
+	       padding: 10px 20px 10px 20px;
 	       text-align: justify;
 	       text-indent: 20px;
 	   }
-	   div .title {
-	       margin: 10px 0 20px 0;
+	   div.title {
+	       padding: 10px 0 20px 0;
 	       font-size: 1.5em;
 	       font-weight: bold;
 	       text-align: center;
 	   }
-       div .section {
-           margin: 30px 0 10px 60px;
+       div.section {
+           padding: 30px 0 10px 60px;
            font-size: 1.2em;
            font-weight: bold;
        }
-       div .code {
-           margin: 10px 40px 10px 40px;
+       div.code {
+           padding: 10px 40px 10px 40px;
            font-family: monospace;
            border: solid 1px #000;
            padding: 10px 
        }
-       div .footer {
-           margin: 0 20px 20px 20px;
+       div.footer {
+           padding: 0 20px 20px 20px;
            font-size: 0.9em;
            text-align: center;
            color: #888;
@@ -41,6 +41,8 @@
 </head>
 <body>
 <div class="title">ZTE MF622 3Г Модем - mt:s MtsCheckAccount v0.2</div>
+
+<div class="parag">Линк за скидање зип архиве са апликацијом: <a href="https://sourceforge.net/project/downloading.php?group_id=263631&filename=mtscheckaccount-0.2.zip&a=14174358">mtscheckaccount-0.2.zip</a></div>
 
 <div class="section">Шта је овај програм?</div>
 <div class="parag">Једноставан програмчић за проверу статња на мт:с провајдеру, за USB 3Г модем ZTE MF-622. 
@@ -62,7 +64,7 @@ MtsCheckAccount програм <strong>ништа неће записивати 
 
 <div class="section">Како изгледа испис програма?</div>
 <div class="parag">Битна разлика између верзије 0.1 и 0.2 је та што се сада приказ тренутно стања врши унутар форме, а не у конзоли:</div>
-<img src="screenshot.jpg" style="margin-left: 100px" />
+<div class="parag"><img src="screenshot.jpg" style="margin-left: 100px" /></div>
 
 <div class="section">Услови за покретање</div>
 <div class="parag">Да би програм могао уопште радити, морају бити испуњена 2 услова:</div>
@@ -71,22 +73,24 @@ MtsCheckAccount програм <strong>ништа неће записивати 
     <li>модем не сме бити активан, тј. не смете бити закачени на Интернет кроз ZTE модем (пошто не могу два 
         програма користити модем на нивоу серијског порта),</li>
     <li>програм је написан у дијалекту Јаве (прецизније, у језику Groovy који користи Јавину виртуелну машину), 
-        тако да је неопходно да поседујете Јаву да бисте могли да покренете програм. Верзија коју морате имати 
+        тако да је <span style="font-weight:bold">неопходно да поседујете Јаву</span> (Java SE Runtime Environment, 
+        <span style="text-decoration: underline">не JDK</span>) 
+        да бисте могли да покренете програм. Верзија коју морате имати 
         јесте 1.6 или новија. Уколико немате Јаву, скините је са 
-        <a href="http://java.sun.com/javase/downloads/index.jsp">ове локације</a> (око 20МБ).</li>
+        <a href="http://java.sun.com/javase/downloads/index.jsp">ове локације</a>.</li>
 </ol>
 
 <div class="section">Мануелно постављање порта</div>
-<div class="parag">Када се програм стартује, покушава да дође до информације о томе где би требало да се налази модем.
-Уколико не може да дође до те информације, питаће Вас где се исти налази. До те информације можете доћи на наредном месту:
+<div class="parag">Када се програм стартује, покушава да сазна где би требало да се налази модем.
+Уколико не може да дође до те информације, питаће Вас где се исти налази. Назив порта можете наћи на наредном месту (WinXP):</div>
 <div class="code"> Start -&gt; Control Panel -&gt; System -&gt; Hardware -&gt; Device Manager -&gt; Modems -&gt; 
 ZTE Proprietary USB Modem -&gt; Properties... -&gt; Advanced -&gt; Advanced Port Settings -&gt; COM Port number</div> 
-Е сада, код мене у том пољу стоји COM7, али код Вас то можда и није. <strong>Немојте да мењате вредност коју видите на том месту,
+<div class="parag">Е сада, код мене у том пољу стоји COM7, али код Вас то можда и није. <strong>Немојте да мењате вредност коју видите на том месту,
 већ је само унесите када Вас програм буде упитао за исту.</strong> Уколико изаберете 'Cancel' када Вас програм пита за порт,
 биће употребљен подразумевани, COM7, који можете променити променом конфигурације (config.xml фајл).</div>
 
-<div class="section">Windows cannot find 'javaw'. Make sure you typed the name correctly...</div>
-<div class="parag">Уколико сте приликом покретања програма добили системску информацију која почиње са претодним текстом,
+<div class="section">Грешка "Windows cannot find 'javaw'. Make sure you typed the name correctly..."</div>
+<div class="parag">Уколико сте приликом покретања програма добили грешку која почиње са претходним текстом,
 то значи да, иако је можда Јава успешно инсталирана, није у системском "path"-у. Ако желите да исправите овај проблем,
 то можете урадити веома једноставно, из неколико корака:</div>
 
@@ -94,17 +98,17 @@ ZTE Proprietary USB Modem -&gt; Properties... -&gt; Advanced -&gt; Advanced Port
     <li>Пронађите где је Јава инсталирана. Обично је та локација налик наредној: 
         <div class="code">c:\Program Files\Java\jre6\bin\javaw.exe</div></li>
     <li>На месту где сте инсталирали програм MtsCheckAccount ћете пронаћи фајл
-        <div class="code">bin\.launcher</div>
+        <div class="code">bin\.launcher</div></li>
     <li>Отворите га у програму Notepad и пронађите линију (требало би да је прва) 
-        <div class="code">executor=javaw</div>
+        <div class="code">executor=javaw</div></li>
     <li>Преправите је тако да буде налик наредној:
         <div class="code">executor=c:\Program Files\Java\jre6\bin\javaw.exe</div></li>
 </ol>
 
 <div class="section">Немогућност конекције на Интернет након употребе програма MtsCheckAccount</div>
 <div class="parag">Као спорадичан ефекат провере стања на Вашем mt:s рачуну, а као последица привременог преузимања контроле
-над модемом, програм за контролу модема "MODEM Mobile Connection" неће бити у стању да се закачи на Интернет, већ га морате
-рестартовати (само га искључите и укључите). Да се ово не би дешавало, препоручујем да угасите "MODEM Mobile Connection"
+над модемом, програм који сте добили уз модем "MODEM Mobile Connection" неће бити у стању да се закачи на Интернет, већ га морате
+рестартовати (само га искључите и укључите). Да би сте избегли ову неугодну ситуацију, препоручујем да угасите "MODEM Mobile Connection"
 пре употребе MtsCheckAccount.</div>
 
 <div class="footer">Copyright (C)2009 by Milan Aleksic</div>
