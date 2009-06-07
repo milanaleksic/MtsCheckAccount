@@ -90,14 +90,8 @@ Section -post SEC0001
     SetOutPath $INSTDIR
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-    # MILAN - Privremeno postavljam OutPath na ovu vrednost kako bi mogao da se kreira
-    # pravilan shortcut (sa validnim Start In parametrom shortcut-a)
-    SetOutPath $INSTDIR
-    CreateShortcut "$INSTDIR\$(^Name).lnk" $INSTDIR\Startup.exe
     SetOutPath $SMPROGRAMS\$StartMenuGroup
-    CopyFiles "$INSTDIR\$(^Name).lnk" "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk"
-    Delete "$INSTDIR\$(^Name).lnk"
-    SetOutPath $SMPROGRAMS\$StartMenuGroup
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" $INSTDIR\Startup.exe
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
@@ -108,9 +102,6 @@ Section -post SEC0001
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
-    # MILAN - Ponovo postavljam OutPath kako bi instalacija mogla da pokrene CUC,
-    #  ako je izabrana ta opcija na poslednjem tabu carobnjaka
-    SetOutPath $INSTDIR
 SectionEnd
 
 # Macro for selecting uninstaller sections
