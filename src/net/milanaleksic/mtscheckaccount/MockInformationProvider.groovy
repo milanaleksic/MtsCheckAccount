@@ -13,7 +13,7 @@ public class MockInformationProvider implements InformationProvider {
 	closure 'Mozete ugasiti program'
 	
 	def testReceivedFromMts ="""
-+CUSD: 0,"Zaduzenje: 0.00
++CUSD: 1,"Zaduzenje: 0.00
 Stanje: 1.70
 Preostali besplatni saobracaj:
 U mrezi mts: 1

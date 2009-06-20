@@ -45,16 +45,26 @@ public class ZTEMF622InformationProvider implements InformationProvider {
         str.println params.start.@request
         reader.waitFor(params.start.@response)
       }
+      
+      Thread.sleep(2000)
+      
+      closure 'Pricam...'
+      params.prepare.each {
+          str.println it.@request
+          reader.waitFor(it.@response)
+      }
 
-      closure 'Saljem zahtev...'
+      closure 'Saljem glavni zahtev...'
       str.println params.main.@request
       def response = reader.waitFor(params.main.@response) 
-      closure  new MTSExtract().extract(response) 
+      closure  new MTSExtract().extract(response)
       
       closure 'Gasim modem...'
-      str.println params.stop.@request
-      reader.waitFor(params.stop.@response)
-          
+      params.stop.each {
+    	  it.@request
+          str.println it.@request
+          reader.waitFor(it.@response)
+      }
       
       closure 'Mozete ugasiti program'
       

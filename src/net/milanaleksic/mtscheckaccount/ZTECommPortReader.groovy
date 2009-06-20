@@ -37,7 +37,9 @@ public class ZTECommPortReader implements Runnable {
       if (tickCount>=100)
     	  throw new IllegalStateException("Nije dobijen odgovor od modema. Moguce je da je doslo do problema u obradi, restartujte program")
     }
-    return lastRead
+	def returnValue=lastRead
+	lastRead = null
+    return returnValue
   }
 
 }

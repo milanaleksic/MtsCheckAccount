@@ -74,7 +74,7 @@ public class MainProcessor {
   def showForm() {
     def swing = new SwingBuilder()
     swing.lookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
-    def frame = swing.frame(title:'MtsCheckAccount v0.2',
+    def frame = swing.frame(title:'MtsCheckAccount v0.2.1',
             location: [100,100],
             resizable: false,
             windowClosing : { event: System.exit(0) }) {

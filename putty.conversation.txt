@@ -1,0 +1,65 @@
+
+ERROR
+ATE=1
+ERROR
+AT+CUSD=1,"*797#",15
++CME ERROR: no network service
+AT+COPS?
++COPS: 0
+
+OK
+AT+ZOPRT=5
+OK
+
++ZDONR: "YUG 3",220,3,"CS_ONLY","ROAM_OFF"
+
++ZPASR: "UMTS"
+
++ZDONR: "YUG 3",220,3,"CS_ONLY","ROAM_OFF"
+
++ZPASR: "UMTS"
+
++ZDONR: "YUG 3",220,3,"CS_ONLY","ROAM_OFF"
+
++ZPASR: "UMTS"
+
++ZDONR: "YUG 3",220,3,"CS_ONLY","ROAM_OFF"
+
++ZPASR: "UMTS"
+
++ZDONR: "YUG 3",220,3,"CS_PS","ROAM_OFF"
+
++ZPASR: "UMTS"
+AT+CUSD=1,"*797#",15
+OK
+
++CUSD: 1,"mt:s vodic
+Stanje: 3.40 din.
+Pritisnite taster za potvrdu i unesite broj opcije:
+
+1. Stanje postpaid racuna
+2. Dodatne usluge
+3. Servisi i informacije
+ ",15
+AT+CUSD=1,"1",15
+OK
+
++CUSD: 1,"Stanje postpaid racuna
+
+1. Trenutno stanje
+2. Poslednji racun
+
+0. Nazad
+",15
+AT+CUSD=1,"1",15
+OK
+
++CUSD: 1,"Zaduzenje: 0.00
+Stanje: 3.40
+Preostali besplatni saobracaj:
+U mrezi mts: 0
+Van mreze: 0
+Sms: 0
+Gprs(KB): 496080 ",15
+
++CME ERROR: unknown
