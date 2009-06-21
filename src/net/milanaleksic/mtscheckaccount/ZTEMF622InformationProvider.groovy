@@ -27,7 +27,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
       if (!(commPort instanceof SerialPort)) {
         throw new RuntimeException('Samo je serijski port dozvoljen');
       }
-      commPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
+      commPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
 
       def input = commPort.getInputStream()
       def output = commPort.getOutputStream()
@@ -36,34 +36,35 @@ public class ZTEMF622InformationProvider implements InformationProvider {
       def str = new PrintStream(output)
 
       closure 'Proveravam status modema...'
+      reader.barrier = params.check.@response
       str.println params.check.@request
-      def checkCommand = params.check.@response
-      def modemStatus= "[[${reader.waitFor(/$checkCommand/)}]]"
-
-      if (modemStatus =~ /: 6/) {
-    	closure 'Palim modem...'
-        str.println params.start.@request
-        reader.waitFor(params.start.@response)
-      }
       
-      Thread.sleep(2000)
+      if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
+    	  closure 'Palim modem...'
+    	  reader.barrier = params.start.@response
+    	  str.println params.start.@request
+    	  reader.haltUntilBarrierCrossed()
+    	  Thread.sleep(5000)
+      }
       
       closure 'Pricam...'
       params.prepare.each {
+    	  reader.barrier = it.@response
           str.println it.@request
-          reader.waitFor(it.@response)
+          reader.haltUntilBarrierCrossed()
       }
 
       closure 'Saljem glavni zahtev...'
+      reader.barrier = params.main.@response
       str.println params.main.@request
-      def response = reader.waitFor(params.main.@response) 
+      def response = reader.haltUntilBarrierCrossed() 
       closure  new MTSExtract().extract(response)
       
       closure 'Gasim modem...'
       params.stop.each {
-    	  it.@request
+    	  reader.barrier = it.@response
           str.println it.@request
-          reader.waitFor(it.@response)
+          reader.haltUntilBarrierCrossed()
       }
       
       closure 'Mozete ugasiti program'
