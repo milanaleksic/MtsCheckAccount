@@ -42,7 +42,7 @@
 <body>
 <div class="title">ZTE MF622 3Г Модем - mt:s MtsCheckAccount v0.2.1</div>
 
-<div class="parag">Линк за скидање (download) апликације: <a href="https://sourceforge.net/project/downloading.php?group_id=263631&filename=mtscheckaccount-0.2.1.1.exe&a=80251970">mtscheckaccount-0.2.1.1.exe</a></div>
+<div class="parag">Линк за скидање (download) апликације: <a href="http://sourceforge.net/project/downloading.php?group_id=263631&filename=mtscheckaccount-0.2.1.1.exe&a=75018979">mtscheckaccount-0.2.1.1.exe</a></div>
 
 <div class="section">Историја измена?</div>
 <div class="parag">0.2.1.1 - преправљен проблем са конфигурацијом</div>
@@ -116,6 +116,20 @@ ZTE Proprietary USB Modem -&gt; Properties... -&gt; Advanced -&gt; Advanced Port
 над модемом, програм који сте добили уз модем "MODEM Mobile Connection" неће бити у стању да се закачи на Интернет, већ га морате
 рестартовати (само га искључите и укључите). Да би сте избегли ову неугодну ситуацију, препоручујем да угасите "MODEM Mobile Connection"
 пре употребе MtsCheckAccount.</div>
+
+<div class="section">Пријава проблема при раду програма</div>
+<div class="parag">Уколико програм не приказује тачне податке (или не показује ништа), и желите да пријавите то да бисте помогли
+(и омогућили исправку те грешке), то можете урадити на наредни начин:
+<ol>
+<li>Пронађите место где сте инсталирали програм (обично C:\Program Files\MtsCheckAccount)</li>
+<li>Уђите у поддиректоријум "bin"</li>
+<li>Отворите .launcher фајл</li>
+<li>Измените наредну линију, из:
+    <div class="code">debug=false</div>
+У:
+    <div class="code">debug=<strong>true</strong></div></li>
+<li>Покрените програм и након што он заврши са радом преузмите фајлове stdout.log и stderr.log и пошаљите ми их на email.</li>
+</ol></div>
 
 <div class="footer">Copyright (C)2009 by Milan Aleksic</div>
 <script type="text/javascript">
