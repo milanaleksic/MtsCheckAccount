@@ -6,6 +6,8 @@ public class ZTECommPortReader implements Runnable {
 
   volatile def Shutdown = false
   volatile lastRead = null
+  volatile barrierAlreadyCrossed = false
+  volatile whatToWaitFor = null
 
   public void run() {
 	Thread.currentThread().setUncaughtExceptionHandler(new ThreadExcHandler()) 
@@ -17,6 +19,9 @@ public class ZTECommPortReader implements Runnable {
           continue
 
         lastRead = new String(buffer, 0, len)
+        
+        if (whatToWaitFor && lastRead =~ whatToWaitFor)
+        	barrierAlreadyCrossed = true
 
         println "[$lastRead]"
 
@@ -28,17 +33,24 @@ public class ZTECommPortReader implements Runnable {
       e.printStackTrace()
     }
   }
-
-  public def waitFor(whatToWaitFor) {
+  
+  public def setBarrier(whatToWaitFor) {
+	  barrierAlreadyCrossed = false
+	  this.whatToWaitFor = whatToWaitFor 
+  }
+  
+  public def haltUntilBarrierCrossed() {
 	int tickCount = 0
-    while (!(lastRead =~ whatToWaitFor)) {
+    while (!barrierAlreadyCrossed && !(lastRead =~ whatToWaitFor)) {
       Thread.sleep(100)
       tickCount++
       if (tickCount>=100)
     	  throw new IllegalStateException("Nije dobijen odgovor od modema. Moguce je da je doslo do problema u obradi, restartujte program")
     }
 	def returnValue=lastRead
+	barrierAlreadyCrossed = false
 	lastRead = null
+	whatToWaitFor = null
     return returnValue
   }
 
