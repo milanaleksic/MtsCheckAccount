@@ -77,12 +77,12 @@ Section -Main SEC0000
     SetOutPath $INSTDIR
     File Startup.exe
     SetOutPath $INSTDIR\bin
-    File /r bin\*
+    File bin\*
     SetOutPath $INSTDIR\lib
     Delete "CheckPostpaidAccount-0.2.jar"
-    File /r lib\*
+    File lib\*
     SetOutPath $INSTDIR\doc
-    File /r doc\*
+    File doc\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
