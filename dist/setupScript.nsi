@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !ifndef VERSION
-!define VERSION 0.2.1.2
+!define VERSION 0.2.1.3
 !endif
 !define COMPANY "Milan Aleksic"
 !define URL http://www.milanaleksic.net
@@ -60,7 +60,7 @@ InstallDir "$PROGRAMFILES\MtsCheckAccount"
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-VIProductVersion 0.2.1.2
+VIProductVersion 0.2.1.3
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "mt:s Check Account"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
