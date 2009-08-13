@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
 !ifndef VERSION
-!define VERSION 0.2.1.3
+!define VERSION 0.2.2.0
 !endif
 !define COMPANY "Milan Aleksic"
 !define URL http://www.milanaleksic.net
@@ -60,7 +60,7 @@ InstallDir "$PROGRAMFILES\MtsCheckAccount"
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-VIProductVersion 0.2.1.3
+VIProductVersion 0.2.0.0
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "mt:s Check Account"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -79,7 +79,7 @@ Section -Main SEC0000
     SetOutPath $INSTDIR\bin
     File bin\*
     SetOutPath $INSTDIR\lib
-    Delete "CheckPostpaidAccount-0.2.jar"
+    Delete "CheckPostpaidAccount-*.jar"
     File lib\*
     SetOutPath $INSTDIR\doc
     File doc\*

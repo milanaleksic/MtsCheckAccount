@@ -13,13 +13,13 @@ public class MockInformationProvider implements InformationProvider {
 	closure 'Mozete ugasiti program'
 	
 	def testReceivedFromMts ="""
-+CUSD: 1,"Zaduzenje: 0.00
-Stanje: 1.70
++CUSD: 0,"Tarifni profil: Profesionalna tarifa II
+Stanje: 125.56
 Preostali besplatni saobracaj:
-U mrezi mts: 1
-Van mreze: 2
-Sms: 3
-Gprs(KB): ${5*1024*1024}",15
+Minuti u mts: 156
+Minuti van mts: 215
+SMS: 99987
+Podaci(kB): 3336380",15
 """
 	
     closure(new MTSExtract().extract(testReceivedFromMts))
