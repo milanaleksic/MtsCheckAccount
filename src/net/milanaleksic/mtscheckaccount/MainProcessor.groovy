@@ -14,7 +14,7 @@ public class MainProcessor {
 
   InformationProvider DataProvider;
 
-  def edZaduzenje, edStanje, edUMrezi, edVanMreze, edSms, edGprs
+  def edStanje, edUMrezi, edVanMreze, edSms, edGprs
   def edStatus
 
   def params() {
@@ -74,7 +74,7 @@ public class MainProcessor {
   def showForm() {
     def swing = new SwingBuilder()
     swing.lookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
-    def frame = swing.frame(title:'MtsCheckAccount v0.2.1.3',
+    def frame = swing.frame(title:'MtsCheckAccount v0.2.2',
             location: [100,100],
             resizable: false,
             windowClosing : { event: System.exit(0) }) {
@@ -86,10 +86,6 @@ public class MainProcessor {
           }
           tr {
             td (colspan:2) { label ' ' }
-          }
-          tr {
-            td { label 'Zaduzenje: ' }
-            td (colfill:true) { edZaduzenje = textField (editable:false, text: "MOLIM, SACEKAJTE.......") }
           }
           tr {
             td { label 'Stanje: ' }
@@ -147,7 +143,6 @@ public class MainProcessor {
         if (info instanceof String)
         	edStatus.text = info
     	else if (info instanceof InformationBean) {
-    		edZaduzenje.text = info.Zaduzenje
             edStanje.text = info.Stanje
             edUMrezi.text = info.UMrezi
             edVanMreze.text = info.VanMreze

@@ -8,7 +8,6 @@ package net.milanaleksic.mtscheckaccount
  */
 
 public class InformationBean {
-    def Zaduzenje= "NEDOSTUPNO"
     def Stanje= "NEDOSTUPNO"
     def UMrezi= "NEDOSTUPNO"
     def VanMreze= "NEDOSTUPNO"
@@ -16,7 +15,6 @@ public class InformationBean {
     def Gprs= "NEDOSTUPNO"
     
     public String toString() {
-    	return "Zaduzenje=[$Zaduzenje], Stanje=[$Stanje],"+
-    		"UMrezi=[$UMrezi], VanMreze=[$VanMreze], Sms=[$Sms], Gprs=[$Gprs]"
+    	return "Stanje=[$Stanje],UMrezi=[$UMrezi], VanMreze=[$VanMreze], Sms=[$Sms], Gprs=[$Gprs]"
     }
 }

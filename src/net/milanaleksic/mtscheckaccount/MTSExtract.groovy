@@ -13,12 +13,11 @@ public class MTSExtract {
     }
     
     try {
-	    [   Zaduzenje:(/Zaduzenje/),
-	        Stanje:(/Stanje/),
-	        UMrezi:(/U mrezi mts/),
-	        VanMreze:(/Van mreze/),
-	        Sms:(/Sms/),
-	        Gprs:(/Gprs[(]KB[)]/)
+	    [   Stanje:(/Stanje/),
+	        UMrezi:(/Minuti u mts/),
+	        VanMreze:(/Minuti van mts/),
+	        Sms:(/SMS/),
+	        Gprs:(/Podaci[(]kB[)]/)
 	    ].each { informationBeanPropertyName, nameOfRowInData ->
 	    	(readFromData =~ /$nameOfRowInData:\s*[\d.]+/).each { match ->
 		        (match =~ /\s[\d.]+/).each { match2 ->
