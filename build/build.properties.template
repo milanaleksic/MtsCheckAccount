@@ -11,7 +11,7 @@ nsis.home=c:/Program Files/NSIS
 ### Internal build configuration
 #source directories
 src.dir=../src
-startup.dir=../src
+startup.dir=../startup
 
 #compile directories
 compile.dir=compile
