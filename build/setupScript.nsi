@@ -75,14 +75,12 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOverwrite on
     SetOutPath $INSTDIR
-    File Startup.exe
+    File install\Startup.exe
     SetOutPath $INSTDIR\bin
-    File bin\*
+    File install\bin\*
     SetOutPath $INSTDIR\lib
     Delete "CheckPostpaidAccount-*.jar"
-    File lib\*
-    SetOutPath $INSTDIR\doc
-    File doc\*
+    File install\lib\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 

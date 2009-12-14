@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="ZTECheckAccountStatus" basedir="." default="installation">
+
+	<property file="build.properties" />
+
+	<!-- Classpath that contains only compiled classes + libraries in lib dir -->
+	<path id="classpath" path="${compile.dir}">
+		<fileset dir="${lib.build.dir}">
+            <include name="*.jar" />
+        </fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Compiling task for Java and Groovy files. Java files always go to compile.dir
+	but Groovy files go to (PARAMETER) groovy-target-dir -->
+	<target name="compile-java-and-groovy">
+		<delete dir="${compile.dir}" failonerror="false" />
+		<delete dir="${groovy-target-dir}" failonerror="false" />
+
+		<mkdir dir="${compile.dir}" />
+		<mkdir dir="${groovy-target-dir}" />
+
+		<delete>
+			<fileset dir="${compile.dir}" includes="**/*.groovy">
+				<exclude name="${groovy.dont.compile.filter}" />
+			</fileset>
+		</delete>
+		<groovyc srcdir="${src.dir}" destdir="${groovy-target-dir}" verbose="false" encoding="UTF-8">
+			<classpath refid="classpath" />
+			<exclude name="${groovy.dont.compile.filter}" />
+		</groovyc>
+	</target>
+
+	<target name="init-3rdparty-tasks">
+		<!-- 3rd party tasks -->
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="classpath" />
+		<taskdef name="nsis" classname="net.sf.nsisant.Task" classpathref="classpath" />
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="classpath" />
+	</target>
+
+	<target name="clean" description="Clear all target directories" depends="init-3rdparty-tasks">
+		<delete dir="${compile.dir}" failonerror="false" />
+		<delete dir="${groovy.compile.dir}" failonerror="false" />
+	    <delete dir="${distro.dir}" failonerror="false" />
+	</target>
+
+	<target name="compile" description="Copying compiled files" depends="clean">
+        <!-- Check if application is started and holds lock -->
+        <copy file="${startup.dir}/.launcher" tofile="${startup.dir}/.launcher.bak" overwrite="true" />
+        <delete file="${startup.dir}/.launcher.bak" />
+        <echo message="Application is not started so .launcher file is not locked - proceeding with build" level="info" />
+        	
+		<mkdir dir="${compile.dir}" />
+
+		<antcall target="compile-java-and-groovy">
+			<param name="groovy-target-dir" value="${compile.dir}" />
+		</antcall>
+		<tstamp />
+	</target>
+
+	<target name="build" description="Creates tool JARs" depends="compile">
+		<mkdir dir="${distro.dir}" />
+
+		<jar destfile="${distro.dir}/CheckPostpaidAccount-${src.version}.jar">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0" />
+				<attribute name="Main-Class" value="net.milanaleksic.cuc.Startup" />
+				<attribute name="Implementation-Version" value="${src.version}" />
+			</manifest>
+			<fileset dir="${compile.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="installation" description="Creates the installation" depends="build">
+		<delete includes="cuc-${src.version}.*.exe" dir="." />
+
+		<copy todir="${distro.dir}" overwrite="true">
+			<fileset dir="${startup.dir}">
+				<include name=".launcher" />
+				<include name="*.dll" />
+				<include name="*.xml" />
+				<include name="*.jpg" />
+				<include name="*.png" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="install" />
+		<mkdir dir="install/bin" />
+		<mkdir dir="install/lib" />
+
+		<copy todir="install/lib">
+			<fileset dir="${distro.dir}">
+                <include name="*.jar" />
+            </fileset>
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+		<copy todir="install/bin">
+			<fileset dir="${distro.dir}" excludes="*.jar" />
+		</copy>
+
+		<copy todir="install">
+			<fileset dir="${root.dir}" includes="*.exe" />
+			<fileset dir="${root.dir}" includes="*.txt" />
+		</copy>
+
+		<echo message="Building NSIS Installation" level="info" />
+
+		<if>
+			<equals arg1="${nsis.enabled}" arg2="true" />
+			<then>
+				<echo message="Running OPTIONAL NSIS target" level="info" />
+
+				<nsis script="setupScript" verbosity="2" noconfig="yes" path="${nsis.home}">
+					<define name="VERSION" value="${src.version}" />
+				</nsis>
+			</then>
+			<else>
+				<echo message="NSIS OMITTED" />
+			</else>
+		</if>
+
+		<if>
+			<equals arg1="${nsis.dont.delete.installation.files}" arg2="true" />
+			<then>
+				<echo message="DELETION OF INSTALLATION FILES OMITTED" />
+
+			</then>
+			<else>
+				<delete dir="install" failonerror="false" />
+			</else>
+		</if>
+
+		<!--<delete dir="${distro.dir}" failonerror="false" />-->
+		<delete dir="${compile.dir}" failonerror="false" />
+	</target>
+
+</project>
