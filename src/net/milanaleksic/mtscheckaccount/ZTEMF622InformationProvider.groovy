@@ -67,7 +67,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
           reader.haltUntilBarrierCrossed()
       }
       
-      closure 'Mozete ugasiti program'
+      closure 'Mozete zatvoriti program'
       
     } finally {
       if (reader)

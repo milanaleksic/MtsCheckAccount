@@ -12,7 +12,7 @@
     <prepare request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
     <prepare request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
     <prepare request="AT+CUSD=1,&quot;*797#&quot;,15" response="\s*([+]+)CUSD: 1,&quot;" />
-    <prepare request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 1,&quot;" />
+    <prepare request="AT+CUSD=1,&quot;2&quot;,15" response="\s*([+]+)CUSD: 1,&quot;" />
     
     <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;" />
     
