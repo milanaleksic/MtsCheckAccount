@@ -1,11 +1,6 @@
-package net.milanaleksic.mtscheckaccount
-/**
- * Created by IntelliJ IDEA.
- * User: Milan Aleksic
- * Date: 14-May-2009
- * Time: 22:26:20
- * To change this template use File | Settings | File Templates.
- */
+package net.milanaleksic.mtscheckaccount.provider.mock
+
+import net.milanaleksic.mtscheckaccount.provider.*
 
 public class MockInformationProvider implements InformationProvider {
 

@@ -1,9 +1,9 @@
-package net.milanaleksic.mtscheckaccount
+package net.milanaleksic.mtscheckaccount.locator.win
 
 import java.lang.reflect.Method
 import java.util.prefs.Preferences
 
-public class RegistryExtractor {
+public class RegistryTool {
     
     private final int KEY_READ = 0x20019
     

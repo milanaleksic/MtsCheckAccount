@@ -1,4 +1,6 @@
-package net.milanaleksic.mtscheckaccount
+package net.milanaleksic.mtscheckaccount.provider.zte
+
+import net.milanaleksic.mtscheckaccount.util.ThreadExcHandler
 
 public class ZTECommPortReader implements Runnable {
 

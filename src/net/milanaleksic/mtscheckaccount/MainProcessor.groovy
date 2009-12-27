@@ -6,6 +6,10 @@ import java.awt.Cursor
 import java.awt.Desktop
 import java.awt.Font
 
+import net.milanaleksic.mtscheckaccount.provider.InformationBean
+import net.milanaleksic.mtscheckaccount.provider.InformationProvider
+import net.milanaleksic.mtscheckaccount.locator.Locator
+
 /**
  * @author Milan Aleksic
  *
@@ -13,6 +17,7 @@ import java.awt.Font
 public class MainProcessor {
 
   InformationProvider DataProvider;
+  Locator Locator;
 
   def edStanje, edUMrezi, edVanMreze, edSms, edGprs
   def edStatus
@@ -47,16 +52,7 @@ public class MainProcessor {
   def tryToResolvePort(config) {
 	  def result = null
 	  try {
-		  def extractor = new RegistryExtractor()
-	        
-	      def identifier = extractor.extractValueOfRegistryKey(
-	    		  config.descriptor.@location.text(), 
-	    		  config.descriptor.@key.text())
-	        
-	      result = extractor.extractValueOfRegistryKey(
-	    		  config.identifier.@location.text().replace('{identifier}',identifier), 
-	    		  config.identifier.@key.text())
-	      
+		  result = Locator.getModemLocation()
 	      if (result)
 	    	  println "Uspesno je dovucena informacija o portu modema - port koristi $result"
 	  } catch (Throwable t) {
@@ -73,7 +69,12 @@ public class MainProcessor {
 
   def showForm() {
     def swing = new SwingBuilder()
-    swing.lookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
+    try {
+    	swing.lookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')	
+    } catch (t) {
+    	println "Windows look & feel not supported"
+    }
+    
     def frame = swing.frame(title:'MtsCheckAccount v0.2.2',
             location: [100,100],
             resizable: false,
@@ -168,12 +169,4 @@ public class MainProcessor {
     }
   }
 
-}
-
-public class ThreadExcHandler implements Thread.UncaughtExceptionHandler {
-  void uncaughtException(Thread thr, Throwable t) {
-    JOptionPane.showMessageDialog(null, "[$thr]\n($t)\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
-      e.printStackTrace();
-      System.exit(1);
-  }
 }

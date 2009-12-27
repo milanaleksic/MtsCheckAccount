@@ -1,4 +1,6 @@
-package net.milanaleksic.mtscheckaccount
+package net.milanaleksic.mtscheckaccount.provider.zte
+
+import net.milanaleksic.mtscheckaccount.provider.*
 
 import javax.swing.JOptionPane
 
