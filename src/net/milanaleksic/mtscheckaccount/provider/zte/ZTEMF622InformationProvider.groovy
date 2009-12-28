@@ -6,7 +6,7 @@ import gnu.io.*
 
 public class ZTEMF622InformationProvider implements InformationProvider {
 
-  public def provideInformation(params, Closure closure) {
+  public def provideInformation(params, String port, Closure closure) {
 
     def commPort = null
     def portIdentifier
@@ -15,8 +15,8 @@ public class ZTEMF622InformationProvider implements InformationProvider {
     try {
 
       try {
-    	  println "ZTEMF622 Information Provider pristupa portu ${params.port.text()}"
-   		  portIdentifier = CommPortIdentifier.getPortIdentifier(params.port.text())
+    	  println "ZTEMF622 Information Provider pristupa portu ${port}"
+   		  portIdentifier = CommPortIdentifier.getPortIdentifier(port)
       } catch (Throwable t) {
     	  t.printStackTrace()
           throw new RuntimeException("Proverite uz pomoc uputstva da li je port ${params.port} zaista onaj koji se koristi od strane modema");
