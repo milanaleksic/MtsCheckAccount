@@ -4,7 +4,7 @@ import net.milanaleksic.mtscheckaccount.provider.*
 
 public class MockInformationProvider implements InformationProvider {
 
-  public def provideInformation(params, Closure closure) {
+  public def provideInformation(params, String port, Closure closure) {
 	closure 'Mozete ugasiti program'
 	
 	def testReceivedFromMts ="""

@@ -29,10 +29,33 @@ public class MainProcessor {
     return config
   }
   
+  def extractPort(params) {
+	def port = null 
+	try {
+		port = Locator.getModemLocation(params)
+		if (!port)
+			throw new IllegalArgumentException("Automatska pretraga za modemom nije urodila plodom")
+		return port
+	} catch (t) {
+		def manualPort = JOptionPane.showInputDialog(null, 
+            'Na zalost, nisam bio u stanju da automatski saznam koji port koristi modem.\n'+
+            'Procitajte uputstvo kako da dodjete do ove informacije pa je unesite ovde (npr. COM7):', 
+            'Nepoznat port modema',
+            JOptionPane.INFORMATION_MESSAGE)
+        if (!manualPort)
+        	manualPort = Locator.getDefaultModemLocation(params)
+        if (!manualPort) {
+        	println "Neuspesno rucno postavljen port, a takodje ni podrazumevana konfiguracija nije bila dobra"
+            System.exit(2)
+        }
+		return manualPort
+	}
+  }
+  
   def provide(params, Closure closure) {
     if (!params)
       return null
-    return DataProvider.provideInformation(params, closure)
+    return DataProvider.provideInformation(params, extractPort(params), closure)
   }
 
   def showForm() {
