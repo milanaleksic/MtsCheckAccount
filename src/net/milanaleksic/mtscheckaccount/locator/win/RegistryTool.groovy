@@ -14,7 +14,7 @@ public class RegistryTool {
     private final Method mCloseKey
     private final Method mWinRegQueryValue
     
-    public RegistryExtractor() {
+    public RegistryTool() {
         mOpenKey = clz.getDeclaredMethod('openKey', 
                 (Class[]) [byte[].class, int.class, int.class])
         mOpenKey.accessible = true
