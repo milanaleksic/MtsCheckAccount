@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zte-status-config>
 
-    <port>COM7</port>
-
-    <descriptor location="SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum" key="0" />
-    <identifier location="SYSTEM\CurrentControlSet\Enum\{identifier}\Device Parameters" key="PortName"/>
+	<windows>
+		<port>COM7</port>
+	
+	    <descriptor location="SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum" key="0" />
+	    <identifier location="SYSTEM\CurrentControlSet\Enum\{identifier}\Device Parameters" key="PortName"/>
+	</windows>
+	<linux>
+		<port>/dev/ttyUSB0</port>
+	</linux>
     
     <check request="AT+ZOPRT?" response="([+]+)ZOPRT" />
     <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR" />

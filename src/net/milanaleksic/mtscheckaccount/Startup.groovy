@@ -1,21 +1,19 @@
 package net.milanaleksic.mtscheckaccount
 
 import net.milanaleksic.mtscheckaccount.provider.*
-import net.milanaleksic.mtscheckaccount.provider.zte.*
-import net.milanaleksic.mtscheckaccount.provider.mock.*
-import net.milanaleksic.mtscheckaccount.locator.win.*
+import net.milanaleksic.mtscheckaccount.locator.*
 
 // (I) pokretanje MOCK procesiranja
 //new MainProcessor(
-//		DataProvider:new MockInformationProvider(),
-//		Locator:new WindowsLocator()
+//		DataProvider:ProviderFactory.createMockInformationProvider(),
+//		Locator:LocatorFactory.createLocator()
 //).start()
 
 
 // (II) pokretanje realnog procesiranja sa modema
 new MainProcessor(
-		DataProvider:new ZTEMF622InformationProvider(),
-		Locator:new WindowsLocator()
+		DataProvider:ProviderFactory.createZTEMF622InformationProvider(),
+		Locator:LocatorFactory.createLocator()
 ).start()
 
 

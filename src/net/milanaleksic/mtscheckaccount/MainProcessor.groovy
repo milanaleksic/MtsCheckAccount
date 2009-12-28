@@ -2,22 +2,16 @@ package net.milanaleksic.mtscheckaccount
 
 import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
-import java.awt.Cursor
-import java.awt.Desktop
-import java.awt.Font
+import java.awt.*
 
 import net.milanaleksic.mtscheckaccount.provider.InformationBean
 import net.milanaleksic.mtscheckaccount.provider.InformationProvider
 import net.milanaleksic.mtscheckaccount.locator.Locator
 
-/**
- * @author Milan Aleksic
- *
- */
 public class MainProcessor {
 
-  InformationProvider DataProvider;
-  Locator Locator;
+  InformationProvider DataProvider
+  Locator Locator
 
   def edStanje, edUMrezi, edVanMreze, edSms, edGprs
   def edStatus
@@ -30,37 +24,11 @@ public class MainProcessor {
     catch (Throwable t) {
       t.printStackTrace()
       println 'Greska - nisam uspeo da otvorim konfiguraciju'
-      System.exit(0)
-    }
-
-    // detaljna obrada za port, posto je on neophodan parametar...
-    def autoResolvedPort = tryToResolvePort(config) 
-    if (autoResolvedPort)
-    	config.port = autoResolvedPort
-    else {
-        def newPort = JOptionPane.showInputDialog(null, 
-            'Na zalost, nisam bio u stanju da automatski saznam koji port koristi modem.\n'+
-            'Procitajte uputstvo kako da dodjete do ove informacije pa je unesite ovde (npr. COM7):', 
-            'Nepoznat port modema',
-            JOptionPane.INFORMATION_MESSAGE)
-        if (newPort)
-            config.port = newPort
+      System.exit(1)
     }
     return config
   }
   
-  def tryToResolvePort(config) {
-	  def result = null
-	  try {
-		  result = Locator.getModemLocation()
-	      if (result)
-	    	  println "Uspesno je dovucena informacija o portu modema - port koristi $result"
-	  } catch (Throwable t) {
-		  t.printStackTrace()
-	  }
-	  return result
-  }
-
   def provide(params, Closure closure) {
     if (!params)
       return null
@@ -158,14 +126,10 @@ public class MainProcessor {
             edGprs.text = gprstext	
     	}
       }
-    } catch (RuntimeException t) {
-      JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
-      t.printStackTrace()
-      System.exit(1);
     } catch (Throwable t) {
       JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
       t.printStackTrace()
-      System.exit(1);
+      System.exit(3);
     }
   }
 
