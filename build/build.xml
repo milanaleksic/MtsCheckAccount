@@ -76,7 +76,8 @@
 	</target>
 
 	<target name="installation" description="Creates the installation" depends="build">
-		<delete includes="cuc-${src.version}.*.exe" dir="." />
+		<delete includes="mtscheckaccount-${src.version}.*.exe" dir="." />
+		<delete file="mtscheckaccount-${src.version}-linux.tar.gz" failonerror="false" />
 
 		<copy todir="${distro.dir}" overwrite="true">
 			<fileset dir="${startup.dir}">
@@ -110,13 +111,15 @@
 			<fileset dir="${root.dir}" includes="*.txt" />
 		</copy>
 
-		<echo message="Building NSIS Installation" level="info" />
-
+		<tar destfile="mtscheckaccount-${src.version}-linux.tar.gz" compression="gzip">
+			<tarfileset dir="install" prefix="" excludes="**/*.exe,**/.launcher,**/*.dll" />
+			<tarfileset dir="${lib.linux.dir}" prefix="rxtx-natives" />
+		</tar>
+		
 		<if>
 			<equals arg1="${nsis.enabled}" arg2="true" />
 			<then>
 				<echo message="Running OPTIONAL NSIS target" level="info" />
-
 				<nsis script="setupScript" verbosity="2" noconfig="yes" path="${nsis.home}">
 					<define name="VERSION" value="${src.version}" />
 				</nsis>
@@ -130,7 +133,6 @@
 			<equals arg1="${nsis.dont.delete.installation.files}" arg2="true" />
 			<then>
 				<echo message="DELETION OF INSTALLATION FILES OMITTED" />
-
 			</then>
 			<else>
 				<delete dir="install" failonerror="false" />

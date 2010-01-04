@@ -1,6 +1,50 @@
-Ako zelite da pronadjete uputstvo ili pomoc za upotrebu programa,
-molim posetite naredni sajt:
+Detaljno uputstvo za instalaciju se odrzava na mom Web sajtu 
+zbog lakseg odrzavanja.
 
-http://mtscheckaccount.sourceforge.net
 
-ili moj Web site (www.milanaleksic.net).
+Internet lokacija: http://www.milanaleksic.net/#projects-mtscheckaccount
+Email: milanaleksic@gmail.com
+
+
+Instalacija - Windows
+---------------------
+Potrebno je jednostavno pokrenuti .exe fajl intalacije i to je sve
+sto je potrebno uraditi.
+
+
+
+Instalacija - Linux
+-------------------
+
+0. Neophodno je da posedujete Sun Java 1.6 Runtime ili noviji.
+
+1. Potrebno je kopirati RxTx NATIVE (.so) biblioteke za rad sa serijskim portom. 
+Verzija RxTx biblioteke sa kojom sam ja testirao MtsCheckAccount je 
+isporucena uz sam program, unutar direktorijuma "rx-tx-natives".
+Tu su posebni direktorijumi za razlicite arhitekture, potrebno je izabrati 
+odgovarajuci direktorijum i prebaciti fajl librxtxSerial.so u:
+	/usr/lib/jvm/java-6-sun/jre/lib/naziv_arhitekture
+PRIMER: ja imam netbook Lenovo S10E, koji ima Intel Atom procesor, 
+tako da ja biram fajl iz direktorijuma 
+	rx-tx-natives/i686-unknown-linux-gnu/librxtxSerial.so
+i smestam u direktorijum:
+	/usr/lib/jvm/java-6-sun/jre/lib/i386 
+(za ovo su mi potrebne administratorske privilegije)
+
+2.Da bi native biblioteke mogle da rade, potrebno je korisnika koji ce pokretati 
+MtsCheckAccount dodati ili u grupu uucp ili u grupu lock kako bi mogao softver 
+da pravi lock fajlove (potrebne za sinhronizaciju pristupa serijskim uredjajima).
+PRIMER: ja imam Ubuntu I koristio sam:
+	System → Administration → Users and groups 
+kako bih dodao mog korisnika (milan) u uucp grupu.
+
+3.Virtuelni instalacioni CD modema mora biti Eject-ovan kako bi se 
+modem pojavio u sistemu (slicna operacija koja se vrsi da bi moj Ubuntu omogucio
+upotrebu modema za pristup sistemu). 
+Zavisno od konfiguracije sistema, mozda cete ovu operaciju morati da uradite sami 
+(ja moram, npr, iako znam da postoji negde na Netu opisan nacin da se uvek 
+automatski aktivira USB modem, a ne CD).
+Uslov da ne smete biti konektovani na Internet da biste koristili MtsCheckAccount 
+i dalje stoji.
+
+
