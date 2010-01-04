@@ -12,10 +12,13 @@ Potrebno je jednostavno pokrenuti .exe fajl intalacije i to je sve
 sto je potrebno uraditi.
 
 
+Pokretanje - Windows
+--------------------
+Sve sto je potrebno uraditi je pokretanje programa iz Start menija
+
 
 Instalacija - Linux
 -------------------
-
 0. Neophodno je da posedujete Sun Java 1.6 Runtime ili noviji.
 
 1. Potrebno je kopirati RxTx NATIVE (.so) biblioteke za rad sa serijskim portom. 
@@ -48,3 +51,8 @@ Uslov da ne smete biti konektovani na Internet da biste koristili MtsCheckAccoun
 i dalje stoji.
 
 
+Pokretanje - Linux
+------------------
+Pokretanje aplikacije se vrsi tako sto se prvo doda executive flag
+	chmod +x startup
+i zatim se program moze pokrenuti pokretanjem startup skripta
