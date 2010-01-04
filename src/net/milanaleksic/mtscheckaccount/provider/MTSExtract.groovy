@@ -8,7 +8,7 @@ public class MTSExtract {
   def extract(readFromData) {
     def result = new InformationBean()
     
-    if (readFromData.indexOf(/Servis trenutno nije dostupan, molimo Vas pokusajte kasnije/)!=-1) {
+    if (readFromData.indexOf(/Ova usluga trenutno nije dostupna/)!=-1) {
     	JOptionPane.showMessageDialog(null, 'Dobri ljudi iz mt:s-a su rekli da je servis trenutno nedostupan i mole Vas da pokusate kasnije :)')
     	return result
     }
