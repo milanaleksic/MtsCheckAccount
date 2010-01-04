@@ -19,7 +19,7 @@ public class ZTECommPortReader implements Runnable {
       while ((len = this.input.read(buffer)) > -1) {
         if (!len)
           continue
-
+		  
         lastRead = new String(buffer, 0, len)
         
         if (whatToWaitFor && lastRead =~ whatToWaitFor)
