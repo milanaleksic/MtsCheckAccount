@@ -1,5 +1,5 @@
 ### Main Settings
-src.version=0.2.2.0
+src.version=0.3.0.0-beta
 
 ### External tools configuration
 
@@ -21,6 +21,7 @@ groovy.compile.dir=compile-groovy
 root.dir=..
 lib.dir=../lib
 lib.build.dir=../lib-build
+lib.linux.dir=../lib-linux
 distro.dir=distro
 
 # files & file filters
