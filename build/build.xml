@@ -86,6 +86,7 @@
 				<include name="*.xml" />
 				<include name="*.jpg" />
 				<include name="*.png" />
+				<include name="startup" />
 			</fileset>
 		</copy>
 
