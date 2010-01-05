@@ -23,7 +23,7 @@ SetCompressor /SOLID lzma
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "mt:s Check Account"
 !define MUI_FINISHPAGE_RUN $INSTDIR\Startup.exe
 !define MUI_FINISHPAGE_RUN_NOTCHECKED
-!define MUI_FINISHPAGE_SHOWREADME $INSTDIR\doc\ProcitajMe.txt
+!define MUI_FINISHPAGE_SHOWREADME $INSTDIR\ProcitajMe.txt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\classic-uninstall.ico"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 !define MUI_LANGDLL_REGISTRY_ROOT HKLM
@@ -76,6 +76,7 @@ Section -Main SEC0000
     SetOverwrite on
     SetOutPath $INSTDIR
     File install\Startup.exe
+    File install\ProcitajMe.txt
     SetOutPath $INSTDIR\bin
     File install\bin\*
     SetOutPath $INSTDIR\lib
