@@ -1,7 +1,6 @@
 package net.milanaleksic.mtscheckaccount.provider
 
 import javax.swing.JOptionPane
-import net.milanaleksic.mtscheckaccount.provider.*
 
 public class MTSExtract {
 
