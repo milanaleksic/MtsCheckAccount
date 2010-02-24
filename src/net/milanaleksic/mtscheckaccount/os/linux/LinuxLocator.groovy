@@ -28,7 +28,7 @@ public class LinuxLocator implements Locator {
 	}
 	
 	public String getDefaultModemLocation(GPathResult config) {
-		return config.linux.port
+		return config.os.linux.port
 	}
 
 }

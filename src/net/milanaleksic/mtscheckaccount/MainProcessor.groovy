@@ -1,5 +1,9 @@
 package net.milanaleksic.mtscheckaccount
 
+import net.milanaleksic.mtscheckaccount.provider.ProviderFactory;
+
+import net.milanaleksic.mtscheckaccount.os.LocatorFactory;
+
 import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
 import java.awt.*
@@ -15,9 +19,39 @@ public class MainProcessor {
 
   def edStanje, edUMrezi, edVanMreze, edSms, edGprs
   def edStatus
+  
+  def config
+  
+  MainProcessor() {
+	  readConfig()
+	  prepareDependencies()
+  }
+  
+  def prepareDependencies() {
+	  switch (config.core.locator.toString()) {
+		  case "real": 
+			  Locator = LocatorFactory.createOSLocator()
+			  break
+		  case "mock":
+			  Locator = LocatorFactory.createMockLocator()
+			  break
+		  default:
+			  throw new IllegalArgumentException("Nepoznat locator - ${config.core.locator.toString()}")
+	  }
+	  switch (config.core.provider.toString()) {
+		  case "real": 
+			  DataProvider = ProviderFactory.createZTEMF622InformationProvider()
+			  break
+		  case "mock":
+			  DataProvider = ProviderFactory.createMockInformationProvider()
+			  break
+		  default:
+			  throw new IllegalArgumentException("Nepoznat provider - ${config.core.provider.toString()}")
+	  }
+  }
 
-  def params() {
-    def config=null
+  def readConfig() {
+    config=null
     try {
       config = new XmlSlurper().parse('config.xml')
     }
@@ -130,7 +164,7 @@ public class MainProcessor {
   def start() {
     try {
       showForm()
-      provide ( params() ) { info ->
+      provide ( config ) { info ->
         println info
         if (info instanceof String)
         	edStatus.text = info
