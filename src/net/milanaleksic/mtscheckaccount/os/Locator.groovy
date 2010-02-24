@@ -1,8 +1,8 @@
-package net.milanaleksic.mtscheckaccount.locator
+package net.milanaleksic.mtscheckaccount.os
 
 import groovy.util.slurpersupport.GPathResult
 
-public interface Locator{
+public interface Locator {
 
 	public String getModemLocation(GPathResult config)
 	

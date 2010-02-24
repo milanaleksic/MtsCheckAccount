@@ -1,10 +1,10 @@
-package net.milanaleksic.mtscheckaccount.locator.win
+package net.milanaleksic.mtscheckaccount.os.win
 
-import net.milanaleksic.mtscheckaccount.locator.Locator
+import net.milanaleksic.mtscheckaccount.os.Locator
 
 import groovy.util.slurpersupport.GPathResult
 
-public class WindowsLocator implements Locator{
+public class WindowsLocator implements Locator {
 	
 	public String getModemLocation(GPathResult config){
 		def tool = new RegistryTool()

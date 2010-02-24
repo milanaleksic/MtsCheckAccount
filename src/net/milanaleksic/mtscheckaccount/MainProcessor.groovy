@@ -6,7 +6,7 @@ import java.awt.*
 
 import net.milanaleksic.mtscheckaccount.provider.InformationBean
 import net.milanaleksic.mtscheckaccount.provider.InformationProvider
-import net.milanaleksic.mtscheckaccount.locator.Locator
+import net.milanaleksic.mtscheckaccount.os.Locator
 
 public class MainProcessor {
 

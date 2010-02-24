@@ -1,7 +1,7 @@
-package net.milanaleksic.mtscheckaccount.locator.linux
+package net.milanaleksic.mtscheckaccount.os.linux
 
 import groovy.util.slurpersupport.GPathResult
-import net.milanaleksic.mtscheckaccount.locator.Locator
+import net.milanaleksic.mtscheckaccount.os.Locator
 
 public class LinuxLocator implements Locator {
 

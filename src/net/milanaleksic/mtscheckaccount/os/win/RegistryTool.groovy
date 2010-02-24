@@ -1,4 +1,4 @@
-package net.milanaleksic.mtscheckaccount.locator.win
+package net.milanaleksic.mtscheckaccount.os.win
 
 import java.lang.reflect.Method
 import java.util.prefs.Preferences

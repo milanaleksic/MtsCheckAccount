@@ -1,9 +1,9 @@
-package net.milanaleksic.mtscheckaccount.locator
+package net.milanaleksic.mtscheckaccount.os
 
-import net.milanaleksic.mtscheckaccount.locator.win.*
-import net.milanaleksic.mtscheckaccount.locator.linux.*
+import net.milanaleksic.mtscheckaccount.os.win.*
+import net.milanaleksic.mtscheckaccount.os.linux.*
 
-public class LocatorFactory{
+public class LocatorFactory {
 
 	public static Locator createLocator() {
 		def osname = System.getProperty("os.name").toLowerCase()
