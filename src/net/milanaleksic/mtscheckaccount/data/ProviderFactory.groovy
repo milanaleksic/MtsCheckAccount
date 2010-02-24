@@ -1,7 +1,7 @@
-package net.milanaleksic.mtscheckaccount.provider
+package net.milanaleksic.mtscheckaccount.data
 
-import net.milanaleksic.mtscheckaccount.provider.zte.*
-import net.milanaleksic.mtscheckaccount.provider.mock.*
+import net.milanaleksic.mtscheckaccount.data.zte.*
+import net.milanaleksic.mtscheckaccount.data.mock.*
 
 public class ProviderFactory{
 

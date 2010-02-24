@@ -3,8 +3,8 @@
 
     <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
     <core>
-        <locator>real</locator>
-        <provider>real</provider>
+        <os>real</os>
+        <data>real</data>
     </core>
 
     <os>
@@ -18,7 +18,7 @@
 	    </linux>
     </os>
 	
-	<provider>
+	<data>
 		<check request="AT+ZOPRT?" response="([+]+)ZOPRT" />
 	    <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR" />
 	    
@@ -31,6 +31,6 @@
 	    
 	    <post request="AT+CUSD=0" response="\s*OK\s*" />
 	    <post request="AT+ZOPRT=6" response="\s*OK\s*" />
-	</provider>
+	</data>
     
 </mts-check-account-config>

@@ -1,6 +1,6 @@
-package net.milanaleksic.mtscheckaccount.provider.zte
+package net.milanaleksic.mtscheckaccount.data.zte
 
-import net.milanaleksic.mtscheckaccount.provider.*
+import net.milanaleksic.mtscheckaccount.data.*
 import javax.swing.JOptionPane
 import gnu.io.*
 
@@ -18,32 +18,32 @@ public class ZTEMF622InformationProvider implements InformationProvider {
       (new Thread(reader = new ZTECommPortReader(input:input))).start()
 
       closure 'Proveravam status modema...'
-      reader.barrier = params.provider.check.@response
-	  printToStream(str, params.provider.check.@request.text())
+      reader.barrier = params.data.check.@response
+	  printToStream(str, params.data.check.@request.text())
 
       if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
     	closure 'Palim modem...'
-    	reader.barrier = params.provider.start.@response
-    	printToStream(str, params.provider.start.@request.text())
+    	reader.barrier = params.data.start.@response
+    	printToStream(str, params.data.start.@request.text())
     	reader.haltUntilBarrierCrossed()
     	Thread.sleep(5000)
       }
       
       closure 'Pricam...'
-      params.provider.pre.each {
+      params.data.pre.each {
     	reader.barrier = it.@response
     	printToStream(str, it.@request.text())
         reader.haltUntilBarrierCrossed()
       }
 
       closure 'Saljem glavni zahtev...'
-      reader.barrier = params.provider.main.@response
-	  printToStream(str, params.provider.main.@request.text())
+      reader.barrier = params.data.main.@response
+	  printToStream(str, params.data.main.@request.text())
       def response = reader.haltUntilBarrierCrossed() 
       closure new MTSExtract().extract(response)
       
       closure 'Gasim modem...'
-      params.provider.post.each {
+      params.data.post.each {
     	reader.barrier = it.@response
     	printToStream(str, it.@request.text())
         reader.haltUntilBarrierCrossed()

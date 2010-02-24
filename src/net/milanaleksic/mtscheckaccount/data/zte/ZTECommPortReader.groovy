@@ -1,4 +1,4 @@
-package net.milanaleksic.mtscheckaccount.provider.zte
+package net.milanaleksic.mtscheckaccount.data.zte
 
 import net.milanaleksic.mtscheckaccount.util.ThreadExcHandler
 
