@@ -1,6 +1,6 @@
-package net.milanaleksic.mtscheckaccount.provider.mock
+package net.milanaleksic.mtscheckaccount.data.mock
 
-import net.milanaleksic.mtscheckaccount.provider.*
+import net.milanaleksic.mtscheckaccount.data.*
 
 public class MockInformationProvider implements InformationProvider {
 

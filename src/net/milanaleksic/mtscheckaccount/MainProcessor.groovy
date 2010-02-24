@@ -1,16 +1,11 @@
 package net.milanaleksic.mtscheckaccount
 
-import net.milanaleksic.mtscheckaccount.provider.ProviderFactory;
-
-import net.milanaleksic.mtscheckaccount.os.LocatorFactory;
+import net.milanaleksic.mtscheckaccount.data.*;
+import net.milanaleksic.mtscheckaccount.os.*;
 
 import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
 import java.awt.*
-
-import net.milanaleksic.mtscheckaccount.provider.InformationBean
-import net.milanaleksic.mtscheckaccount.provider.InformationProvider
-import net.milanaleksic.mtscheckaccount.os.Locator
 
 public class MainProcessor {
 
@@ -28,7 +23,7 @@ public class MainProcessor {
   }
   
   def prepareDependencies() {
-	  switch (config.core.locator.toString()) {
+	  switch (config.core.os.toString()) {
 		  case "real": 
 			  Locator = LocatorFactory.createOSLocator()
 			  break
@@ -36,9 +31,9 @@ public class MainProcessor {
 			  Locator = LocatorFactory.createMockLocator()
 			  break
 		  default:
-			  throw new IllegalArgumentException("Nepoznat locator - ${config.core.locator.toString()}")
+			  throw new IllegalArgumentException("Nepoznat os - ${config.core.os.toString()}")
 	  }
-	  switch (config.core.provider.toString()) {
+	  switch (config.core.data.toString()) {
 		  case "real": 
 			  DataProvider = ProviderFactory.createZTEMF622InformationProvider()
 			  break
@@ -46,7 +41,7 @@ public class MainProcessor {
 			  DataProvider = ProviderFactory.createMockInformationProvider()
 			  break
 		  default:
-			  throw new IllegalArgumentException("Nepoznat provider - ${config.core.provider.toString()}")
+			  throw new IllegalArgumentException("Nepoznat data - ${config.core.data.toString()}")
 	  }
   }
 
