@@ -1,11 +1,12 @@
 package net.milanaleksic.mtscheckaccount.os
 
-import net.milanaleksic.mtscheckaccount.os.win.*
-import net.milanaleksic.mtscheckaccount.os.linux.*
+import net.milanaleksic.mtscheckaccount.os.win.WindowsLocator
+import net.milanaleksic.mtscheckaccount.os.linux.LinuxLocator
+import net.milanaleksic.mtscheckaccount.os.mock.MockLocator
 
 public class LocatorFactory {
 
-	public static Locator createLocator() {
+	public static Locator createOSLocator() {
 		def osname = System.getProperty("os.name").toLowerCase()
 		println "os.name=${osname}"
 		if (osname == "linux")
@@ -14,6 +15,10 @@ public class LocatorFactory {
 			return new WindowsLocator()
 		else 
 			throw new IllegalStateException("Operativni sistem (${osname}) nije podrzan :(")
+	}
+	
+	public static Locator createMockLocator() {
+		return new MockLocator()
 	}
 	
 }
