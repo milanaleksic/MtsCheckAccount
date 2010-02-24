@@ -18,32 +18,32 @@ public class ZTEMF622InformationProvider implements InformationProvider {
       (new Thread(reader = new ZTECommPortReader(input:input))).start()
 
       closure 'Proveravam status modema...'
-      reader.barrier = params.check.@response
-	  printToStream(str, params.check.@request.text())
+      reader.barrier = params.provider.check.@response
+	  printToStream(str, params.provider.check.@request.text())
 
       if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
     	closure 'Palim modem...'
-    	reader.barrier = params.start.@response
-    	printToStream(str, params.start.@request.text())
+    	reader.barrier = params.provider.start.@response
+    	printToStream(str, params.provider.start.@request.text())
     	reader.haltUntilBarrierCrossed()
     	Thread.sleep(5000)
       }
       
       closure 'Pricam...'
-      params.prepare.each {
+      params.provider.pre.each {
     	reader.barrier = it.@response
     	printToStream(str, it.@request.text())
         reader.haltUntilBarrierCrossed()
       }
 
       closure 'Saljem glavni zahtev...'
-      reader.barrier = params.main.@response
-	  printToStream(str, params.main.@request.text())
+      reader.barrier = params.provider.main.@response
+	  printToStream(str, params.provider.main.@request.text())
       def response = reader.haltUntilBarrierCrossed() 
       closure new MTSExtract().extract(response)
       
       closure 'Gasim modem...'
-      params.stop.each {
+      params.provider.post.each {
     	reader.barrier = it.@response
     	printToStream(str, it.@request.text())
         reader.haltUntilBarrierCrossed()
@@ -68,7 +68,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
 	  portIdentifier = CommPortIdentifier.getPortIdentifier(port)
 	} catch (Throwable t) {
 	  t.printStackTrace()
-	  throw new RuntimeException("Proverite uz pomoc uputstva da li je port ${params.port} zaista onaj koji se koristi od strane modema");
+	  throw new RuntimeException("Proverite uz pomoc uputstva da li je port ${port} zaista onaj koji se koristi od strane modema");
 	}
 	
 	if (portIdentifier.isCurrentlyOwned())
