@@ -5,6 +5,17 @@ import net.milanaleksic.mtscheckaccount.os.linux.LinuxLocator
 import net.milanaleksic.mtscheckaccount.os.mock.MockLocator
 
 public class LocatorFactory {
+	
+	public static Locator fromConfig(config) {
+		switch (config.core.os.toString()) {
+		  case "real": 
+			  return LocatorFactory.createOSLocator()
+		  case "mock":
+			  return LocatorFactory.createMockLocator()
+		  default:
+			  throw new IllegalArgumentException("Nepoznat os - ${config.core.os.toString()}")
+		}
+	}
 
 	public static Locator createOSLocator() {
 		def osname = System.getProperty("os.name").toLowerCase()
