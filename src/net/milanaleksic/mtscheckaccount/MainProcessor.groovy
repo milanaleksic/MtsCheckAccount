@@ -19,32 +19,10 @@ public class MainProcessor {
   
   MainProcessor() {
 	  readConfig()
-	  prepareDependencies()
+	  Locator = LocatorFactory.fromConfig(config)
+	  DataProvider = ProviderFactory.fromConfig(config)
   }
   
-  def prepareDependencies() {
-	  switch (config.core.os.toString()) {
-		  case "real": 
-			  Locator = LocatorFactory.createOSLocator()
-			  break
-		  case "mock":
-			  Locator = LocatorFactory.createMockLocator()
-			  break
-		  default:
-			  throw new IllegalArgumentException("Nepoznat os - ${config.core.os.toString()}")
-	  }
-	  switch (config.core.data.toString()) {
-		  case "real": 
-			  DataProvider = ProviderFactory.createZTEMF622InformationProvider()
-			  break
-		  case "mock":
-			  DataProvider = ProviderFactory.createMockInformationProvider()
-			  break
-		  default:
-			  throw new IllegalArgumentException("Nepoznat data - ${config.core.data.toString()}")
-	  }
-  }
-
   def readConfig() {
     config=null
     try {

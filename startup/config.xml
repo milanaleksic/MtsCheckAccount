@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mts-check-account-config>
 
-    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
     <core>
-        <os>real</os>
-        <data>real</data>
+        <os>real</os>    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
+        <data>zte</data> <!-- za potrebe testiranja, zameniti po potrebi "zte" sa "mock" -->
     </core>
 
     <os>
