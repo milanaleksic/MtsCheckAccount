@@ -1,7 +1,6 @@
 package net.milanaleksic.mtscheckaccount.data.zte
 
 import net.milanaleksic.mtscheckaccount.data.*
-import javax.swing.JOptionPane
 import gnu.io.*
 
 public class ZTEMF622InformationProvider implements InformationProvider {
@@ -68,7 +67,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
             portIdentifier = CommPortIdentifier.getPortIdentifier(port)
         } catch (Throwable t) {
             t.printStackTrace()
-            throw new RuntimeException("Proverite uz pomoc uputstva da li je port ${port} zaista onaj koji se koristi od strane modema");
+            throw new RuntimeException("Proverite uz pomoc uputstva (na mom sajtu - www.milanaleksic.net) da li je port ${port} zaista onaj koji se koristi od strane modema.\nUkoliko ne uspete da resite problem, molim procitajte uputstvo na sajtu (www.milanaleksic.net) kako da ukljucite log i kako da mi isti posaljete");
         }
 
         if (portIdentifier.isCurrentlyOwned())
