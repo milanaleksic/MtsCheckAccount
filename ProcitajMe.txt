@@ -4,7 +4,7 @@ MtsCheckAccount aplikacija
 Detaljno uputstvo za instalaciju se odrzava na mom Web sajtu 
 zbog lakseg odrzavanja.
 
-Program koristi GNU licencu ("GPL v2.0"), koja se (kompletna) 
+Program koristi aktuelnu GNU licencu ("GPL v3"), koja se (kompletna) 
 nalazi pored dokumenta koji citate. Molim Vas, procitajte je, da biste
 znali Vasa prava i mogucnosti na temu upotrebe i distribuiranja ovog programa,
 kao i izvornog koda istog.
