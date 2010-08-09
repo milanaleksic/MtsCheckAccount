@@ -47,7 +47,7 @@ public class ZTECommPortReader implements Runnable {
             Thread.sleep(100)
             tickCount++
             if (tickCount >= 100)
-                throw new IllegalStateException("Nije dobijen odgovor od modema. Moguce je da je doslo do problema u obradi, restartujte program")
+                throw new IllegalStateException("Nije dobijen odgovor od modema. Moguce je da je doslo do problema u obradi, restartujte program.\nUkoliko se ova greska ponovi, molim procitajte uputstvo na sajtu (www.milanaleksic.net) kako da ukljucite log i kako da mi isti posaljete.")
         }
         def returnValue = lastRead
         barrierAlreadyCrossed = false
