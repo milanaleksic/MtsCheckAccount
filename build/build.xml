@@ -82,7 +82,6 @@
 		<copy todir="${distro.dir}" overwrite="true">
 			<fileset dir="${startup.dir}">
 				<include name=".launcher" />
-				<include name="*.dll" />
 				<include name="*.xml" />
 				<include name="*.jpg" />
 				<include name="*.png" />
@@ -120,9 +119,17 @@
 		<if>
 			<equals arg1="${nsis.enabled}" arg2="true" />
 			<then>
-				<echo message="Running OPTIONAL NSIS target" level="info" />
+				<echo message="Running NSIS target x86" level="info" />
+                <copy todir="install/bin" file="${lib.win.dir}/x86/rxtxSerial.dll" overwrite="true" />
 				<nsis script="setupScript" verbosity="2" noconfig="yes" path="${nsis.home}">
 					<define name="VERSION" value="${src.version}" />
+                    <define name="ARCHITECTURE" value="x86" />
+				</nsis>
+                <echo message="Running NSIS target x64" level="info" />
+                <copy todir="install/bin" file="${lib.win.dir}/x64/rxtxSerial.dll" overwrite="true" />
+				<nsis script="setupScript" verbosity="2" noconfig="yes" path="${nsis.home}">
+					<define name="VERSION" value="${src.version}" />
+                    <define name="ARCHITECTURE" value="x64" />
 				</nsis>
 			</then>
 			<else>
