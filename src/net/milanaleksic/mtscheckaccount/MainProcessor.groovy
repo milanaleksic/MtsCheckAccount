@@ -6,6 +6,7 @@ import net.milanaleksic.mtscheckaccount.os.*;
 import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
 import java.awt.*
+import java.util.jar.Manifest
 
 public class MainProcessor {
 
@@ -16,7 +17,8 @@ public class MainProcessor {
     def edStatus
 
     def config
-
+    def programVersion
+    
     MainProcessor() {
         readConfig()
         Locator = LocatorFactory.fromConfig(config)
@@ -24,6 +26,12 @@ public class MainProcessor {
     }
 
     def readConfig() {
+        Manifest manifest = new Manifest(this.class.getResourceAsStream("/META-INF/MANIFEST.MF"))
+        java.util.jar.Attributes attributes = manifest.getMainAttributes()
+        programVersion = attributes.getValue("Implementation-Version")
+        if (!programVersion)
+            programVersion = '?'
+        println "Mts Check Account program version: $programVersion"
         config = null
         try {
             config = new XmlSlurper().parse('config.xml')
@@ -73,7 +81,7 @@ public class MainProcessor {
             println "Windows look & feel not supported"
         }
 
-        def frame = swing.frame(title: 'MtsCheckAccount v0.2.2',
+        def frame = swing.frame(title: "MtsCheckAccount v$programVersion",
                 location: [100, 100],
                 resizable: false,
                 windowClosing: { event: System.exit(0) }) {
@@ -117,7 +125,13 @@ public class MainProcessor {
                     }
                     tr {
                         td(colspan: 2, align: 'CENTER') {
-                            label('milan.aleksic@gmail.com',
+                            label("MtsCheckAccount v$programVersion",
+                                    font: new Font(null, Font.BOLD, 12))
+                        }
+                    }
+                    tr {
+                        td(colspan: 2, align: 'CENTER') {
+                            label('email: milan.aleksic@gmail.com',
                                     font: new Font(null, Font.BOLD, 10),
                                     cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
                                     mouseClicked: {event: Desktop.getDesktop().mail('mailto:milan.aleksic@gmail.com'.toURI())})
@@ -125,10 +139,10 @@ public class MainProcessor {
                     }
                     tr {
                         td(colspan: 2, align: 'CENTER') {
-                            label('http://www.milanaleksic.net',
+                            label('Posetite web stranicu programa',
                                     font: new Font(null, Font.BOLD, 10),
                                     cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
-                                    mouseClicked: {event: Desktop.getDesktop().browse('http://www.milanaleksic.net'.toURI())})
+                                    mouseClicked: {event: Desktop.getDesktop().browse('http://www.milanaleksic.net/#/projects/mtscheckaccount'.toURI())})
                         }
                     }
                 }
