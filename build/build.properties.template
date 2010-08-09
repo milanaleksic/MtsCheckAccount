@@ -1,5 +1,5 @@
 ### Main Settings
-src.version=0.3.0.1
+version.file=${startup.dir}/version.txt
 
 ### External tools configuration
 

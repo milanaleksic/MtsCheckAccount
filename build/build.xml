@@ -2,6 +2,7 @@
 <project name="ZTECheckAccountStatus" basedir="." default="installation">
 
 	<property file="build.properties" />
+    <loadfile srcfile="${version.file}" property="src.version" />
 
 	<!-- Classpath that contains only compiled classes + libraries in lib dir -->
 	<path id="classpath" path="${compile.dir}">
@@ -105,6 +106,8 @@
 		<copy todir="install/bin">
 			<fileset dir="${distro.dir}" excludes="*.jar" />
 		</copy>
+        
+        <echo file="install/bin/version.txt" message="${src.version}" />
 
 		<copy todir="install">
 			<fileset dir="${root.dir}" includes="*.exe" />
