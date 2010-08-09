@@ -6,8 +6,8 @@ import net.milanaleksic.mtscheckaccount.os.*;
 import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
 import java.awt.*
-import java.util.jar.Manifest
 import java.awt.event.KeyEvent
+import javax.swing.UIManager
 
 public class MainProcessor {
 
@@ -29,14 +29,18 @@ public class MainProcessor {
 
     def activateInternetConnectibilityThread() {
         def internetAccessRunnable = {
-            InetAddress googleReachable = InetAddress.getByName('www.google.com')
-            if (!googleReachable.isReachable(3000)) {
-                println 'Internet nije dostupan'
-                return
-            } else {
+            Socket clientSocket = null
+            try {
+                clientSocket = new Socket("www.google.com", 80)
                 println 'Internet JESTE dostupan'
+                JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
+                return
+            } catch (IOException exc) {
+                println 'Internet nije dostupan'
+            } finally {
+                if (clientSocket)
+                    clientSocket.close()
             }
-            JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
         }
         def internetAccessThread = new Thread(internetAccessRunnable)
         internetAccessThread.daemon = true
@@ -103,7 +107,7 @@ public class MainProcessor {
     def showForm() {
         def swing = new SwingBuilder()
         try {
-            swing.lookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
+            UIManager.setLookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
         } catch (t) {
             println "Windows look & feel not supported"
         }
@@ -183,7 +187,7 @@ public class MainProcessor {
                     }
                     tr {
                         td { label 'Status: ' }
-                        td(colfill: true) { edStatus = textField(editable: false, text: 'Ucitavanje', keyPressed: keyPressedEventHandler) }
+                        td(colfill: true) { edStatus = textField(editable: false, text: 'Ucitavanje', font: new Font(null, Font.BOLD, 12), keyPressed: keyPressedEventHandler) }
                     }
                     tr {
                         td(colspan: 2) { label ' ' }
@@ -244,9 +248,10 @@ public class MainProcessor {
                 }
             }
         } catch (Throwable t) {
-            JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
             t.printStackTrace()
-            System.exit(3);
+            edStatus.text = 'GRESKA U OBRADI!'
+            edUMrezi.text = edStanje.text = edVanMreze.text = edSms.text = edGprs.text = '?'
+            JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
         }
     }
 
