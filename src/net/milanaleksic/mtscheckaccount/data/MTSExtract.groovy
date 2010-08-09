@@ -17,11 +17,11 @@ public class MTSExtract {
                     UMrezi: (/Minuti u mts/),
                     VanMreze: (/Minuti van mts/),
                     Sms: (/SMS/),
-                    Gprs: (/Podaci[(]kB[)]/)
+                    Gprs: (/Podaci [(]kb[)]/)
             ].each { informationBeanPropertyName, nameOfRowInData ->
-                (readFromData =~ /$nameOfRowInData:\s*[\d.]+/).each { match ->
-                    (match =~ /\s[\d.]+/).each { match2 ->
-                        result."$informationBeanPropertyName" = match2
+                (readFromData =~ /$nameOfRowInData\s*:\s*[\d.]+/).each { match ->
+                    (match =~ /[\s:][\d.]+/).each { match2 ->
+                        result."$informationBeanPropertyName" = match2.replaceAll(':','')
                     }
                 }
             }
