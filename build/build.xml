@@ -128,11 +128,11 @@
 					<define name="VERSION" value="${src.version}" />
                     <define name="ARCHITECTURE" value="x86" />
 				</nsis>
-                <echo message="Running NSIS target x64" level="info" />
-                <copy todir="install/bin" file="${lib.win.dir}/x64/rxtxSerial.dll" overwrite="true" />
+                <echo message="Running NSIS target ia64" level="info" />
+                <copy todir="install/bin" file="${lib.win.dir}/ia64/rxtxSerial.dll" overwrite="true" />
 				<nsis script="setupScript" verbosity="2" noconfig="yes" path="${nsis.home}">
 					<define name="VERSION" value="${src.version}" />
-                    <define name="ARCHITECTURE" value="x64" />
+                    <define name="ARCHITECTURE" value="ia64" />
 				</nsis>
 			</then>
 			<else>
