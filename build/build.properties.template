@@ -22,6 +22,7 @@ root.dir=..
 lib.dir=../lib
 lib.build.dir=../lib-build
 lib.linux.dir=../lib-linux
+lib.win.dir=../lib-windows
 distro.dir=distro
 
 # files & file filters

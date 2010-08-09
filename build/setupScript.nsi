@@ -56,7 +56,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE Serbian
 
 # Installer attributes
-OutFile "mtscheckaccount-${VERSION}.exe"
+OutFile "mtscheckaccount-${VERSION}-${ARCHITECTURE}.exe"
 InstallDir "$PROGRAMFILES\MtsCheckAccount"
 CRCCheck on
 XPStyle on
