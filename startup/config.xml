@@ -2,8 +2,8 @@
 <mts-check-account-config>
 
     <core>
-        <os>mock</os>    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
-        <data>mock</data> <!-- za potrebe testiranja, zameniti po potrebi "zte" sa "mock" -->
+        <os>real</os>    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
+        <data>zte</data> <!-- za potrebe testiranja, zameniti po potrebi "zte" sa "mock" -->
     </core>
 
     <os>
