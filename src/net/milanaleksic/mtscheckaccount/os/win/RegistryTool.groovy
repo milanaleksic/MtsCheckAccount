@@ -28,12 +28,22 @@ public class RegistryTool {
         mWinRegQueryValue.accessible = true
     }
 
-    public String extractValueOfRegistryKey(String subkey, String key) {
+    public String extractValueOfRegistryKey(String subkey, String key, String keys) {
         def hSettings = (Integer) mOpenKey.invoke(systemRoot,
                 (Object[]) [toByteArray(subkey), new Integer(KEY_READ), new Integer(KEY_READ)])
 
-        def b = (byte[]) mWinRegQueryValue.invoke(systemRoot,
+        def b = null
+        if (keys) {
+            keys.split('\\|').each {
+                if (!b) {
+                    b = (byte[]) mWinRegQueryValue.invoke(systemRoot,
+                        (Object[]) [hSettings, toByteArray(it)])
+                }
+            }
+        } else {
+            b = (byte[]) mWinRegQueryValue.invoke(systemRoot,
                 (Object[]) [hSettings, toByteArray(key)])
+        }
 
         def identifier = (b != null ? new String(b).trim() : null)
 

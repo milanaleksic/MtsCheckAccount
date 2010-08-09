@@ -11,11 +11,13 @@ public class WindowsLocator implements Locator {
 
         def identifier = tool.extractValueOfRegistryKey(
                 config.os.windows.descriptor.@location.text(),
-                config.os.windows.descriptor.@key.text())
+                config.os.windows.descriptor.@key.text(),
+                config.os.windows.descriptor.@keys.text())
 
         return tool.extractValueOfRegistryKey(
                 config.os.windows.identifier.@location.text().replace('{identifier}', identifier),
-                config.os.windows.identifier.@key.text())
+                config.os.windows.identifier.@key.text(),
+                config.os.windows.identifier.@keys.text())
     }
 
     public String getDefaultModemLocation(GPathResult config) {
