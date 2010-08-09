@@ -21,8 +21,25 @@ public class MainProcessor {
     
     MainProcessor() {
         readConfig()
+        activateInternetConnectibilityThread()
         Locator = LocatorFactory.fromConfig(config)
         DataProvider = ProviderFactory.fromConfig(config)
+    }
+
+    def activateInternetConnectibilityThread() {
+        def internetAccessRunnable = {
+            InetAddress googleReachable = InetAddress.getByName('www.google.com')
+            if (!googleReachable.isReachable(3000)) {
+                println 'Internet nije dostupan'
+                return
+            } else {
+                println 'Internet JESTE dostupan'
+            }
+            JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
+        }
+        def internetAccessThread = new Thread(internetAccessRunnable)
+        internetAccessThread.daemon = true
+        internetAccessThread.start()
     }
 
     def readConfig() {
