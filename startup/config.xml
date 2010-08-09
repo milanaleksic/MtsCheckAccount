@@ -2,8 +2,8 @@
 <mts-check-account-config>
 
     <core>
-        <os>real</os>    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
-        <data>zte</data> <!-- za potrebe testiranja, zameniti po potrebi "zte" sa "mock" -->
+        <os>mock</os>    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
+        <data>mock</data> <!-- za potrebe testiranja, zameniti po potrebi "zte" sa "mock" -->
     </core>
 
     <os>
@@ -23,7 +23,7 @@
 	    
 	    <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
 	    <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
-	    <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="\s*([+]+)CUSD: 1,&quot;" />
+	    <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna" />
 	    <pre request="AT+CUSD=1,&quot;3&quot;,15" response="\s*([+]+)CUSD: 1,&quot;" />
 	    
 	    <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;" />
