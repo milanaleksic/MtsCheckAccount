@@ -7,6 +7,7 @@ import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
 import java.awt.*
 import java.util.jar.Manifest
+import java.awt.event.KeyEvent
 
 public class MainProcessor {
 
@@ -90,6 +91,13 @@ public class MainProcessor {
         return DataProvider.provideInformation(params, extractPort(params), closure)
     }
 
+    def File openProgramRootFile(def filename) {
+        String thisDirPath = new File(".").absolutePath
+        File thisDir = new File(thisDirPath).parentFile
+        File rootDirectory = thisDir.parentFile
+        return new File(rootDirectory.absolutePath+File.separator+filename)
+    }
+
     def showForm() {
         def swing = new SwingBuilder()
         try {
@@ -98,22 +106,89 @@ public class MainProcessor {
             println "Windows look & feel not supported"
         }
 
+        def keyPressedEventHandler = { event->
+            if (event.keyCode == KeyEvent.VK_ESCAPE) {
+                Runtime.getRuntime().exit(0)
+            }
+        }
         def frame = swing.frame(title: "MtsCheckAccount v$programVersion",
                 location: [100, 100],
                 resizable: false,
+                keyPressed: keyPressedEventHandler,
                 windowClosing: { event: System.exit(0) }) {
             panel {
                 tableLayout {
                     tr {
+                        td(colspan: 2, align: 'CENTER') {
+                            label("MtsCheckAccount v$programVersion",
+                                    font: new Font(null, Font.BOLD, 12))
+                        }
+                    }
+                    tr {
+                        td(colspan: 2, align: 'CENTER') {
+                            panel() {
+                                button("Procitaj me",
+                                    font: new Font(null, Font.BOLD, 10),
+                                    actionPerformed: {event->
+                                        File readMeFile = openProgramRootFile("ProcitajMe.txt")
+                                        if (readMeFile.exists()) {
+                                            Desktop.getDesktop().open (readMeFile)
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Tekst ProcitajMe nije dostupan. Verovatno je neophodno da reinstalirate program", 'Greska', JOptionPane.ERROR_MESSAGE)
+                                        }
+                                    },
+                                    keyPressed: keyPressedEventHandler)
+                                button("Licenca",
+                                    font: new Font(null, Font.BOLD, 10),
+                                    actionPerformed: {event->
+                                        File licenceFile = openProgramRootFile("License.txt")
+                                        if (licenceFile.exists()) {
+                                            Desktop.getDesktop().open (new File(licenceFile.absolutePath))
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Tekst licence nije dostupan. Verovatno je neophodno da reinstalirate program", 'Greska', JOptionPane.ERROR_MESSAGE)
+                                        }
+                                    },
+                                    keyPressed: keyPressedEventHandler)
+                                button("Izlaz",
+                                    font: new Font(null, Font.BOLD, 10),
+                                    actionPerformed: {event->
+                                        Runtime.getRuntime().exit(0)
+                                    },
+                                    keyPressed: keyPressedEventHandler)
+                            }
+                        }
+                    }
+                    tr {
+                        td(colspan: 2, align: 'CENTER') {
+                            label('milan.aleksic@gmail.com',
+                                    font: new Font(null, Font.BOLD, 10),
+                                    foreground: Color.BLUE,
+                                    cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
+                                    mouseClicked: {event: Desktop.getDesktop().mail('mailto:milan.aleksic@gmail.com'.toURI())})
+                        }
+                    }
+                    tr {
+                        td(colspan: 2, align: 'CENTER') {
+                            label('Posetite web stranicu programa',
+                                    font: new Font(null, Font.BOLD, 10),
+                                    foreground: Color.BLUE,
+                                    cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
+                                    mouseClicked: {event: Desktop.getDesktop().browse('http://www.milanaleksic.net/#/projects/mtscheckaccount'.toURI())})
+                        }
+                    }
+                    tr {
+                        td(colspan: 2, colfill: true) { label ' ' }
+                    }
+                    tr {
                         td { label 'Status: ' }
-                        td(colfill: true) { edStatus = textField(editable: false, text: 'Ucitavanje') }
+                        td(colfill: true) { edStatus = textField(editable: false, text: 'Ucitavanje', keyPressed: keyPressedEventHandler) }
                     }
                     tr {
                         td(colspan: 2) { label ' ' }
                     }
                     tr {
                         td { label 'Stanje: ' }
-                        td(colfill: true) { edStanje = textField(editable: false, text: "MOLIM, SACEKAJTE.......") }
+                        td(colfill: true) { edStanje = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
                     }
                     tr {
                         td(colspan: 2, colfill: true) { label ' ' }
@@ -123,44 +198,19 @@ public class MainProcessor {
                     }
                     tr {
                         td { label 'U mrezi mt:s: ' }
-                        td(colfill: true) { edUMrezi = textField(editable: false, text: "MOLIM, SACEKAJTE.......") }
+                        td(colfill: true) { edUMrezi = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
                     }
                     tr {
                         td { label 'Van mreze: ' }
-                        td(colfill: true) { edVanMreze = textField(editable: false, text: "MOLIM, SACEKAJTE.......") }
+                        td(colfill: true) { edVanMreze = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
                     }
                     tr {
                         td { label 'SMS: ' }
-                        td(colfill: true) { edSms = textField(editable: false, text: "MOLIM, SACEKAJTE.......") }
+                        td(colfill: true) { edSms = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
                     }
                     tr {
                         td() { label 'Gprs: ' }
-                        td(colfill: true) { edGprs = textField(editable: false, text: "MOLIM, SACEKAJTE.......") }
-                    }
-                    tr {
-                        td(colspan: 2, colfill: true) { label ' ' }
-                    }
-                    tr {
-                        td(colspan: 2, align: 'CENTER') {
-                            label("MtsCheckAccount v$programVersion",
-                                    font: new Font(null, Font.BOLD, 12))
-                        }
-                    }
-                    tr {
-                        td(colspan: 2, align: 'CENTER') {
-                            label('email: milan.aleksic@gmail.com',
-                                    font: new Font(null, Font.BOLD, 10),
-                                    cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
-                                    mouseClicked: {event: Desktop.getDesktop().mail('mailto:milan.aleksic@gmail.com'.toURI())})
-                        }
-                    }
-                    tr {
-                        td(colspan: 2, align: 'CENTER') {
-                            label('Posetite web stranicu programa',
-                                    font: new Font(null, Font.BOLD, 10),
-                                    cursor: Cursor.getPredefinedCursor(Cursor.HAND_CURSOR),
-                                    mouseClicked: {event: Desktop.getDesktop().browse('http://www.milanaleksic.net/#/projects/mtscheckaccount'.toURI())})
-                        }
+                        td(colfill: true) { edGprs = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
                     }
                 }
             }

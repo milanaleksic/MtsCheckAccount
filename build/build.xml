@@ -66,7 +66,7 @@
 		<jar destfile="${distro.dir}/CheckPostpaidAccount-${src.version}.jar">
 			<manifest>
 				<attribute name="Manifest-Version" value="1.0" />
-				<attribute name="Main-Class" value="net.milanaleksic.cuc.Startup" />
+				<attribute name="Main-Class" value="net.milanaleksic.mtscheckaccount.Startup" />
 				<attribute name="Implementation-Version" value="${src.version}" />
 			</manifest>
 			<fileset dir="${compile.dir}">

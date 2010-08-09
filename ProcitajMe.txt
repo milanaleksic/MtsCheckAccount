@@ -1,8 +1,16 @@
+MtsCheckAccount aplikacija
+--------------------------
+
 Detaljno uputstvo za instalaciju se odrzava na mom Web sajtu 
 zbog lakseg odrzavanja.
 
+Program koristi GNU licencu ("GPL v2.0"), koja se (kompletna) 
+nalazi pored dokumenta koji citate. Molim Vas, procitajte je, da biste
+znali Vasa prava i mogucnosti na temu upotrebe i distribuiranja ovog programa,
+kao i izvornog koda istog.
 
-Internet lokacija: http://www.milanaleksic.net/#projects-mtscheckaccount
+
+Internet lokacija: http://www.milanaleksic.net/#/projects/mtscheckaccount
 Email: milanaleksic@gmail.com
 
 
@@ -38,7 +46,7 @@ i smestam u direktorijum:
 MtsCheckAccount dodati ili u grupu uucp ili u grupu lock kako bi mogao softver 
 da pravi lock fajlove (potrebne za sinhronizaciju pristupa serijskim uredjajima).
 PRIMER: ja imam Ubuntu I koristio sam:
-	System → Administration → Users and groups 
+	System -> Administration -> Users and groups 
 kako bih dodao mog korisnika (milan) u uucp grupu.
 
 3.Virtuelni instalacioni CD modema mora biti Eject-ovan kako bi se 
