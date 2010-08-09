@@ -44,11 +44,13 @@ public class MainProcessor {
     }
 
     def readConfig() {
-        Manifest manifest = new Manifest(this.class.getResourceAsStream("/META-INF/MANIFEST.MF"))
-        java.util.jar.Attributes attributes = manifest.getMainAttributes()
-        programVersion = attributes.getValue("Implementation-Version")
-        if (!programVersion)
+        File versionFile = new File("version.txt")
+        if (versionFile.exists()) {
+            programVersion = versionFile.text.trim()
+        } else {
             programVersion = '?'
+        }
+        
         println "Mts Check Account program version: $programVersion"
         config = null
         try {
