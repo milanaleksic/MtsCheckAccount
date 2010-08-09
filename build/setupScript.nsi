@@ -42,6 +42,7 @@ Var StartMenuGroup
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "..\..\Licenses\License.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
@@ -76,6 +77,7 @@ Section -Main SEC0000
     SetOverwrite on
     SetOutPath $INSTDIR
     File install\Startup.exe
+    File install\License.txt
     File install\ProcitajMe.txt
     SetOutPath $INSTDIR\bin
     File install\bin\*
