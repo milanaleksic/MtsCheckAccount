@@ -9,7 +9,7 @@
     <os>
 	    <windows>
 	        <port>COM7</port>
-	        <descriptor location="SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum" key="0" />
+	        <descriptor location="SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum" keys="F|E|D|C|B|A|9|8|7|6|5|4|3|2|1|0" />
 	        <identifier location="SYSTEM\CurrentControlSet\Enum\{identifier}\Device Parameters" key="PortName"/>
 	    </windows>
 	    <linux>
