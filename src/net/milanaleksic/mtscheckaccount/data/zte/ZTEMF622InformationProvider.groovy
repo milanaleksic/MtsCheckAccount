@@ -67,7 +67,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
             portIdentifier = CommPortIdentifier.getPortIdentifier(port)
         } catch (Throwable t) {
             t.printStackTrace()
-            throw new RuntimeException("Proverite uz pomoc uputstva (na mom sajtu - www.milanaleksic.net) da li je port ${port} zaista onaj koji se koristi od strane modema.\nUkoliko ne uspete da resite problem, molim procitajte uputstvo na sajtu (www.milanaleksic.net) kako da ukljucite log i kako da mi isti posaljete");
+            throw new RuntimeException("Proverite uz pomoc uputstva na mom sajtu (www.milanaleksic.net) da li je port ${port} zaista onaj koji se koristi od strane modema.\nUkoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.");
         }
 
         if (portIdentifier.isCurrentlyOwned())
