@@ -16,8 +16,7 @@ Email: milanaleksic@gmail.com
 
 Instalacija - Windows
 ---------------------
-Potrebno je jednostavno pokrenuti .exe fajl intalacije i to je sve
-sto je potrebno uraditi.
+Potrebno je jednostavno pokrenuti .exe fajl instalacije.
 
 
 Pokretanje - Windows
@@ -63,4 +62,4 @@ Pokretanje - Linux
 ------------------
 Pokretanje aplikacije se vrsi tako sto se prvo doda executive flag
 	chmod +x startup
-i zatim se program moze pokrenuti pokretanjem startup skripta
+i zatim se program moze pokrenuti preko startup skripta
