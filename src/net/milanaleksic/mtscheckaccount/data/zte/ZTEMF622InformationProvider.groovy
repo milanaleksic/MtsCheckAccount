@@ -2,8 +2,11 @@ package net.milanaleksic.mtscheckaccount.data.zte
 
 import net.milanaleksic.mtscheckaccount.data.*
 import gnu.io.*
+import org.apache.commons.logging.*
 
 public class ZTEMF622InformationProvider implements InformationProvider {
+
+    private static Log log = LogFactory.getLog(ZTEMF622InformationProvider.class)
 
     public def provideInformation(params, String port, Closure closure) {
         def commPort
@@ -63,7 +66,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
     private def openModemPort(params, String port) {
         def portIdentifier, commPort
         try {
-            println "ZTEMF622 Information Provider pristupa portu ${port}"
+            log.debug "ZTEMF622 Information Provider pristupa portu ${port}"
             portIdentifier = CommPortIdentifier.getPortIdentifier(port)
         } catch (Throwable t) {
             t.printStackTrace()
@@ -83,7 +86,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
     }
 
     private def printToStream(PrintStream stream, String str) {
-        println "Saljem komandu modemu: [$str]"
+        log.debug "Saljem komandu modemu: [$str]"
         stream.print str
         stream.print '\r\n'
         stream.flush()

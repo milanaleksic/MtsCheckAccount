@@ -4,9 +4,9 @@ import net.milanaleksic.mtscheckaccount.os.Locator
 
 import groovy.util.slurpersupport.GPathResult
 
-public class WindowsLocator implements Locator {
+public class WindowsLocator extends Locator {
 
-    public String getModemLocation(GPathResult config) {
+    @Override public String getModemLocation(GPathResult config) {
         def tool = new RegistryTool()
 
         def identifier = tool.extractValueOfRegistryKey(
@@ -20,8 +20,11 @@ public class WindowsLocator implements Locator {
                 config.os.windows.identifier.@keys.text())
     }
 
-    public String getDefaultModemLocation(GPathResult config) {
+    @Override public String getDefaultModemLocation(GPathResult config) {
         return config.os.windows.port
     }
 
+    @Override int getRecognizedModem() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

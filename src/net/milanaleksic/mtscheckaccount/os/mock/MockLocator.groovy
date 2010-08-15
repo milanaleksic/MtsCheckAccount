@@ -3,16 +3,19 @@ package net.milanaleksic.mtscheckaccount.os.mock
 import groovy.util.slurpersupport.GPathResult
 import net.milanaleksic.mtscheckaccount.os.Locator
 
-public class MockLocator implements Locator {
+public class MockLocator extends Locator {
 
-    public String getModemLocation(GPathResult config) {
+    @Override public String getModemLocation(GPathResult config) {
         def port = "MOCKED_PORT"
-        println "MOCKovana lokacija modema je [$port]"
+        log.debug "MOCKovana lokacija modema je [$port]"
         return port
     }
 
-    public String getDefaultModemLocation(GPathResult config) {
+    @Override public String getDefaultModemLocation(GPathResult config) {
         return "MOCKED_PORT"
     }
 
+    @Override int getRecognizedModem() {
+        return MODEM_UNRECOGNIZED
+    }
 }
