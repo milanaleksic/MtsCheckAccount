@@ -568,7 +568,39 @@ public class PDUConverter {
         assert test == convert7BitToAscii(convertAsciiTo7Bit(test))
         assert "AA180C3602" == convertAsciiToPDU("*100#")
         assert test == convertPDUToAscii(convertAsciiToPDU(test))
-        println "All assertations passed"
+        assert """Tarifni profil: Surf Classic
+Stanje: 0.00
+Preostali besplatan saobracaj:
+Podaci (kb):7501240""" == convertPDUToAscii("D4B03C6D76A74170F9DB9C66EB40D3BADC0C1AB2C3F3797AAC98D2C36E75590782B9603005545E7ECFE961761A242ECFE1EC303DEC06CDC36FB13C3C0EAB750AE89B1C1EA741A8B538A5BBD56031190D06")
+
+        println "Assertations passed. Printing out PDU converter interace:"        
+
+        while(true) {
+            println "\n\nUnesite nesto iz menija (i bilo sta drugo za izlaz):\n"
+            println "\t(1)\tza unos PDU za prenos u ASCII string\n"
+            println "\t(2)\tza unos stringa za prenos u PDU string\n"
+            print "\t? "
+            StringBuilder builder = new StringBuilder()
+            int b = System.in.read()
+            System.in.read()
+            switch (b) {
+                case 0x0030+1:
+                    print "\nUnos PDU-a:\n\t? "
+                    while ((b=System.in.read()) != 10)
+                        builder.append ((char) b)
+                    println "Prevod: [${convertPDUToAscii(builder.toString())}]"
+                    break;
+                case 0x0030+2:
+                    print "\nUnos obicnog teksta:\n\t? "
+                    while ((b=System.in.read()) != 10)
+                        builder.append ((char) b)
+                    println "Prevod: [${convertAsciiToPDU(builder.toString())}]"
+                    break;
+                default:
+                    return;
+            }
+        }
+
     }
 
 }
