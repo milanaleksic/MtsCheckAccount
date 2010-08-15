@@ -35,7 +35,7 @@ public class MainProcessor {
             Socket clientSocket = null
             try {
                 clientSocket = new Socket("www.google.com", 80)
-                log.error 'Internet JESTE dostupan'
+                log.warn 'Internet JESTE dostupan'
                 JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
                 return
             } catch (IOException exc) {
@@ -231,7 +231,7 @@ public class MainProcessor {
         try {
             showForm()
             provide(config) { info ->
-                log.info info
+                log.info "Setting status text: [$info]"
                 if (info instanceof String)
                     edStatus.text = info
                 else if (info instanceof InformationBean) {
