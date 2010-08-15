@@ -3,8 +3,11 @@ package net.milanaleksic.mtscheckaccount.os
 import net.milanaleksic.mtscheckaccount.os.win.WindowsLocator
 import net.milanaleksic.mtscheckaccount.os.linux.LinuxLocator
 import net.milanaleksic.mtscheckaccount.os.mock.MockLocator
+import org.apache.commons.logging.*
 
 public class LocatorFactory {
+
+    private static Log log = LogFactory.getLog(LocatorFactory.class)
 
     public static Locator fromConfig(config) {
         switch (config.core.os.toString()) {
@@ -19,7 +22,7 @@ public class LocatorFactory {
 
     public static Locator createOSLocator() {
         def osname = System.getProperty("os.name").toLowerCase()
-        println "os.name=${osname}"
+        log.debug "os.name=${osname}"
         if (osname == "linux")
             return new LinuxLocator()
         else if (osname.indexOf("windows") != -1)

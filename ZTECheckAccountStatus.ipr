@@ -236,6 +236,13 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/bin">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://mtscheckaccount.svn.sourceforge.net/svnroot/mtscheckaccount/src" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="mySupportsUserInfoFilter" value="true" />

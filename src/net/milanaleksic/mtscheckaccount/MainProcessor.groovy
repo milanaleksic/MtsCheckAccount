@@ -1,5 +1,6 @@
 package net.milanaleksic.mtscheckaccount
 
+import org.apache.commons.logging.*
 import net.milanaleksic.mtscheckaccount.data.*;
 import net.milanaleksic.mtscheckaccount.os.*;
 
@@ -10,6 +11,8 @@ import java.awt.event.KeyEvent
 import javax.swing.UIManager
 
 public class MainProcessor {
+
+    private static Log log = LogFactory.getLog(MainProcessor.class)
 
     InformationProvider DataProvider
     Locator Locator
@@ -32,11 +35,11 @@ public class MainProcessor {
             Socket clientSocket = null
             try {
                 clientSocket = new Socket("www.google.com", 80)
-                println 'Internet JESTE dostupan'
+                log.error 'Internet JESTE dostupan'
                 JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
                 return
             } catch (IOException exc) {
-                println 'Internet nije dostupan'
+                log.debug 'Internet nije dostupan'
             } finally {
                 if (clientSocket)
                     clientSocket.close()
@@ -55,14 +58,13 @@ public class MainProcessor {
             programVersion = '?'
         }
         
-        println "Mts Check Account program version: $programVersion"
+        log.info "Mts Check Account program version: $programVersion"
         config = null
         try {
             config = new XmlSlurper().parse('config.xml')
         }
         catch (Throwable t) {
-            t.printStackTrace()
-            println 'Greska - nisam uspeo da otvorim konfiguraciju'
+            log.error ('Greska - nisam uspeo da otvorim konfiguraciju', t)
             System.exit(1)
         }
         return config
@@ -84,7 +86,7 @@ public class MainProcessor {
             if (!manualPort)
                 manualPort = Locator.getDefaultModemLocation(params)
             if (!manualPort) {
-                println "Neuspesno rucno postavljen port, a takodje ni podrazumevana konfiguracija nije bila dobra"
+                log.error("Neuspesno rucno postavljen port, a takodje ni podrazumevana konfiguracija nije bila dobra")
                 System.exit(2)
             }
             return manualPort
@@ -109,7 +111,7 @@ public class MainProcessor {
         try {
             UIManager.setLookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
         } catch (t) {
-            println "Windows look & feel not supported"
+            log.warn "Windows look & feel not supported"
         }
 
         def keyPressedEventHandler = { event->
@@ -229,7 +231,7 @@ public class MainProcessor {
         try {
             showForm()
             provide(config) { info ->
-                println info
+                log.info info
                 if (info instanceof String)
                     edStatus.text = info
                 else if (info instanceof InformationBean) {

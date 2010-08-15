@@ -1,8 +1,11 @@
 package net.milanaleksic.mtscheckaccount.data.zte
 
 import net.milanaleksic.mtscheckaccount.util.ThreadExcHandler
+import org.apache.commons.logging.*
 
 public class ZTECommPortReader implements Runnable {
+
+    private static Log log = LogFactory.getLog(ZTECommPortReader.class)
 
     private def InputStream input
 
@@ -25,7 +28,7 @@ public class ZTECommPortReader implements Runnable {
                 if (whatToWaitFor && lastRead =~ whatToWaitFor)
                     barrierAlreadyCrossed = true
 
-                println "[$lastRead]"
+                log.debug "[$lastRead]"
 
                 if (Shutdown)
                     return
