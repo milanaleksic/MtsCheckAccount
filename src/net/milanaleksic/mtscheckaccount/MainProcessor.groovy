@@ -8,14 +8,13 @@ import groovy.swing.SwingBuilder
 import javax.swing.JOptionPane
 import java.awt.*
 import java.awt.event.KeyEvent
-import javax.swing.UIManager
+import net.milanaleksic.mtscheckaccount.util.ApplicationUtil
 
 public class MainProcessor {
 
     private static Log log = LogFactory.getLog(MainProcessor.class)
 
-    InformationProvider DataProvider
-    Locator Locator
+    def InformationProvider DataProvider
 
     def edStanje, edUMrezi, edVanMreze, edSms, edGprs
     def edStatus
@@ -23,96 +22,35 @@ public class MainProcessor {
     def config
     def programVersion
     
-    MainProcessor() {
+    public MainProcessor() {
+        ApplicationUtil.startInternetConnectibilityThread()
         readConfig()
-        activateInternetConnectibilityThread()
-        Locator = LocatorFactory.fromConfig(config)
         DataProvider = ProviderFactory.fromConfig(config)
-    }
-
-    def activateInternetConnectibilityThread() {
-        def internetAccessRunnable = {
-            Socket clientSocket = null
-            try {
-                clientSocket = new Socket("www.google.com", 80)
-                log.warn 'Internet JESTE dostupan'
-                JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
-                return
-            } catch (IOException exc) {
-                log.debug 'Internet nije dostupan'
-            } finally {
-                if (clientSocket)
-                    clientSocket.close()
-            }
-        }
-        def internetAccessThread = new Thread(internetAccessRunnable)
-        internetAccessThread.daemon = true
-        internetAccessThread.start()
+        DataProvider.locator = LocatorFactory.fromConfig(config)
     }
 
     def readConfig() {
-        File versionFile = new File("version.txt")
-        if (versionFile.exists()) {
-            programVersion = versionFile.text.trim()
-        } else {
-            programVersion = '?'
-        }
-        
+        programVersion = ApplicationUtil.getApplicationVersion()
         log.info "Mts Check Account program version: $programVersion"
         config = null
         try {
             config = new XmlSlurper().parse('config.xml')
         }
         catch (Throwable t) {
-            log.error ('Greska - nisam uspeo da otvorim konfiguraciju', t)
-            System.exit(1)
+            throw new RuntimeException('Greska - nisam uspeo da otvorim konfiguraciju', t)
         }
         return config
-    }
-
-    def extractPort(params) {
-        def port
-        try {
-            port = Locator.getModemLocation(params)
-            if (!port)
-                throw new IllegalArgumentException("Automatska pretraga za modemom nije urodila plodom")
-            return port
-        } catch (t) {
-            def manualPort = JOptionPane.showInputDialog(null,
-                    'Na zalost, nisam bio u stanju da automatski saznam koji port koristi modem.\n' +
-                            'Procitajte uputstvo kako da dodjete do ove informacije pa je unesite ovde (npr. COM7):',
-                    'Nepoznat port modema',
-                    JOptionPane.INFORMATION_MESSAGE)
-            if (!manualPort)
-                manualPort = Locator.getDefaultModemLocation(params)
-            if (!manualPort) {
-                log.error("Neuspesno rucno postavljen port, a takodje ni podrazumevana konfiguracija nije bila dobra")
-                System.exit(2)
-            }
-            return manualPort
-        }
     }
 
     def provide(params, Closure closure) {
         if (!params)
             return null
-        return DataProvider.provideInformation(params, extractPort(params), closure)
-    }
-
-    def File openProgramRootFile(def filename) {
-        String thisDirPath = new File(".").absolutePath
-        File thisDir = new File(thisDirPath).parentFile
-        File rootDirectory = thisDir.parentFile
-        return new File(rootDirectory.absolutePath+File.separator+filename)
+        return DataProvider.provideInformation(params, closure)
     }
 
     def showForm() {
         def swing = new SwingBuilder()
-        try {
-            UIManager.setLookAndFeel('com.sun.java.swing.plaf.windows.WindowsLookAndFeel')
-        } catch (t) {
-            log.warn "Windows look & feel not supported"
-        }
+        ApplicationUtil.setWindowsTheme()
 
         def keyPressedEventHandler = { event->
             if (event.keyCode == KeyEvent.VK_ESCAPE) {
@@ -138,7 +76,7 @@ public class MainProcessor {
                                 button("Procitaj me",
                                     font: new Font(null, Font.BOLD, 10),
                                     actionPerformed: {event->
-                                        File readMeFile = openProgramRootFile("ProcitajMe.txt")
+                                        File readMeFile = ApplicationUtil.openProgramRootFile("ProcitajMe.txt")
                                         if (readMeFile.exists()) {
                                             Desktop.getDesktop().open (readMeFile)
                                         } else {
@@ -149,7 +87,7 @@ public class MainProcessor {
                                 button("Licenca",
                                     font: new Font(null, Font.BOLD, 10),
                                     actionPerformed: {event->
-                                        File licenceFile = openProgramRootFile("License.txt")
+                                        File licenceFile = ApplicationUtil.openProgramRootFile("License.txt")
                                         if (licenceFile.exists()) {
                                             Desktop.getDesktop().open (new File(licenceFile.absolutePath))
                                         } else {
@@ -188,13 +126,6 @@ public class MainProcessor {
                         td(colspan: 2, colfill: true) { label ' ' }
                     }
                     tr {
-                        td { label 'Status: ' }
-                        td(colfill: true) { edStatus = textField(editable: false, text: 'Ucitavanje', font: new Font(null, Font.BOLD, 12), keyPressed: keyPressedEventHandler) }
-                    }
-                    tr {
-                        td(colspan: 2) { label ' ' }
-                    }
-                    tr {
                         td { label 'Stanje: ' }
                         td(colfill: true) { edStanje = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
                     }
@@ -219,6 +150,12 @@ public class MainProcessor {
                     tr {
                         td() { label 'Gprs: ' }
                         td(colfill: true) { edGprs = textField(editable: false, text: "MOLIM, SACEKAJTE.......", keyPressed: keyPressedEventHandler) }
+                    }
+                    tr {
+                        td(colspan: 2) { label ' ' }
+                    }
+                    tr {
+                        td(colspan: 2, colfill: true) { edStatus = textField(editable: false, text: 'Ucitavanje', font: new Font(null, Font.BOLD, 12), keyPressed: keyPressedEventHandler) }
                     }
                 }
             }

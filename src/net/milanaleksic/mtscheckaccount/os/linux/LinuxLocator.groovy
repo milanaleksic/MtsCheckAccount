@@ -6,7 +6,12 @@ import org.apache.commons.logging.*
 
 public class LinuxLocator extends Locator {
 
-    @Override public String getModemLocation(GPathResult config) {
+    public LinuxLocator(GPathResult config) {
+        super(config)
+    }
+
+    //TODO: uzmi u obzir konfiguraciju (ime uredjaja za HAL pretragu)
+    @Override protected String[] doGetModemLocationForDevice(GPathResult device) {
         def found = 'hal-find-by-capability --capability modem'.execute().text.trim()
 
         log.debug "Pronadjeni modem uredjaji:\n ${found}"
@@ -28,11 +33,4 @@ public class LinuxLocator extends Locator {
         return device_file
     }
 
-    @Override public String getDefaultModemLocation(GPathResult config) {
-        return config.os.linux.port
-    }
-
-    @Override int getRecognizedModem() {
-        throw new IllegalStateException("NYI")
-    }
 }

@@ -2,9 +2,9 @@ package net.milanaleksic.mtscheckaccount.data.mock
 
 import net.milanaleksic.mtscheckaccount.data.*
 
-public class MockInformationProvider implements InformationProvider {
+public class MockInformationProvider extends InformationProvider {
 
-    public def provideInformation(params, String port, Closure closure) {
+    public def provideInformation(params, Closure closure) {
         closure 'Mozete ugasiti program'
 
         assert """

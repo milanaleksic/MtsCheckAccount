@@ -10,29 +10,26 @@ public class LocatorFactory {
     private static Log log = LogFactory.getLog(LocatorFactory.class)
 
     public static Locator fromConfig(config) {
-        switch (config.core.os.toString()) {
-            case "real":
-                return LocatorFactory.createOSLocator()
-            case "mock":
-                return LocatorFactory.createMockLocator()
-            default:
-                throw new IllegalArgumentException("Nepoznat os - ${config.core.os.toString()}")
-        }
+        if (config.devices.@mock=="true")
+            return LocatorFactory.createMockLocator(config)
+        else
+            return LocatorFactory.createOSLocator(config)
     }
 
-    public static Locator createOSLocator() {
+    public static Locator createOSLocator(config) {
         def osname = System.getProperty("os.name").toLowerCase()
         log.debug "os.name=${osname}"
         if (osname == "linux")
-            return new LinuxLocator()
+            return new LinuxLocator(config)
         else if (osname.indexOf("windows") != -1)
-            return new WindowsLocator()
+            return new WindowsLocator(config)
         else
             throw new IllegalStateException("Operativni sistem (${osname}) nije podrzan :(")
     }
 
-    public static Locator createMockLocator() {
-        return new MockLocator()
+    public static Locator createMockLocator(config) {
+        log.warn 'Using MOCK locator!'
+        return new MockLocator(config)
     }
 
 }

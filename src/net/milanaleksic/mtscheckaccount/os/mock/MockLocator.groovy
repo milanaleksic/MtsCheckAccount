@@ -5,17 +5,14 @@ import net.milanaleksic.mtscheckaccount.os.Locator
 
 public class MockLocator extends Locator {
 
-    @Override public String getModemLocation(GPathResult config) {
+    public MockLocator(GPathResult config) {
+        super(config)
+    }
+
+    @Override protected String[] doGetModemLocationForDevice(GPathResult device) {
         def port = "MOCKED_PORT"
         log.debug "MOCKovana lokacija modema je [$port]"
-        return port
+        return [port]
     }
 
-    @Override public String getDefaultModemLocation(GPathResult config) {
-        return "MOCKED_PORT"
-    }
-
-    @Override int getRecognizedModem() {
-        return MODEM_UNRECOGNIZED
-    }
 }
