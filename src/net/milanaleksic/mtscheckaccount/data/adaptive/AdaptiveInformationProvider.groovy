@@ -2,14 +2,24 @@ package net.milanaleksic.mtscheckaccount.data.adaptive
 
 import net.milanaleksic.mtscheckaccount.data.*
 import gnu.io.*
-import org.apache.commons.logging.*
+import groovy.util.slurpersupport.GPathResult
+import net.milanaleksic.mtscheckaccount.util.PDUConverter
 
 public class AdaptiveInformationProvider extends InformationProvider {
 
-    private static Log log = LogFactory.getLog(AdaptiveInformationProvider.class)
+    def GPathResult params
 
-    public def provideInformation(params, Closure closure) {
+    public AdaptiveInformationProvider(GPathResult config) {
+        super(config)
+    }
+
+    public def provideInformation(Closure closure) {
         log.debug "Adaptive Information Provider dohvata informacije za modem ${locator.recognizedModemId} sa porta ${locator.recognizedModemPort}"
+        fetchInfoFromLocator()
+        executeProcessing(closure)
+    }
+
+    private def executeProcessing(Closure closure) {
         def commPort
         def reader = null
         try {
@@ -20,36 +30,40 @@ public class AdaptiveInformationProvider extends InformationProvider {
 
             (new Thread(reader = new PortReader(input: input))).start()
 
-            closure 'Proveravam status modema...'
-            reader.barrier = params.data.check.@response
-            printToStream(str, params.data.check.@request.text())
+            if (params.check.size() != 0) {
+                closure 'Proveravam status modema...'
+                reader.barrier = preProcess(params.check.@response)
+                printToStream(str, preProcess(params.check.@request))
 
-            if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
-                closure 'Palim modem...'
-                reader.barrier = params.data.start.@response
-                printToStream(str, params.data.start.@request.text())
-                reader.haltUntilBarrierCrossed()
-                Thread.sleep(5000)
+                if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
+                    closure 'Palim modem...'
+                    reader.barrier = preProcess(params.start.@response)
+                    printToStream(str, preProcess(params.start.@request))
+                    reader.haltUntilBarrierCrossed()
+                    Thread.sleep(5000)
+                }
             }
 
             closure 'Pricam...'
-            params.data.pre.each {
-                reader.barrier = it.@response
-                printToStream(str, it.@request.text())
+            params.pre.each {
+                reader.barrier = preProcess(it.@response)
+                printToStream(str, preProcess(it.@request))
                 reader.haltUntilBarrierCrossed()
             }
 
             closure 'Saljem glavni zahtev...'
-            reader.barrier = params.data.main.@response
-            printToStream(str, params.data.main.@request.text())
+            reader.barrier = preProcess(params.main.@response)
+            printToStream(str, preProcess(params.main.@request))
             def response = reader.haltUntilBarrierCrossed()
             closure new MTSExtract().extract(response)
 
-            closure 'Gasim modem...'
-            params.data.post.each {
-                reader.barrier = it.@response
-                printToStream(str, it.@request.text())
-                reader.haltUntilBarrierCrossed()
+            if (params.post.size() != 0) {
+                closure 'Gasim modem...'
+                params.post.each {
+                    reader.barrier = preProcess(it.@response)
+                    printToStream(str, preProcess(it.@request))
+                    reader.haltUntilBarrierCrossed()
+                }
             }
 
             closure 'Mozete zatvoriti program'
@@ -91,6 +105,20 @@ public class AdaptiveInformationProvider extends InformationProvider {
         stream.print str
         stream.print '\r\n'
         stream.flush()
+    }
+
+    private def fetchInfoFromLocator() {
+        config.data.device.each { device ->
+            if (device.@id.toString() == locator.recognizedModemId) {
+                params = device
+            }
+        }
+        return params
+    }
+
+    private def String preProcess(str) {
+        //TODO: zameni {{str}} sa PDU(str)
+        return str.text().replaceAll("\\{\\{(.*)\\}\\}", "???\$1???")
     }
 
 }

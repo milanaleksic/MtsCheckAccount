@@ -10,18 +10,18 @@ public class ProviderFactory {
 
     public static InformationProvider fromConfig(config) {
         if (config.data.@mock == "true")
-            return ProviderFactory.createMockInformationProvider()
+            return ProviderFactory.createMockInformationProvider(config)
         else
-            return ProviderFactory.createZTEMF622InformationProvider()
+            return ProviderFactory.createZTEMF622InformationProvider(config)
     }
 
-    public static InformationProvider createZTEMF622InformationProvider() {
-        return new AdaptiveInformationProvider()
+    public static InformationProvider createZTEMF622InformationProvider(config) {
+        return new AdaptiveInformationProvider(config)
     }
 
-    public static InformationProvider createMockInformationProvider() {
+    public static InformationProvider createMockInformationProvider(config) {
         log.warn 'Using MOCK information provider!'
-        return new MockInformationProvider()
+        return new MockInformationProvider(config)
     }
 
 }
