@@ -26,9 +26,9 @@ public abstract class Locator {
         }
         log.info "Prepoznate lokacije modema: $recognizedModems"
         validateFoundModems(recognizedModems)
-        recognizedModems.each { key ->
-            recognizedModemId = key
-            recognizedModemPort = recognizedModems[key]
+        recognizedModems.each { entry ->
+            recognizedModemId = entry.key
+            recognizedModemPort = entry.value[0]
         }
     }
 

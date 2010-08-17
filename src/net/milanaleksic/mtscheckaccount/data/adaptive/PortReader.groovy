@@ -2,6 +2,7 @@ package net.milanaleksic.mtscheckaccount.data.adaptive
 
 import net.milanaleksic.mtscheckaccount.util.ThreadExcHandler
 import org.apache.commons.logging.*
+import net.milanaleksic.mtscheckaccount.util.PDUConverter
 
 public class PortReader implements Runnable {
 

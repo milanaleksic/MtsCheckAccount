@@ -16,15 +16,13 @@ public class MainProcessor {
 
     def InformationProvider DataProvider
 
-    def edStanje, edUMrezi, edVanMreze, edSms, edGprs
-    def edStatus
+    def edStanje, edUMrezi, edVanMreze, edSms, edGprs, edStatus
 
-    def config
     def programVersion
     
     public MainProcessor() {
         ApplicationUtil.startInternetConnectibilityThread()
-        readConfig()
+        def config = readConfig()
         DataProvider = ProviderFactory.fromConfig(config)
         DataProvider.locator = LocatorFactory.fromConfig(config)
     }
@@ -32,7 +30,7 @@ public class MainProcessor {
     def readConfig() {
         programVersion = ApplicationUtil.getApplicationVersion()
         log.info "Mts Check Account program version: $programVersion"
-        config = null
+        def config
         try {
             config = new XmlSlurper().parse('config.xml')
         }
@@ -42,10 +40,8 @@ public class MainProcessor {
         return config
     }
 
-    def provide(params, Closure closure) {
-        if (!params)
-            return null
-        return DataProvider.provideInformation(params, closure)
+    def provide(Closure closure) {
+        return DataProvider.provideInformation(closure)
     }
 
     def showForm() {
@@ -167,7 +163,7 @@ public class MainProcessor {
     def start() {
         try {
             showForm()
-            provide(config) { info ->
+            provide { info ->
                 log.info "Setting status text: [$info]"
                 if (info instanceof String)
                     edStatus.text = info

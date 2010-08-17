@@ -1,10 +1,15 @@
 package net.milanaleksic.mtscheckaccount.data.mock
 
 import net.milanaleksic.mtscheckaccount.data.*
+import groovy.util.slurpersupport.GPathResult
 
 public class MockInformationProvider extends InformationProvider {
 
-    public def provideInformation(params, Closure closure) {
+    public MockInformationProvider(GPathResult config) {
+        super(config)
+    }
+
+    public def provideInformation(Closure closure) {
         closure 'Mozete ugasiti program'
 
         assert """

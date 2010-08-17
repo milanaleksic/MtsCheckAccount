@@ -12,14 +12,15 @@
         </device>
     </devices>
 
+    <!-- {{ }} - shorthand for "convert to PDU before using in program" -->
     <data mock="false">
-        <device id="HUAWEI E1550" usesPDU="true">
-            <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"/>
-            <pre request="AT+CUSD=1,&quot;2&quot;,15" response="\s*([+]+)CUSD: 1,&quot;"/>
+        <device id="HUAWEI E1550">
+            <pre request="AT+CUSD=1,&quot;{{*797#}}&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*{{2\. Stanje racuna}}"/>
+            <pre request="AT+CUSD=1,&quot;{{2}}&quot;,15" response="\s*([+]+)CUSD: 1,&quot;"/>
 
-            <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;"/>
+            <main request="AT+CUSD=1,&quot;{{1}}&quot;,15" response="\s*([+]+)CUSD: [01],&quot;"/>
         </device>
-        <device id="ZTE MF622" usesPDU="false">
+        <device id="ZTE MF622">
             <check request="AT+ZOPRT?" response="([+]+)ZOPRT"/>
             <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR"/>
 
