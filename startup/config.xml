@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mts-check-account-config>
 
-    <core>
-        <os>real</os>    <!-- za potrebe testiranja, zameniti po potrebi "real" sa "mock" -->
-        <data>zte</data> <!-- za potrebe testiranja, zameniti po potrebi "zte" sa "mock" -->
-    </core>
+    <devices mock="false">
+        <device id="HUAWEI E1550">
+            <windows deviceId="hwdatacard" deviceFriendlyNameRegEx="HUAWEI Mobile Connect - 3G PC UI Interface.*" />
+            <linux deviceId="???" />
+        </device>
+        <device id="ZTE MF622">
+            <windows deviceId="ZTEusbmdm6ka" deviceFriendlyNameRegEx="ZTE Proprietary USB Modem.*" />
+            <linux deviceId="ZTE CDMA Technologies MSM" />
+        </device>
+    </devices>
 
-    <os>
-	    <windows>
-	        <port>COM7</port>
-	        <descriptor location="SYSTEM\CurrentControlSet\Services\ZTEusbmdm6k\Enum" keys="F|E|D|C|B|A|9|8|7|6|5|4|3|2|1|0" />
-	        <identifier location="SYSTEM\CurrentControlSet\Enum\{identifier}\Device Parameters" key="PortName"/>
-	    </windows>
-	    <linux>
-	        <port>/dev/ttyUSB0</port>
-	    </linux>
-    </os>
-	
-	<data>
-		<check request="AT+ZOPRT?" response="([+]+)ZOPRT" />
-	    <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR" />
-	    
-	    <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
-	    <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;" />
-	    <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna" />
-	    <pre request="AT+CUSD=1,&quot;2&quot;,15" response="\s*([+]+)CUSD: 1,&quot;" />
-	    
-	    <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;" />
-	    
-	    <post request="AT+CUSD=0" response="\s*OK\s*" />
-	    <post request="AT+ZOPRT=6" response="\s*OK\s*" />
-	</data>
-    
+    <data mock="false">
+        <device id="HUAWEI E1550" usesPDU="true">
+            <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"/>
+            <pre request="AT+CUSD=1,&quot;2&quot;,15" response="\s*([+]+)CUSD: 1,&quot;"/>
+
+            <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;"/>
+        </device>
+        <device id="ZTE MF622" usesPDU="false">
+            <check request="AT+ZOPRT?" response="([+]+)ZOPRT"/>
+            <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR"/>
+
+            <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;"/>
+            <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;"/>
+            <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"/>
+            <pre request="AT+CUSD=1,&quot;2&quot;,15" response="\s*([+]+)CUSD: 1,&quot;"/>
+
+            <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;"/>
+
+            <post request="AT+CUSD=0" response="\s*OK\s*"/>
+            <post request="AT+ZOPRT=6" response="\s*OK\s*"/>
+        </device>
+    </data>
+
 </mts-check-account-config>

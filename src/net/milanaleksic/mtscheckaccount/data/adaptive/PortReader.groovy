@@ -1,11 +1,11 @@
-package net.milanaleksic.mtscheckaccount.data.zte
+package net.milanaleksic.mtscheckaccount.data.adaptive
 
 import net.milanaleksic.mtscheckaccount.util.ThreadExcHandler
 import org.apache.commons.logging.*
 
-public class ZTECommPortReader implements Runnable {
+public class PortReader implements Runnable {
 
-    private static Log log = LogFactory.getLog(ZTECommPortReader.class)
+    private static Log log = LogFactory.getLog(PortReader.class)
 
     private def InputStream input
 

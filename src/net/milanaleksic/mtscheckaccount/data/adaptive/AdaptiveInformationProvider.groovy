@@ -1,23 +1,24 @@
-package net.milanaleksic.mtscheckaccount.data.zte
+package net.milanaleksic.mtscheckaccount.data.adaptive
 
 import net.milanaleksic.mtscheckaccount.data.*
 import gnu.io.*
 import org.apache.commons.logging.*
 
-public class ZTEMF622InformationProvider implements InformationProvider {
+public class AdaptiveInformationProvider extends InformationProvider {
 
-    private static Log log = LogFactory.getLog(ZTEMF622InformationProvider.class)
+    private static Log log = LogFactory.getLog(AdaptiveInformationProvider.class)
 
-    public def provideInformation(params, String port, Closure closure) {
+    public def provideInformation(params, Closure closure) {
+        log.debug "Adaptive Information Provider dohvata informacije za modem ${locator.recognizedModemId} sa porta ${locator.recognizedModemPort}"
         def commPort
         def reader = null
         try {
-            commPort = openModemPort(params, port)
+            commPort = openModemPort(params, locator.recognizedModemPort)
             def input = commPort.getInputStream()
             def output = commPort.getOutputStream()
             def str = new PrintStream(output)
 
-            (new Thread(reader = new ZTECommPortReader(input: input))).start()
+            (new Thread(reader = new PortReader(input: input))).start()
 
             closure 'Proveravam status modema...'
             reader.barrier = params.data.check.@response
@@ -66,7 +67,7 @@ public class ZTEMF622InformationProvider implements InformationProvider {
     private def openModemPort(params, String port) {
         def portIdentifier, commPort
         try {
-            log.debug "ZTEMF622 Information Provider pristupa portu ${port}"
+            log.debug "Adaptive Information Provider pristupa portu ${port}"
             portIdentifier = CommPortIdentifier.getPortIdentifier(port)
         } catch (Throwable t) {
             t.printStackTrace()
