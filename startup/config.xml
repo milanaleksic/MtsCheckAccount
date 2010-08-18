@@ -15,24 +15,24 @@
     <!-- {{ }} - shorthand for "convert to PDU before using in program" -->
     <data mock="false">
         <device id="HUAWEI E1550">
-            <pre request="AT+CUSD=1,&quot;{{*797#}}&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*{{2\. Stanje racuna}}"/>
-            <pre request="AT+CUSD=1,&quot;{{2}}&quot;,15" response="\s*([+]+)CUSD: 1,&quot;"/>
+            <command request="AT+CUSD=1,&quot;{{*797#}}&quot;,15" barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*{{2\. Stanje racuna}}"/>
+            <command request="AT+CUSD=1,&quot;{{2}}&quot;,15" barrier="\s*([+]+)CUSD: 1,&quot;"/>
 
-            <main request="AT+CUSD=1,&quot;{{1}}&quot;,15" response="\s*([+]+)CUSD: [01],&quot;"/>
+            <main request="AT+CUSD=1,&quot;{{1}}&quot;,15" barrier="\s*([+]+)CUSD: [01],&quot;"/>
         </device>
         <device id="ZTE MF622">
-            <check request="AT+ZOPRT?" response="([+]+)ZOPRT"/>
-            <start request="AT+ZOPRT=5" response="\s*([+]+)ZPASR"/>
+            <check request="AT+ZOPRT?" barrier="([+]+)ZOPRT"/>
+            <start request="AT+ZOPRT=5" barrier="\s*([+]+)ZPASR"/>
 
-            <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;"/>
-            <pre request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: 0,&quot;"/>
-            <pre request="AT+CUSD=1,&quot;*797#&quot;,15" response="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"/>
-            <pre request="AT+CUSD=1,&quot;2&quot;,15" response="\s*([+]+)CUSD: 1,&quot;"/>
+            <command request="AT+CUSD=1,&quot;1&quot;,15" barrier="\s*([+]+)CUSD: 0,&quot;"/>
+            <command request="AT+CUSD=1,&quot;1&quot;,15" barrier="\s*([+]+)CUSD: 0,&quot;"/>
+            <command request="AT+CUSD=1,&quot;*797#&quot;,15" barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"/>
+            <command request="AT+CUSD=1,&quot;2&quot;,15" barrier="\s*([+]+)CUSD: 1,&quot;"/>
 
-            <main request="AT+CUSD=1,&quot;1&quot;,15" response="\s*([+]+)CUSD: [01],&quot;"/>
+            <main request="AT+CUSD=1,&quot;1&quot;,15" barrier="\s*([+]+)CUSD: [01],&quot;"/>
 
-            <post request="AT+CUSD=0" response="\s*OK\s*"/>
-            <post request="AT+ZOPRT=6" response="\s*OK\s*"/>
+            <post request="AT+CUSD=0" barrier="\s*OK\s*"/>
+            <post request="AT+ZOPRT=6" barrier="\s*OK\s*"/>
         </device>
     </data>
 

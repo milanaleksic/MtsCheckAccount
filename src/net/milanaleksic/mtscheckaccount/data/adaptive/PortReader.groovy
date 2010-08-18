@@ -36,7 +36,8 @@ public class PortReader implements Runnable {
             }
         }
         catch (IOException e) {
-            e.printStackTrace()
+            log.error("IO Greska u toku razgovora sa modemom", e)
+            System.exit(2)
         }
     }
 

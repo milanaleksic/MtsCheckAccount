@@ -188,10 +188,10 @@ public class MainProcessor {
                 }
             }
         } catch (Throwable t) {
-            t.printStackTrace()
             edStatus.text = 'GRESKA U OBRADI!'
             edUMrezi.text = edStanje.text = edVanMreze.text = edSms.text = edGprs.text = '?'
-            JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+            log.error('Greska u obradi', t)
+            JOptionPane.showMessageDialog(null, "Greska u obradi (${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
         }
     }
 

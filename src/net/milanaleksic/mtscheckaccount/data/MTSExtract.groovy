@@ -26,8 +26,7 @@ public class MTSExtract {
                 }
             }
         } catch (Throwable t) {
-            JOptionPane.showMessageDialog(null, "(${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
-            t.printStackTrace()
+            throw new RuntimeException("Problem u toku parsiranja odgovora za segmentima")
         }
         return result
     }
