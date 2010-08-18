@@ -1,6 +1,12 @@
 package net.milanaleksic.mtscheckaccount
 
+import org.apache.commons.logging.*
 import org.apache.log4j.xml.DOMConfigurator
 
 DOMConfigurator.configure "log4j.xml"
-new MainProcessor().start()
+try {
+    new MainProcessor().start()
+} catch(Throwable t) {
+    LogFactory.getLog(this.class).error("Startup je uhvatio exception zbog kojeg ce se ugasiti", t)
+}
+
