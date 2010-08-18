@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     Configuration file for MtsCheckAccount application.
+    
+    Inside elements of /mts-check-account-config/data/device/[check,start,command,main] 
+    it is allowed to use {{ }} as a directive for "convert to PDU before use"
+    
     Licensed through GPL.
     Author: Milan Aleksic (milan dot aleksic at gmail dot com)
 -->
-<mts-check-account-config>
+<mts-check-account-config  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="config.xsd">
 
     <devices mock="false">
         <device id="HUAWEI E1550">
@@ -17,7 +21,6 @@
         </device>
     </devices>
 
-    <!-- {{ }} - shorthand for "convert to PDU before use" -->
     <data mock="false">
         <device id="HUAWEI E1550">
             <command
@@ -31,6 +34,7 @@
             <main
                     request="AT+CUSD=1,&quot;{{1}}&quot;,15"
                     barrier="\s*([+]+)CUSD: [01],&quot;"
+                    responseIsPDUEncoded="true"
             />
         </device>
         <device id="ZTE MF622">
@@ -62,6 +66,7 @@
             <main
                     request="AT+CUSD=1,&quot;1&quot;,15"
                     barrier="\s*([+]+)CUSD: [01],&quot;"
+                    responseIsPDUEncoded="false"
             />
             <command
                     request="AT+CUSD=0"
