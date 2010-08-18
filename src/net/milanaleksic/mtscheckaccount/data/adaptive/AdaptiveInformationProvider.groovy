@@ -55,6 +55,7 @@ public class AdaptiveInformationProvider extends InformationProvider {
             reader.barrier = preProcessAttribute(params.main.@barrier)
             printToStream(str, preProcessAttribute(params.main.@request))
             def response = reader.haltUntilBarrierCrossed()
+            //TODO: morace da se prosledi responseIsPDUEncoded atribut kako bi MTSExtract mogao da dekoduje odgovor
             closure new MTSExtract().extract(response)
 
             if (params.command.size() != 0) {
