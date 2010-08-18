@@ -32,12 +32,12 @@ public class AdaptiveInformationProvider extends InformationProvider {
 
             if (params.check.size() != 0) {
                 closure 'Proveravam status modema...'
-                reader.barrier = preProcessAttribute(params.check.@response)
+                reader.barrier = preProcessAttribute(params.check.@barrier)
                 printToStream(str, preProcessAttribute(params.check.@request))
 
                 if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
                     closure 'Palim modem...'
-                    reader.barrier = preProcessAttribute(params.start.@response)
+                    reader.barrier = preProcessAttribute(params.start.@barrier)
                     printToStream(str, preProcessAttribute(params.start.@request))
                     reader.haltUntilBarrierCrossed()
                     Thread.sleep(5000)
@@ -45,14 +45,14 @@ public class AdaptiveInformationProvider extends InformationProvider {
             }
 
             closure 'Pricam...'
-            params.pre.each {
-                reader.barrier = preProcessAttribute(it.@response)
+            params.command.each {
+                reader.barrier = preProcessAttribute(it.@barrier)
                 printToStream(str, preProcessAttribute(it.@request))
                 reader.haltUntilBarrierCrossed()
             }
 
             closure 'Saljem glavni zahtev...'
-            reader.barrier = preProcessAttribute(params.main.@response)
+            reader.barrier = preProcessAttribute(params.main.@barrier)
             printToStream(str, preProcessAttribute(params.main.@request))
             def response = reader.haltUntilBarrierCrossed()
             closure new MTSExtract().extract(response)
@@ -60,7 +60,7 @@ public class AdaptiveInformationProvider extends InformationProvider {
             if (params.post.size() != 0) {
                 closure 'Gasim modem...'
                 params.post.each {
-                    reader.barrier = preProcessAttribute(it.@response)
+                    reader.barrier = preProcessAttribute(it.@barrier)
                     printToStream(str, preProcessAttribute(it.@request))
                     reader.haltUntilBarrierCrossed()
                 }
@@ -84,7 +84,6 @@ public class AdaptiveInformationProvider extends InformationProvider {
             log.debug "Adaptive Information Provider pristupa portu ${port}"
             portIdentifier = CommPortIdentifier.getPortIdentifier(port)
         } catch (Throwable t) {
-            t.printStackTrace()
             throw new RuntimeException("Proverite uz pomoc uputstva na mom sajtu (www.milanaleksic.net) da li je port ${port} zaista onaj koji se koristi od strane modema.\nUkoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.");
         }
 
