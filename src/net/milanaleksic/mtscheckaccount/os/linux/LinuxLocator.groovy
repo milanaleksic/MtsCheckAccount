@@ -21,7 +21,7 @@ public class LinuxLocator extends Locator {
         found.eachLine() {
             def productId = "hal-get-property --udi ${it} --key info.product".execute().text.trim()
             log.debug "udi=[${it}] => productId=[${productId}]"
-            if (productId.trim() == 'ZTE CDMA Technologies MSM') {
+            if (productId.trim() == device.linux.@deviceId.text()) {
                 udiForZTE = it
             }
         }
