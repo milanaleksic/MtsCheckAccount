@@ -1,6 +1,6 @@
 package net.milanaleksic.mtscheckaccount.data
 
-public class InformationBean {
+@Immutable public final class InformationBean {
     def Stanje = "NEDOSTUPNO"
     def UMrezi = "NEDOSTUPNO"
     def VanMreze = "NEDOSTUPNO"

@@ -2,7 +2,7 @@ package net.milanaleksic.mtscheckaccount.data
 
 import javax.swing.JOptionPane
 
-public class MTSExtract {
+@Singleton public class MTSExtract {
 
     def extract(readFromData) {
         def result = new InformationBean()

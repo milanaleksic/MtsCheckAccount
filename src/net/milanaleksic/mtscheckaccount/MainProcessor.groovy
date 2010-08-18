@@ -10,7 +10,7 @@ import java.awt.*
 import java.awt.event.KeyEvent
 import net.milanaleksic.mtscheckaccount.util.ApplicationUtil
 
-public class MainProcessor {
+@Singleton public class MainProcessor {
 
     private static Log log = LogFactory.getLog(MainProcessor.class)
 
@@ -20,11 +20,11 @@ public class MainProcessor {
 
     def programVersion
     
-    public MainProcessor() {
+    private MainProcessor() {
         try {
             def config = readConfig()
-            DataProvider = ProviderFactory.fromConfig(config)
-            DataProvider.locator = LocatorFactory.fromConfig(config)
+            DataProvider = ProviderFactory.instance.fromConfig(config)
+            DataProvider.locator = LocatorFactory.instance.fromConfig(config)
             ApplicationUtil.startInternetConnectibilityThread()
         } catch (Throwable t) {
             JOptionPane.showMessageDialog(null, "Program nije mogao biti startovan (${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
