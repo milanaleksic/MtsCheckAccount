@@ -22,13 +22,14 @@ public class AdaptiveInformationProvider extends InformationProvider {
     private def executeProcessing(Closure closure) {
         def commPort
         def reader = null
+        def readerThread
         try {
             commPort = openModemPort(params, locator.recognizedModemPort)
             def input = commPort.getInputStream()
             def output = commPort.getOutputStream()
             def str = new PrintStream(output)
 
-            (new Thread(reader = new PortReader(input: input))).start()
+            (readerThread = new Thread(reader = new PortReader(input: input))).start()
 
             if (params.check.size() != 0) {
                 closure 'Proveravam status modema...'
@@ -55,12 +56,11 @@ public class AdaptiveInformationProvider extends InformationProvider {
             reader.barrier = preProcessAttribute(params.main.@barrier)
             printToStream(str, preProcessAttribute(params.main.@request))
             def response = reader.haltUntilBarrierCrossed()
-            //TODO: morace da se prosledi responseIsPDUEncoded atribut kako bi MTSExtract mogao da dekoduje odgovor
             closure MTSExtract.instance.extract(response)
 
-            if (params.command.size() != 0) {
+            if (params.post.size() != 0) {
                 closure 'Gasim modem...'
-                params.command.each {
+                params.post.each {
                     reader.barrier = preProcessAttribute(it.@barrier)
                     printToStream(str, preProcessAttribute(it.@request))
                     reader.haltUntilBarrierCrossed()
@@ -72,6 +72,8 @@ public class AdaptiveInformationProvider extends InformationProvider {
         } finally {
             if (reader)
                 reader.Shutdown = true
+            if (readerThread)
+                readerThread.interrupt()
             try {
                 if (commPort != null)
                     commPort.close()
@@ -85,7 +87,13 @@ public class AdaptiveInformationProvider extends InformationProvider {
             log.debug "Adaptive Information Provider pristupa portu ${port}"
             portIdentifier = CommPortIdentifier.getPortIdentifier(port)
         } catch (Throwable t) {
-            throw new RuntimeException("Proverite uz pomoc uputstva na mom sajtu (www.milanaleksic.net) da li je port ${port} zaista onaj koji se koristi od strane modema.\nUkoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.");
+            throw new RuntimeException("""Proverite uz pomoc uputstva na sajtu aplikacije da li je port ${port} zaista onaj koji se koristi od strane modema.
+
+Dva najcesca razloga za ovaj problem su:
+\t1. trenutno ste zakaceni na Internet;
+\t2. ukljucena je aplikacija za konektovanje na Internet.
+
+Ukoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.""")
         }
 
         if (portIdentifier.isCurrentlyOwned())
@@ -120,7 +128,8 @@ public class AdaptiveInformationProvider extends InformationProvider {
         String converted = str.text().replaceAll("\\{\\{(.*)\\}\\}") { all, item->
             return PDUConverter.convertAsciiToPDU(item)
         }
-        log.debug "PreProcess je konvertovao \"$str\" u \"$converted\""
+        if (converted != str)
+            log.debug "PreProcess je konvertovao \"$str\" u \"$converted\""
         return converted
     }
 
