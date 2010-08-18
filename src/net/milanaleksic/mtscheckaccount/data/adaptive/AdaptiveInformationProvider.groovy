@@ -32,13 +32,13 @@ public class AdaptiveInformationProvider extends InformationProvider {
 
             if (params.check.size() != 0) {
                 closure 'Proveravam status modema...'
-                reader.barrier = preProcess(params.check.@response)
-                printToStream(str, preProcess(params.check.@request))
+                reader.barrier = preProcessAttribute(params.check.@response)
+                printToStream(str, preProcessAttribute(params.check.@request))
 
                 if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
                     closure 'Palim modem...'
-                    reader.barrier = preProcess(params.start.@response)
-                    printToStream(str, preProcess(params.start.@request))
+                    reader.barrier = preProcessAttribute(params.start.@response)
+                    printToStream(str, preProcessAttribute(params.start.@request))
                     reader.haltUntilBarrierCrossed()
                     Thread.sleep(5000)
                 }
@@ -46,22 +46,22 @@ public class AdaptiveInformationProvider extends InformationProvider {
 
             closure 'Pricam...'
             params.pre.each {
-                reader.barrier = preProcess(it.@response)
-                printToStream(str, preProcess(it.@request))
+                reader.barrier = preProcessAttribute(it.@response)
+                printToStream(str, preProcessAttribute(it.@request))
                 reader.haltUntilBarrierCrossed()
             }
 
             closure 'Saljem glavni zahtev...'
-            reader.barrier = preProcess(params.main.@response)
-            printToStream(str, preProcess(params.main.@request))
+            reader.barrier = preProcessAttribute(params.main.@response)
+            printToStream(str, preProcessAttribute(params.main.@request))
             def response = reader.haltUntilBarrierCrossed()
             closure new MTSExtract().extract(response)
 
             if (params.post.size() != 0) {
                 closure 'Gasim modem...'
                 params.post.each {
-                    reader.barrier = preProcess(it.@response)
-                    printToStream(str, preProcess(it.@request))
+                    reader.barrier = preProcessAttribute(it.@response)
+                    printToStream(str, preProcessAttribute(it.@request))
                     reader.haltUntilBarrierCrossed()
                 }
             }
@@ -95,7 +95,7 @@ public class AdaptiveInformationProvider extends InformationProvider {
         if (!(commPort instanceof SerialPort)) {
             throw new RuntimeException('Samo je serijski port dozvoljen');
         }
-        commPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
+        ((SerialPort)commPort).setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
 
         return commPort
     }
@@ -116,9 +116,12 @@ public class AdaptiveInformationProvider extends InformationProvider {
         return params
     }
 
-    private def String preProcess(str) {
-        //TODO: zameni {{str}} sa PDU(str)
-        return str.text().replaceAll("\\{\\{(.*)\\}\\}", "???\$1???")
+    private def String preProcessAttribute(str) {
+        String converted = str.text().replaceAll("\\{\\{(.*)\\}\\}") { all, item->
+            return PDUConverter.convertAsciiToPDU(item)
+        }
+        log.debug "PreProcess je konvertovao \"$str\" u \"$converted\""
+        return converted
     }
 
 }
