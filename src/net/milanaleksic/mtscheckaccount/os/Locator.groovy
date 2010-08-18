@@ -17,7 +17,7 @@ public abstract class Locator {
     protected abstract String[] doGetModemLocationForDevice(GPathResult device)
 
     private void findModemLocations(GPathResult config) {
-        def recognizedModems = [:]
+        def recognizedModems = new HashMap<String,String[]>()
         config.devices.device.each { device ->
             def ports = doGetModemLocationForDevice(device)
             if (ports && (ports.size()>0)) {
@@ -33,15 +33,12 @@ public abstract class Locator {
     }
 
     private def validateFoundModems(def recognizedModems) {
-        if (recognizedModems == null) {
-            throw new IllegalStateException("Validacija lociranih modema je pala jer nijedan modem nije pravilno prepoznat")
-        }
-        if (recognizedModems.size() != 1) {
-            throw new IllegalStateException("Validacija lociranih modema je pala jer je pronadjeno != 1 zakacenog modema")
+        if (recognizedModems == null || recognizedModems.size() != 1) {
+            throw new IllegalStateException("Validacija lociranih modema je pala jer nije pronadjen nijedan (poznat) modem")
         }
         recognizedModems.each { entry ->
             if (entry.value.size() != 1)
-                throw new IllegalStateException("Validacija lociranih modema je pala jer je pronadjeno vise od jednog porta na zakacenom modemu")
+                throw new IllegalStateException("Validacija lociranih modema je pala jer je pronadjeno vise od jednog porta na zakacenom modemu ${entry.key}")
         }
         log.debug "Validacija lociranih modema je prosla"
     }
