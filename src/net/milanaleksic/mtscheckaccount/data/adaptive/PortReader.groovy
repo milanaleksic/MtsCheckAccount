@@ -12,6 +12,7 @@ public class PortReader implements Runnable {
 
     volatile def Shutdown = false
     volatile lastRead = null
+    volatile previouslyConverted = null
     volatile barrierAlreadyCrossed = false
     volatile whatToWaitFor = null
 
@@ -26,7 +27,7 @@ public class PortReader implements Runnable {
 
                 lastRead = new String(buffer, 0, len)
 
-                if (whatToWaitFor && lastRead =~ whatToWaitFor)
+                if (checkBarrier())
                     barrierAlreadyCrossed = true
 
                 log.debug "[$lastRead]"
@@ -41,6 +42,31 @@ public class PortReader implements Runnable {
         }
     }
 
+    private boolean checkBarrier() {
+        if (!whatToWaitFor)
+            return false
+        if (lastRead =~ whatToWaitFor)
+            return true
+        if (convertQuotedPartToPDU(lastRead) =~ whatToWaitFor) {
+            lastRead = convertQuotedPartToPDU(lastRead)
+            return true
+        }
+        return false
+    }
+
+    private String convertQuotedPartToPDU(str) {
+        if (!str)
+            return str
+        String converted = str.replaceAll("\\\"(.*)\\\"") { all, item ->
+            return "\"${PDUConverter.convertPDUToAscii(item)}\""
+        }
+        if ((converted != str) && (previouslyConverted != converted)) {
+            log.debug "ConvertQuotedPartToPDU je konvertovao \"$str\" u \"$converted\""
+            previouslyConverted = converted
+        }
+        return converted
+    }
+
     public def setBarrier(whatToWaitFor) {
         barrierAlreadyCrossed = false
         this.whatToWaitFor = whatToWaitFor
@@ -48,7 +74,7 @@ public class PortReader implements Runnable {
 
     public def haltUntilBarrierCrossed() {
         int tickCount = 0
-        while (!barrierAlreadyCrossed && !(lastRead =~ whatToWaitFor)) {
+        while (!barrierAlreadyCrossed && !checkBarrier()) {
             Thread.sleep(100)
             tickCount++
             if (tickCount >= 100)
