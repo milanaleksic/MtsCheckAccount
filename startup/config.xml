@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Configuration file for MtsCheckAccount application.
+    Licensed through GPL.
+    Author: milan.aleksic@gmail.com
+-->
 <mts-check-account-config>
 
     <devices mock="false">
@@ -12,27 +17,60 @@
         </device>
     </devices>
 
-    <!-- {{ }} - shorthand for "convert to PDU before using in program" -->
+    <!-- {{ }} - shorthand for "convert to PDU before use" -->
     <data mock="false">
         <device id="HUAWEI E1550">
-            <command request="AT+CUSD=1,&quot;{{*797#}}&quot;,15" barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*{{2\. Stanje racuna}}"/>
-            <command request="AT+CUSD=1,&quot;{{2}}&quot;,15" barrier="\s*([+]+)CUSD: 1,&quot;"/>
-
-            <main request="AT+CUSD=1,&quot;{{1}}&quot;,15" barrier="\s*([+]+)CUSD: [01],&quot;"/>
+            <command
+                    request="AT+CUSD=1,&quot;{{*797#}}&quot;,15"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*{{2. Stanje racuna}}"
+            />
+            <command
+                    request="AT+CUSD=1,&quot;{{2}}&quot;,15"
+                    barrier="\s*([+]+)CUSD: 1,&quot;"
+            />
+            <main
+                    request="AT+CUSD=1,&quot;{{1}}&quot;,15"
+                    barrier="\s*([+]+)CUSD: [01],&quot;"
+            />
         </device>
         <device id="ZTE MF622">
-            <check request="AT+ZOPRT?" barrier="([+]+)ZOPRT"/>
-            <start request="AT+ZOPRT=5" barrier="\s*([+]+)ZPASR"/>
-
-            <command request="AT+CUSD=1,&quot;1&quot;,15" barrier="\s*([+]+)CUSD: 0,&quot;"/>
-            <command request="AT+CUSD=1,&quot;1&quot;,15" barrier="\s*([+]+)CUSD: 0,&quot;"/>
-            <command request="AT+CUSD=1,&quot;*797#&quot;,15" barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"/>
-            <command request="AT+CUSD=1,&quot;2&quot;,15" barrier="\s*([+]+)CUSD: 1,&quot;"/>
-
-            <main request="AT+CUSD=1,&quot;1&quot;,15" barrier="\s*([+]+)CUSD: [01],&quot;"/>
-
-            <post request="AT+CUSD=0" barrier="\s*OK\s*"/>
-            <post request="AT+ZOPRT=6" barrier="\s*OK\s*"/>
+            <check
+                    request="AT+ZOPRT?"
+                    barrier="([+]+)ZOPRT"
+                    responseForActivatingStartRegEx=": 6"
+            />
+            <start
+                    request="AT+ZOPRT=5"
+                    barrier="\s*([+]+)ZPASR"
+            />
+            <command
+                    request="AT+CUSD=1,&quot;1&quot;,15"
+                    barrier="\s*([+]+)CUSD: 0,&quot;"
+            />
+            <command
+                    request="AT+CUSD=1,&quot;1&quot;,15"
+                    barrier="\s*([+]+)CUSD: 0,&quot;"
+            />
+            <command
+                    request="AT+CUSD=1,&quot;*797#&quot;,15"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"
+            />
+            <command
+                    request="AT+CUSD=1,&quot;2&quot;,15"
+                    barrier="\s*([+]+)CUSD: 1,&quot;"
+            />
+            <main
+                    request="AT+CUSD=1,&quot;1&quot;,15"
+                    barrier="\s*([+]+)CUSD: [01],&quot;"
+            />
+            <command
+                    request="AT+CUSD=0"
+                    barrier="\s*OK\s*"
+            />
+            <command
+                    request="AT+ZOPRT=6"
+                    barrier="\s*OK\s*"
+            />
         </device>
     </data>
 
