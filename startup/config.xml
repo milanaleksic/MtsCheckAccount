@@ -2,9 +2,9 @@
 <!--
     Configuration file for MtsCheckAccount application.
     
-    Inside elements of /mts-check-account-config/data/device/[check,start,command,main] 
+    Inside /mts-check-account-config/data/device/[check,start,command,main] attributes
     it is allowed to use {{ }} as a directive for "convert to PDU before use"
-    
+
     Licensed through GPL.
     Author: Milan Aleksic (milan dot aleksic at gmail dot com)
 -->
@@ -25,16 +25,15 @@
         <device id="HUAWEI E1550">
             <command
                     request="AT+CUSD=1,&quot;{{*797#}}&quot;,15"
-                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*{{2. Stanje racuna}}"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Stanje racuna"
             />
             <command
                     request="AT+CUSD=1,&quot;{{2}}&quot;,15"
-                    barrier="\s*([+]+)CUSD: 1,&quot;"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Poslednji racun"
             />
             <main
                     request="AT+CUSD=1,&quot;{{1}}&quot;,15"
-                    barrier="\s*([+]+)CUSD: [01],&quot;"
-                    responseIsPDUEncoded="true"
+                    barrier="(?s)\s*([+]+)CUSD: [01],&quot;.*Stanje"
             />
         </device>
         <device id="ZTE MF622">
@@ -61,18 +60,17 @@
             />
             <command
                     request="AT+CUSD=1,&quot;2&quot;,15"
-                    barrier="\s*([+]+)CUSD: 1,&quot;"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Poslednji racun"
             />
             <main
                     request="AT+CUSD=1,&quot;1&quot;,15"
-                    barrier="\s*([+]+)CUSD: [01],&quot;"
-                    responseIsPDUEncoded="false"
+                    barrier="(?s)\s*([+]+)CUSD: [01],&quot;.*Stanje"
             />
-            <command
+            <post
                     request="AT+CUSD=0"
                     barrier="\s*OK\s*"
             />
-            <command
+            <post
                     request="AT+ZOPRT=6"
                     barrier="\s*OK\s*"
             />
