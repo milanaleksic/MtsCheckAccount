@@ -5,18 +5,18 @@ import net.milanaleksic.mtscheckaccount.os.linux.LinuxLocator
 import net.milanaleksic.mtscheckaccount.os.mock.MockLocator
 import org.apache.commons.logging.*
 
-public class LocatorFactory {
+@Singleton public class LocatorFactory {
 
     private static Log log = LogFactory.getLog(LocatorFactory.class)
 
-    public static Locator fromConfig(config) {
+    public Locator fromConfig(config) {
         if (config.devices.@mock=="true")
-            return LocatorFactory.createMockLocator(config)
+            return createMockLocator(config)
         else
-            return LocatorFactory.createOSLocator(config)
+            return createOSLocator(config)
     }
 
-    public static Locator createOSLocator(config) {
+    private Locator createOSLocator(config) {
         def osname = System.getProperty("os.name").toLowerCase()
         log.debug "os.name=${osname}"
         if (osname == "linux")
@@ -27,7 +27,7 @@ public class LocatorFactory {
             throw new IllegalStateException("Operativni sistem (${osname}) nije podrzan :(")
     }
 
-    public static Locator createMockLocator(config) {
+    private Locator createMockLocator(config) {
         log.warn 'Using MOCK locator!'
         return new MockLocator(config)
     }
