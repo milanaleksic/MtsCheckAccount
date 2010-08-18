@@ -7,9 +7,16 @@ import javax.swing.JOptionPane
     def extract(readFromData) {
         def result = new InformationBean()
 
-        if (readFromData.indexOf(/Ova usluga trenutno nije dostupna/) != -1) {
-            JOptionPane.showMessageDialog(null, 'Dobri ljudi iz mt:s-a su rekli da je servis trenutno nedostupan i mole Vas da pokusate kasnije :)')
-            return result
+        def negativeOutcomes = [
+                /Ova usluga trenutno nije dostupna/,
+                /Servis trenutno nije dostupan.../
+        ]
+
+        for (outcome in negativeOutcomes) {
+            if (readFromData.indexOf(outcome) != -1) {
+                JOptionPane.showMessageDialog(null, 'Dobri ljudi iz mt:s-a su rekli da je servis trenutno nedostupan i mole Vas da pokusate kasnije :)')
+                return result
+            }
         }
 
         try {

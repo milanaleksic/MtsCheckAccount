@@ -11,24 +11,23 @@ public class WindowsLocator extends Locator {
     }
 
     @Override protected String[] doGetModemLocationForDevice(GPathResult device) {
-        log.debug "doGetModemLocation - ${device.windows.@deviceId.text()}"
         return getPortsForDevice(
                 device.windows.@deviceId.text(),
                 device.windows.@deviceFriendlyNameRegEx.text())
     }
 
     private String[] getPortsForDevice(String deviceId, String expectedFriendlyName) {
-        log.debug "Open Reg key: SYSTEM\\CurrentControlSet\\Services\\${deviceId}\\Enum"
+        log.debug "Otvaram Registry lokaciju: SYSTEM\\CurrentControlSet\\Services\\${deviceId}\\Enum"
         try {
             RegistryKey serviceEnum = Registry.HKEY_LOCAL_MACHINE.openSubKey("SYSTEM\\CurrentControlSet\\Services\\${deviceId}\\Enum")
             RegDWordValue count = (RegDWordValue)serviceEnum.getValue("Count")
-            log.debug "Maximum Count for device: $count.data"
+            log.debug "Max Count za uredjaj: $count.data"
             if (count.data==0)
                 return
             def arr = (count.data-1..0).collect { int key ->
                 return serviceEnum.getStringValue("$key")
             }
-            log.debug "Available enums for the modem $deviceId: $arr"
+            log.debug "Moguci enum-i za modem $deviceId: $arr"
             def ports = []
             arr.each { String deviceDefinition ->
                 RegistryKey deviceKey = Registry.HKEY_LOCAL_MACHINE.openSubKey("SYSTEM\\CurrentControlSet\\Enum\\$deviceDefinition")
@@ -38,10 +37,10 @@ public class WindowsLocator extends Locator {
                 RegistryKey deviceParameters = deviceKey.openSubKey("Device Parameters")
                 ports += deviceParameters.getStringValue('PortName')
             }
-            log.debug "Ports: $ports"
+            log.debug "Pronadjeni portovi: $ports"
             return ports
         } catch(com.ice.jni.registry.NoSuchKeyException e) {
-            log.info "No registry key found when querying for $expectedFriendlyName"
+            log.info "Kljuc nije mogao biti pronadjen u Registru za uredjaj $expectedFriendlyName"
             return []
         }
     }
