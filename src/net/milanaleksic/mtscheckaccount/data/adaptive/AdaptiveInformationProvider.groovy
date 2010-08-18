@@ -35,7 +35,7 @@ public class AdaptiveInformationProvider extends InformationProvider {
                 reader.barrier = preProcessAttribute(params.check.@barrier)
                 printToStream(str, preProcessAttribute(params.check.@request))
 
-                if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ /: 6/) {
+                if ("[[${reader.haltUntilBarrierCrossed()}]]" =~ preProcessAttribute(params.check.@responseForActivatingStartRegEx)) {
                     closure 'Palim modem...'
                     reader.barrier = preProcessAttribute(params.start.@barrier)
                     printToStream(str, preProcessAttribute(params.start.@request))
@@ -57,9 +57,9 @@ public class AdaptiveInformationProvider extends InformationProvider {
             def response = reader.haltUntilBarrierCrossed()
             closure new MTSExtract().extract(response)
 
-            if (params.post.size() != 0) {
+            if (params.command.size() != 0) {
                 closure 'Gasim modem...'
-                params.post.each {
+                params.command.each {
                     reader.barrier = preProcessAttribute(it.@barrier)
                     printToStream(str, preProcessAttribute(it.@request))
                     reader.haltUntilBarrierCrossed()
