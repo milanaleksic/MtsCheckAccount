@@ -82,7 +82,7 @@ Section -Main SEC0000
     SetOutPath $INSTDIR\bin
     File install\bin\*
     SetOutPath $INSTDIR\lib
-    Delete "CheckPostpaidAccount-*.jar"
+    Delete "*.jar"
     File install\lib\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
