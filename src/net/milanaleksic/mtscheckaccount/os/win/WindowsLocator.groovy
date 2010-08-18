@@ -11,10 +11,10 @@ public class WindowsLocator extends Locator {
     }
 
     @Override protected String[] doGetModemLocationForDevice(GPathResult device) {
-        log.debug "doGetModemLocation - ${device.windows.@deviceId.toString()}"
+        log.debug "doGetModemLocation - ${device.windows.@deviceId.text()}"
         return getPortsForDevice(
-                device.windows.@deviceId.toString(),
-                device.windows.@deviceFriendlyNameRegEx.toString())
+                device.windows.@deviceId.text(),
+                device.windows.@deviceFriendlyNameRegEx.text())
     }
 
     private String[] getPortsForDevice(String deviceId, String expectedFriendlyName) {

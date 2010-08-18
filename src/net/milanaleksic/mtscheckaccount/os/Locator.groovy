@@ -21,7 +21,7 @@ public abstract class Locator {
         config.devices.device.each { device ->
             def ports = doGetModemLocationForDevice(device)
             if (ports && (ports.size()>0)) {
-                recognizedModems[device.@id.toString()] = ports
+                recognizedModems[device.@id.text()] = ports
             }
         }
         log.info "Prepoznate lokacije modema: $recognizedModems"

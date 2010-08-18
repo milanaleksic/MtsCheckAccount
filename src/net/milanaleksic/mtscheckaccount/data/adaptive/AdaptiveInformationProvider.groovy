@@ -108,7 +108,7 @@ public class AdaptiveInformationProvider extends InformationProvider {
 
     private def fetchInfoFromLocator() {
         config.data.device.each { device ->
-            if (device.@id.toString() == locator.recognizedModemId) {
+            if (device.@id.text() == locator.recognizedModemId) {
                 params = device
             }
         }
