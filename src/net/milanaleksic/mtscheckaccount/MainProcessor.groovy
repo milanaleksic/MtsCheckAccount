@@ -21,15 +21,20 @@ public class MainProcessor {
     def programVersion
     
     public MainProcessor() {
-        ApplicationUtil.startInternetConnectibilityThread()
-        def config = readConfig()
-        DataProvider = ProviderFactory.fromConfig(config)
-        DataProvider.locator = LocatorFactory.fromConfig(config)
+        try {
+            def config = readConfig()
+            DataProvider = ProviderFactory.fromConfig(config)
+            DataProvider.locator = LocatorFactory.fromConfig(config)
+            ApplicationUtil.startInternetConnectibilityThread()
+        } catch (Throwable t) {
+            JOptionPane.showMessageDialog(null, "Program nije mogao biti startovan (${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+            throw t
+        }
     }
 
     def readConfig() {
         programVersion = ApplicationUtil.getApplicationVersion()
-        log.info "Mts Check Account program version: $programVersion"
+        log.info "Mts Check Account verzija: $programVersion"
         def config
         try {
             config = new XmlSlurper().parse('config.xml')
