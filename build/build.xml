@@ -119,7 +119,9 @@
 			<tarfileset dir="install" prefix="" excludes="**/*.exe,**/.launcher,**/*.dll" />
 			<tarfileset dir="${lib.linux.dir}" prefix="rxtx-natives" />
 		</tar>
-		
+
+        <delete includes="install/bin/startup" dir="." />
+
 		<if>
 			<equals arg1="${nsis.enabled}" arg2="true" />
 			<then>

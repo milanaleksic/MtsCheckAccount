@@ -75,15 +75,21 @@ ShowUninstDetails show
 # Installer sections
 Section -Main SEC0000
     SetOverwrite on
+
     SetOutPath $INSTDIR
+    Delete "*.*"
     File install\Startup.exe
     File install\License.txt
     File install\ProcitajMe.txt
+
     SetOutPath $INSTDIR\bin
+    Delete "*.*"
     File install\bin\*
+
     SetOutPath $INSTDIR\lib
     Delete "*.jar"
     File install\lib\*
+
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
