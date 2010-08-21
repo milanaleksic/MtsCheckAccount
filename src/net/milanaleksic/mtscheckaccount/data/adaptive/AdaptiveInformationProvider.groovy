@@ -93,7 +93,7 @@ Dva najcesca razloga za ovaj problem su:
 \t1. trenutno ste zakaceni na Internet;
 \t2. ukljucena je aplikacija za konektovanje na Internet.
 
-Ukoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.""")
+Ukoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.""", t)
         }
 
         if (portIdentifier.isCurrentlyOwned())
