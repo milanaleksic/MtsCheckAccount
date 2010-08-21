@@ -38,7 +38,7 @@ class ApplicationUtil {
             try {
                 clientSocket = new Socket("www.google.com", 80)
                 log.warn 'Internet JESTE dostupan'
-                JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem, onda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
+                JOptionPane.showMessageDialog(null, 'Imate pristup Internetu. Ukoliko je jedini kanal koji Vam dopusta da izadjete na Internet 3G modem,\nonda ovaj program uopste ne mozete koristiti dok se ne iskljucite sa njega.\nRazlog: modem moze da koristi ili aplikacija za pristup Internetu ili ovaj program, ne mogu oba istovremeno.', 'Upozorenje', JOptionPane.WARNING_MESSAGE)
                 return
             } catch (IOException exc) {
                 log.debug 'Internet nije dostupan'
