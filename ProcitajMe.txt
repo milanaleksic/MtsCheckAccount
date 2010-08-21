@@ -36,7 +36,7 @@ odgovarajuci direktorijum i prebaciti fajl librxtxSerial.so u:
 	/usr/lib/jvm/java-6-sun/jre/lib/naziv_arhitekture
 PRIMER: ja imam netbook Lenovo S10E, koji ima Intel Atom procesor, 
 tako da ja biram fajl iz direktorijuma 
-	rx-tx-natives/i686-unknown-linux-gnu/librxtxSerial.so
+	rx-tx-natives/ch-rxtx-2.2-200812007-linux-i386/librxtxSerial.so
 i smestam u direktorijum:
 	/usr/lib/jvm/java-6-sun/jre/lib/i386 
 (za ovo su mi potrebne administratorske privilegije)

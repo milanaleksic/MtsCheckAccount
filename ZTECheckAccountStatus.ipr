@@ -237,11 +237,11 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ZTECheckAccountStatus.iml" filepath="$PROJECT_DIR$/ZTECheckAccountStatus.iml" />
+      <module fileurl="file://$PROJECT_DIR$//MtsCheckAccount.iml" filepath="$PROJECT_DIR$//MtsCheckAccount.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out" />
+    <output url="file://$PROJECT_DIR$/bin" />
   </component>
   <component name="SvnBranchConfigurationManager">
     <option name="myConfigurationMap">
@@ -250,13 +250,6 @@
           <value>
             <SvnBranchConfiguration>
               <option name="trunkUrl" value="https://mtscheckaccount.svn.sourceforge.net/svnroot/mtscheckaccount" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/bin">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="https://mtscheckaccount.svn.sourceforge.net/svnroot/mtscheckaccount/src" />
             </SvnBranchConfiguration>
           </value>
         </entry>
@@ -270,6 +263,7 @@
   <component name="libraryTable">
     <library name="Groovy">
       <CLASSES>
+        <root url="file://$PROJECT_DIR$/lib" />
         <root url="file://$PROJECT_DIR$/lib" />
       </CLASSES>
       <JAVADOC />
