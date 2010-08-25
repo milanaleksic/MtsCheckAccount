@@ -44,10 +44,36 @@ import net.milanaleksic.mtscheckaccount.util.ApplicationUtil
         }
         return config
     }
-
-    def provide(Closure closure) {
-        return DataProvider.provideInformation(closure)
-    }
+	
+	def start() {
+		try {
+			showForm()
+			DataProvider.provideInformation { info ->
+				log.info "Setting status text: [$info]"
+				if (info instanceof String)
+					edStatus.text = info
+				else if (info instanceof InformationBean) {
+					edStanje.text = info.Stanje
+					edUMrezi.text = info.UMrezi
+					edVanMreze.text = info.VanMreze
+					edSms.text = info.Sms
+					def gprstext
+					try {
+						def inMB = new BigDecimal(Long.parseLong(info.Gprs.trim()) / 1024).setScale(2, BigDecimal.ROUND_CEILING)
+						gprstext = "${info.Gprs}KB (${inMB}MB)"
+					} catch (Throwable t) {
+						gprstext = info.Gprs;
+					}
+					edGprs.text = gprstext
+				}
+			}
+		} catch (Throwable t) {
+			edStatus.text = 'GRESKA U OBRADI!'
+			edUMrezi.text = edStanje.text = edVanMreze.text = edSms.text = edGprs.text = '?'
+			log.error('Greska u obradi', t)
+			JOptionPane.showMessageDialog(null, "Greska u obradi (${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
+		}
+	}
 
     def showForm() {
         def swing = new SwingBuilder()
@@ -163,36 +189,6 @@ import net.milanaleksic.mtscheckaccount.util.ApplicationUtil
         }
         frame.pack()
         frame.visible = true
-    }
-
-    def start() {
-        try {
-            showForm()
-            provide { info ->
-                log.info "Setting status text: [$info]"
-                if (info instanceof String)
-                    edStatus.text = info
-                else if (info instanceof InformationBean) {
-                    edStanje.text = info.Stanje
-                    edUMrezi.text = info.UMrezi
-                    edVanMreze.text = info.VanMreze
-                    edSms.text = info.Sms
-                    def gprstext
-                    try {
-                        def inMB = new BigDecimal(Long.parseLong(info.Gprs.trim()) / 1024).setScale(2, BigDecimal.ROUND_CEILING)
-                        gprstext = "${info.Gprs}KB (${inMB}MB)"
-                    } catch (Throwable t) {
-                        gprstext = info.Gprs;
-                    }
-                    edGprs.text = gprstext
-                }
-            }
-        } catch (Throwable t) {
-            edStatus.text = 'GRESKA U OBRADI!'
-            edUMrezi.text = edStanje.text = edVanMreze.text = edSms.text = edGprs.text = '?'
-            log.error('Greska u obradi', t)
-            JOptionPane.showMessageDialog(null, "Greska u obradi (${t.class})\n${t.getMessage() != null ? t.getMessage() : ''}", 'Greska', JOptionPane.ERROR_MESSAGE)
-        }
     }
 
 }
