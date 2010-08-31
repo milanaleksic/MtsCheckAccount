@@ -37,8 +37,10 @@ public abstract class Locator {
             throw new IllegalStateException("Validacija lociranih modema je pala jer nije pronadjen nijedan (poznat) modem")
         }
         recognizedModems.each { entry ->
-            if (entry.value.size() != 1)
-                throw new IllegalStateException("Validacija lociranih modema je pala jer je pronadjeno vise od jednog porta na zakacenom modemu ${entry.key}")
+            if (entry.value.size() == 0)
+                throw new IllegalStateException("Validacija lociranih modema je pala jer nije pronadjen nijedan port za modem ${entry.key}")
+            if (entry.value.size() > 1)
+                entry.value = [entry.value[0]]
         }
         log.debug "Validacija lociranih modema je prosla"
     }

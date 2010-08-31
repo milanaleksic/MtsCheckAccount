@@ -57,12 +57,17 @@ public class PortReader implements Runnable {
     private String convertQuotedPartToPDU(str) {
         if (!str)
             return str
-        String converted = str.replaceAll("\\\"(.*)\\\"") { all, item ->
-            return "\"${PDUConverter.convertPDUToAscii(item)}\""
-        }
-        if ((converted != str) && (previouslyConverted != converted)) {
-            log.debug "ConvertQuotedPartToPDU je konvertovao \"$str\" u \"$converted\""
-            previouslyConverted = converted
+        String converted = str
+        try {
+            converted = str.replaceAll("\\\"(.*)\\\"") { all, item ->
+                return "\"${PDUConverter.convertPDUToAscii(item)}\""
+            }
+            if ((converted != str) && (previouslyConverted != converted)) {
+                log.debug "ConvertQuotedPartToPDU je konvertovao \"$str\" u \"$converted\""
+                previouslyConverted = converted
+            }
+        } catch (Exception e) {
+            log.debug "Nekonvertibilan tekst: [$str]"
         }
         return converted
     }
