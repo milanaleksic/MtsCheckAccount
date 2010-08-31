@@ -16,7 +16,7 @@
             <linux deviceId="E620 USB Modem" udi="/org/freedesktop/Hal/devices/usb_device_12d1_1001_noserial_if2_serial_usb_0" />
         </device>
         <device id="ZTE MF622">
-            <windows deviceId="ZTEusbmdm6ka" deviceFriendlyNameRegEx="ZTE Proprietary USB Modem.*" />
+            <windows deviceId="ZTEusbmdm6k" deviceFriendlyNameRegEx="ZTE Proprietary USB Modem.*" />
             <linux deviceId="ZTE CDMA Technologies MSM" />
         </device>
     </devices>

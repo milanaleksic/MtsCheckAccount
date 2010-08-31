@@ -42,6 +42,9 @@ public class WindowsLocator extends Locator {
         } catch(com.ice.jni.registry.NoSuchKeyException e) {
             log.info "Kljuc nije mogao biti pronadjen u Registru za uredjaj $expectedFriendlyName"
             return []
+        } catch(com.ice.jni.registry.NoSuchValueException e) {
+            log.info "Value nije mogao biti pronadjen u Registru za uredjaj $expectedFriendlyName"
+            return []
         }
     }
 

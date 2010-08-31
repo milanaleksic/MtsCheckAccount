@@ -89,11 +89,12 @@ public class AdaptiveInformationProvider extends InformationProvider {
         } catch (Throwable t) {
             throw new RuntimeException("""Proverite uz pomoc uputstva na sajtu aplikacije da li je port ${port} zaista onaj koji se koristi od strane modema.
 
-Dva najcesca razloga za ovaj problem su:
-\t1. trenutno ste zakaceni na Internet;
-\t2. ukljucena je aplikacija za konektovanje na Internet.
+Tri najcesca razloga za ovaj problem su:
+\t1. modem nije uopste zakacen na USB port,
+\t2. trenutno ste zakaceni na Internet putem 3G modema,
+\t3. ukljucena je aplikacija za konektovanje na Internet (iako pritom mozda nemate pristup Internetu).
 
-Ukoliko ne uspete da resite problem, molim procitajte u istom uputstvu kako da mi posaljete log aplikacije.""", t)
+Ukoliko ne uspete da resite problem, molim procitajte u uputstvu aplikacije kako da mi posaljete log.""", t)
         }
 
         if (portIdentifier.isCurrentlyOwned())
