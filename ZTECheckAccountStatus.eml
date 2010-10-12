@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component LANGUAGE_LEVEL="JDK_1_6">
-	<contentEntry url="file://$MODULE_DIR$"/>
-	<lib name="RXTXcomm.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RXTXcomm.jar!/"/>
-	</lib>
-</component>

@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Created-By: 11.0-b15 (Sun Microsystems Inc.)
-Main-Class: net.milanaleksic.mtscheckaccount.Startup
-Class-Path: groovy-all-1.7.3.jar RXTXcomm.jar

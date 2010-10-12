@@ -1,0 +1,3 @@
+How to start application from Maven on Windows:
+
+M:\Java\Workspace\MtsCheckAccount\mtscheckaccount-core>mvn package exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath net.milanaleksic.mtscheckaccount.Startup" -Dexec.workingdir="target" -Drunas=win-x86

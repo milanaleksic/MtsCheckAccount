@@ -1,0 +1,5 @@
+relre:.*/target/.*
+relre:.*\~
+relre:.*.ipr
+relre:.*.iws
+relre:.*.log

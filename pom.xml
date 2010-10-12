@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.milanaleksic</groupId>
+	<artifactId>mtscheckaccount</artifactId>
+	<name>Mts Check Account</name>
+	<packaging>pom</packaging>
+	<version>0.4.0.0-SNAPSHOT</version>
+
+	<description>
+        Serbian mt:s mobile provider current account check
+    </description>
+
+    <scm>
+        <connection>scm:hg:file:///${basedir}</connection>
+        <developerConnection>scm:hg:file:///${basedir}</developerConnection>
+    </scm>
+
+	<modules>
+        <module>mtscheckaccount-core</module>
+        <module>mtscheckaccount-installation</module>
+	</modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.ice.jni</groupId>
+                <artifactId>registry</artifactId>
+                <version>3.1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>gnu.io</groupId>
+                <artifactId>rxtx</artifactId>
+                <version>2.2.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.milanaleksic</groupId>
+                <artifactId>mtscheckaccount-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

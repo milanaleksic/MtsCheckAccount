@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.milanaleksic</groupId>
+    <artifactId>mtscheckaccount-installation</artifactId>
+    <name>Mts Check Account - Installation</name>
+    <packaging>jar</packaging>
+    <version>0.4.0.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>net.milanaleksic</groupId>
+        <artifactId>mtscheckaccount</artifactId>
+        <version>0.4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <description>
+        Serbian mt:s mobile provider current account check - Installation
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <installation.script.location>${basedir}/src/main/nsis/Script.nsi</installation.script.location>
+        <makensis.location>c:\Program Files\NSIS\makensis.exe</makensis.location>
+        <installation-resources.dir>${basedir}/docs</installation-resources.dir>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.milanaleksic</groupId>
+            <artifactId>mtscheckaccount-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ice.jni</groupId>
+            <artifactId>registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gnu.io</groupId>
+            <artifactId>rxtx</artifactId>
+            <type>zip</type>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>MtsCheckAccount</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/make-assembly.xml</descriptor>
+                            </descriptors>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>net.milanaleksic.mtscheckaccount.Startup</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                    <!--<execution>
+                        <id>prepare-installation-files</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>directory-single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>install</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/prepare-installation-files.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>-->
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-installation</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${makensis.location}</executable>
+                            <workingDirectory>target</workingDirectory>
+                            <arguments>
+                                <argument>/V2</argument>
+                                <argument>/NOCD</argument>
+                                <argument>/DVERSION=${project.version}</argument>
+                                <argument>${installation.script.location}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0</version>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>codenarc-maven-plugin</artifactId>
+                <version>0.8-alpha-SNAPSHOT</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>
