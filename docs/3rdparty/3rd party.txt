@@ -1,0 +1,15 @@
+There are 2 3rd party libraries I am using in MtsCheckAccount.
+
+1. ICE JNIRegistry 3.1.3
+2. RXTX 2.2 (a snapshot dating from 2008)
+
+Both of these are either not Mavenized or their artifacts are very old
+in publicly available repositories.
+
+Original locations of these projects (or at least source code I found):
+
+1. http://www.trustice.com/java/jnireg/index.shtml
+2. http://www.cloudhopper.com/opensource/rxtx/
+
+You need to install the mock artifacts inside this directory to be able
+to recompile and further develop the MtsCheckAccount.
