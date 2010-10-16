@@ -7,7 +7,7 @@
     <groupId>net.milanaleksic</groupId>
     <artifactId>mtscheckaccount-installation</artifactId>
     <name>Mts Check Account - Installation</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>0.4.0.0-SNAPSHOT</version>
 
     <parent>
@@ -24,24 +24,71 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <installation.script.location>${basedir}/src/main/nsis/Script.nsi</installation.script.location>
         <makensis.location>c:\Program Files\NSIS\makensis.exe</makensis.location>
-        <installation-resources.dir>${basedir}/docs</installation-resources.dir>
+        <installation-resources.dir>${basedir}/src/main/installation-resources</installation-resources.dir>
+        <installation-resources-win.dir>${basedir}/src/main/installation-resources-win</installation-resources-win.dir>
+        <installation-resources-linux.dir>${basedir}/src/main/installation-resources-linux
+        </installation-resources-linux.dir>
+        <program-configuration.dir>${basedir}/../mtscheckaccount-core/src/main/config</program-configuration.dir>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy.version}</version>
+        </dependency>
+        <dependency>
             <groupId>net.milanaleksic</groupId>
             <artifactId>mtscheckaccount-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ice.jni</groupId>
             <artifactId>registry</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>gnu.io</groupId>
             <artifactId>rxtx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>gnu.io</groupId>
+            <artifactId>rxtx-serial-win-x86</artifactId>
+            <version>${rxtx.version}</version>
             <type>zip</type>
-            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gnu.io</groupId>
+            <artifactId>rxtx-serial-win-ia64</artifactId>
+            <version>${rxtx.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>gnu.io</groupId>
+            <artifactId>rxtx-serial-linux-386</artifactId>
+            <version>${rxtx.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>gnu.io</groupId>
+            <artifactId>rxtx-serial-linux-x86_64</artifactId>
+            <version>${rxtx.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>com.ice.jni</groupId>
+            <artifactId>registry-win</artifactId>
+            <version>${jniregistry.version}</version>
+            <type>zip</type>
         </dependency>
     </dependencies>
 
@@ -52,39 +99,61 @@
                 <version>2.2-beta-5</version>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>MtsCheckAccount</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>src/main/assembly/make-assembly.xml</descriptor>
-                            </descriptors>
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <mainClass>net.milanaleksic.mtscheckaccount.Startup</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </execution>
-                    <!--<execution>
-                        <id>prepare-installation-files</id>
+                        <id>prepare-installation-files-win-x86</id>
                         <phase>package</phase>
                         <goals>
                             <goal>directory-single</goal>
                         </goals>
                         <configuration>
-                            <finalName>install</finalName>
+                            <finalName>install-x86</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
-                                <descriptor>src/main/assembly/prepare-installation-files.xml</descriptor>
+                                <descriptor>src/main/assembly/prepare-installation-files-x86.xml</descriptor>
                             </descriptors>
                         </configuration>
-                    </execution>-->
+                    </execution>
+                    <execution>
+                        <id>prepare-installation-files-win-ia64</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>directory-single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>install-ia64</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/prepare-installation-files-ia64.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>prepare-installation-files-linux-386</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>mtscheckaccount-${project.version}-386</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assemble-linux-package-386.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>prepare-installation-files-linux-x86_64</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>mtscheckaccount-${project.version}-x86_64</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assemble-linux-package-x86_64.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -94,7 +163,7 @@
                 <version>1.2</version>
                 <executions>
                     <execution>
-                        <id>generate-installation</id>
+                        <id>generate-installation-win-x86</id>
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
@@ -106,30 +175,32 @@
                                 <argument>/V2</argument>
                                 <argument>/NOCD</argument>
                                 <argument>/DVERSION=${project.version}</argument>
+                                <argument>/DARCHITECTURE=x86</argument>
+                                <argument>${installation.script.location}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-installation-win-ia64</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${makensis.location}</executable>
+                            <workingDirectory>target</workingDirectory>
+                            <arguments>
+                                <argument>/V2</argument>
+                                <argument>/NOCD</argument>
+                                <argument>/DVERSION=${project.version}</argument>
+                                <argument>/DARCHITECTURE=ia64</argument>
                                 <argument>${installation.script.location}</argument>
                             </arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.0</version>
-            </plugin>
         </plugins>
-
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>codenarc-maven-plugin</artifactId>
-                <version>0.8-alpha-SNAPSHOT</version>
-            </plugin>
-        </plugins>
-    </reporting>
 
 </project>
