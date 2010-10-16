@@ -31,12 +31,13 @@ Instalacija - Linux
 1. Potrebno je kopirati RxTx NATIVE (.so) biblioteke za rad sa serijskim portom. 
 Verzija RxTx biblioteke sa kojom sam ja testirao MtsCheckAccount je 
 isporucena uz sam program, unutar direktorijuma "rx-tx-natives".
-Tu su posebni direktorijumi za razlicite arhitekture, potrebno je izabrati 
-odgovarajuci direktorijum i prebaciti fajl librxtxSerial.so u:
-	/usr/lib/jvm/java-6-sun/jre/lib/naziv_arhitekture
-PRIMER: ja imam netbook Lenovo S10E, koji ima Intel Atom procesor, 
+U zavisnosti od instalacije koju ste skinuli, unutar direktorijuma rxtx-native
+u arhivi imate odgovarajuci librxtxSerial.so koji je potrebno prekopirati
+u javin lib poddirektorijum za tu arhitekturu:
+    /usr/lib/jvm/java-6-sun/jre/lib/<arhitektura>
+PRIMER: ja imam netbook Lenovo S10E, koji ima Intel Atom procesor,
 tako da ja biram fajl iz direktorijuma 
-	rx-tx-natives/ch-rxtx-2.2-200812007-linux-i386/librxtxSerial.so
+	rxtx-native/librxtxSerial.so
 i smestam u direktorijum:
 	/usr/lib/jvm/java-6-sun/jre/lib/i386 
 (za ovo su mi potrebne administratorske privilegije)
@@ -60,6 +61,7 @@ i dalje stoji.
 
 Pokretanje - Linux
 ------------------
-Pokretanje aplikacije se vrsi tako sto se prvo doda executive flag
+Pokretanje aplikacije se vrsi pokretanjem skripte bin/startup.
+Da bi arhiva bila izvrsna, nakon sto dekompresujete arhivu morate dodati executive flag:
 	chmod +x startup
-i zatim se program moze pokrenuti preko startup skripta
+i zatim se program moze pokrenuti putem tog skripta.
