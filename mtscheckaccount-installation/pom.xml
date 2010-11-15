@@ -8,12 +8,12 @@
     <artifactId>mtscheckaccount-installation</artifactId>
     <name>Mts Check Account - Installation</name>
     <packaging>pom</packaging>
-    <version>0.4.0.0-SNAPSHOT</version>
 
     <parent>
         <groupId>net.milanaleksic</groupId>
         <artifactId>mtscheckaccount</artifactId>
         <version>0.4.0.0-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <description>
