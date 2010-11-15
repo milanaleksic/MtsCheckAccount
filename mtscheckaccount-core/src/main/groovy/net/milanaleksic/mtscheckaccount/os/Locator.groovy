@@ -8,15 +8,18 @@ public abstract class Locator {
     def recognizedModemId
     def recognizedModemPort
 
+    def config
+
     public Locator(GPathResult config) {
-        findModemLocations(config)
+        this.config = config
+        findModemLocations()
     }
 
     protected static Log log = LogFactory.getLog(Locator.class)
 
     protected abstract String[] doGetModemLocationForDevice(GPathResult device)
 
-    private void findModemLocations(GPathResult config) {
+    private void findModemLocations() {
         def recognizedModems = new HashMap<String,String[]>()
         config.devices.device.each { device ->
             def ports = doGetModemLocationForDevice(device)
@@ -33,7 +36,8 @@ public abstract class Locator {
     }
 
     private def validateFoundModems(def recognizedModems) {
-        if (recognizedModems == null || recognizedModems.size() != 1) {
+        if (recognizedModems == null ||
+                (recognizedModems.size() != 1 && config.devices['@mock'] != 'true')) {
             throw new IllegalStateException("Validacija lociranih modema je pala jer nije pronadjen nijedan (poznat) modem")
         }
         recognizedModems.each { entry ->

@@ -24,7 +24,7 @@ import javax.swing.JOptionPane
                     UMrezi: (/Minuti u mts/),
                     VanMreze: (/Minuti van mts/),
                     Sms: (/SMS/),
-                    Gprs: (/Podaci [(]kb[)]/)
+                    Gprs: (/Podaci [(](k|K)(b|B)[)]/)
             ].each { informationBeanPropertyName, nameOfRowInData ->
                 (readFromData =~ /$nameOfRowInData\s*:\s*[\d.]+/).each { match ->
                     (match =~ /[\s:][\d.]+/).each { match2 ->
