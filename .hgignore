@@ -3,3 +3,4 @@ relre:.*\~
 relre:.*.ipr
 relre:.*.iws
 relre:.*.log
+relre:.*iml
