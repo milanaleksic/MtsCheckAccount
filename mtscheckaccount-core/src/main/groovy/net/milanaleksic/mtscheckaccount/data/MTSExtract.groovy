@@ -2,9 +2,15 @@ package net.milanaleksic.mtscheckaccount.data
 
 import javax.swing.JOptionPane
 
-@Singleton public class MTSExtract {
+public class MTSExtract {
 
-    def extract(readFromData) {
+    def config
+
+    public MTSExtract(config) {
+        this.config = config
+    }
+
+    def extract(String readFromData) {
         def result = new InformationBean()
 
         def negativeOutcomes = [
@@ -20,22 +26,28 @@ import javax.swing.JOptionPane
         }
 
         try {
-            [Stanje: (/Stanje/),
-                    UMrezi: (/Minuti u mts/),
-                    VanMreze: (/Minuti van mts/),
-                    Sms: (/SMS/),
-                    Gprs: (/Podaci [(](k|K)(b|B)[)]/)
+            [Stanje: getRegexFor('Stanje'),
+                    UMrezi: getRegexFor('UMrezi'),
+                    VanMreze: getRegexFor('VanMreze'),
+                    Sms: getRegexFor('Sms'),
+                    Gprs: getRegexFor('Gprs')
             ].each { informationBeanPropertyName, nameOfRowInData ->
                 (readFromData =~ /$nameOfRowInData\s*:\s*[\d.]+/).each { match ->
                     (match =~ /[\s:][\d.]+/).each { match2 ->
-                        result."$informationBeanPropertyName" = match2.replaceAll(':','')
+                        result."$informationBeanPropertyName" = match2.replaceAll(':','').trim()
                     }
                 }
             }
         } catch (Throwable t) {
-            throw new RuntimeException("Problem u toku parsiranja odgovora za segmentima")
+            throw new RuntimeException("Problem u toku parsiranja odgovora za segmentima", t)
         }
         return result
+    }
+
+    def getRegexFor(String id) {
+        def parserInfo = config.parser.info.find { it['@id'].text() == id }
+        assert parserInfo
+        return ~/${parserInfo['@regex']}/
     }
 
 }

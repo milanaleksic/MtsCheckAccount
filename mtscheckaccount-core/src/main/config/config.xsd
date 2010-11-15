@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="mts-check-account-config">
     <xs:complexType>
       <xs:sequence>
@@ -19,7 +19,6 @@
                       <xs:complexType>
                         <xs:attribute name="deviceId" type="xs:string" use="required" />
                         <xs:attribute name="udi" type="xs:string" use="optional" />
-                        <xs:attribute name="port" type="xs:string" use="optional" />
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
@@ -36,45 +35,55 @@
               <xs:element maxOccurs="unbounded" name="device">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:choice maxOccurs="unbounded">
-                      <xs:element name="check">
-                        <xs:complexType>
-                          <xs:attribute name="request" type="xs:string" use="required" />
-                          <xs:attribute name="barrier" type="xs:string" use="required" />
-                          <xs:attribute name="responseForActivatingStartRegEx" type="xs:string" use="required" />
-                        </xs:complexType>
-                      </xs:element>
-                      <xs:element name="start">
-                        <xs:complexType>
-                          <xs:attribute name="request" type="xs:string" use="required" />
-                          <xs:attribute name="barrier" type="xs:string" use="required" />
-                        </xs:complexType>
-                      </xs:element>
-                      <xs:element maxOccurs="unbounded" name="command">
-                        <xs:complexType>
-                          <xs:attribute name="request" type="xs:string" use="required" />
-                          <xs:attribute name="barrier" type="xs:string" use="required" />
-                        </xs:complexType>
-                      </xs:element>
-                      <xs:element name="main">
-                        <xs:complexType>
-                          <xs:attribute name="request" type="xs:string" use="required" />
-                          <xs:attribute name="barrier" type="xs:string" use="required" />
-                        </xs:complexType>
-                      </xs:element>
-                      <xs:element maxOccurs="unbounded" name="post">
-                        <xs:complexType>
-                          <xs:attribute name="request" type="xs:string" use="required" />
-                          <xs:attribute name="barrier" type="xs:string" use="required" />
-                        </xs:complexType>
-                      </xs:element>
-                    </xs:choice>
+                    <xs:element minOccurs="0" name="check">
+                      <xs:complexType>
+                        <xs:attribute name="request" type="xs:string" use="required" />
+                        <xs:attribute name="barrier" type="xs:string" use="required" />
+                        <xs:attribute name="responseForActivatingStartRegEx" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="start">
+                      <xs:complexType>
+                        <xs:attribute name="request" type="xs:string" use="required" />
+                        <xs:attribute name="barrier" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" name="command">
+                      <xs:complexType>
+                        <xs:attribute name="request" type="xs:string" use="required" />
+                        <xs:attribute name="barrier" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="main">
+                      <xs:complexType>
+                        <xs:attribute name="request" type="xs:string" use="required" />
+                        <xs:attribute name="barrier" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="post">
+                      <xs:complexType>
+                        <xs:attribute name="request" type="xs:string" use="required" />
+                        <xs:attribute name="barrier" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
                   </xs:sequence>
                   <xs:attribute name="id" type="xs:string" use="required" />
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
             <xs:attribute name="mock" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="parser">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="info">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required" />
+                  <xs:attribute name="regex" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:sequence>

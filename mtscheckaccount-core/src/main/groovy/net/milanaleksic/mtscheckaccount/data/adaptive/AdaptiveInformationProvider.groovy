@@ -56,7 +56,7 @@ public class AdaptiveInformationProvider extends InformationProvider {
             reader.barrier = preProcessAttribute(params.main.@barrier)
             printToStream(str, preProcessAttribute(params.main.@request))
             def response = reader.haltUntilBarrierCrossed()
-            closure MTSExtract.instance.extract(response)
+            closure new MTSExtract(config).extract(response)
 
             if (params.post.size() != 0) {
                 closure 'Gasim modem...'

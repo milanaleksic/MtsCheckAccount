@@ -78,6 +78,7 @@
             </resource>
         </resources>
         <sourceDirectory>src/main/groovy</sourceDirectory>
+        <testSourceDirectory>src/test/groovy</testSourceDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
