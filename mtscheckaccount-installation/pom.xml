@@ -11,7 +11,7 @@
     <parent>
         <groupId>net.milanaleksic</groupId>
         <artifactId>mtscheckaccount</artifactId>
-        <version>0.4.0.0</version>
+        <version>0.4.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
