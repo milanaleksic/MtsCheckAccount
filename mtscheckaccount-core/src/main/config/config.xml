@@ -77,4 +77,12 @@
         </device>
     </data>
 
+    <parser>
+        <info id="Stanje" regex="Stanje" />
+        <info id="UMrezi" regex="Minuti u mts" />
+        <info id="VanMreze" regex="Minuti van mts" />
+        <info id="Sms" regex="SMS" />
+        <info id="Gprs" regex="Podaci\s?[(](k|K)(b|B)[)]" />
+    </parser>
+
 </mts-check-account-config>

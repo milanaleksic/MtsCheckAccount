@@ -19,6 +19,6 @@ Preostali besplatan saobracaj:
 Podaci (kb):11175740",15
 """
 
-        closure(MTSExtract.instance.extract(testReceivedFromMts))
+        closure(new MTSExtract(config).extract(testReceivedFromMts))
     }
 }

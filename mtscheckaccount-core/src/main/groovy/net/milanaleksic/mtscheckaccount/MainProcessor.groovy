@@ -76,7 +76,6 @@ import net.milanaleksic.mtscheckaccount.util.ApplicationUtil
 	}
 
     def showForm() {
-        def swing = new SwingBuilder()
         ApplicationUtil.setWindowsTheme()
 
         def keyPressedEventHandler = { event->
@@ -84,7 +83,7 @@ import net.milanaleksic.mtscheckaccount.util.ApplicationUtil
                 Runtime.getRuntime().exit(0)
             }
         }
-        def frame = swing.frame(title: "MtsCheckAccount v$programVersion",
+        def frame = new SwingBuilder().frame(title: "MtsCheckAccount v$programVersion",
                 location: [100, 100],
                 resizable: false,
                 keyPressed: keyPressedEventHandler,
