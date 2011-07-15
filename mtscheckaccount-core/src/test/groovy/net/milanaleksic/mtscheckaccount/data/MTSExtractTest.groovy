@@ -59,4 +59,6 @@ Podatci(kB): 3145728",15
         assertTrue("Polje Gprs nije dobro - ${bean.Gprs}", bean.Gprs == "NEDOSTUPNO")
     }
 
+
+
 }
