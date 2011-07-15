@@ -29,11 +29,11 @@
             />
             <command
                     request="AT+CUSD=1,&quot;{{2}}&quot;,15"
-                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Poslednji racun"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*1\. Trenutno stanje"
             />
             <main
                     request="AT+CUSD=1,&quot;{{1}}&quot;,15"
-                    barrier="(?s)\s*([+]+)CUSD: [01],&quot;.*Stanje"
+                    barrier="(?s)\s*([+]+)CUSD: [01],&quot;.*[Ss]tanje"
             />
         </device>
         <device id="ZTE MF622">
@@ -60,11 +60,11 @@
             />
             <command
                     request="AT+CUSD=1,&quot;2&quot;,15"
-                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*2\. Poslednji racun"
+                    barrier="(?s)\s*([+]+)CUSD: 1,&quot;.*1\. Trenutno stanje"
             />
             <main
                     request="AT+CUSD=1,&quot;1&quot;,15"
-                    barrier="(?s)\s*([+]+)CUSD: [01],&quot;.*Stanje"
+                    barrier="(?s)\s*([+]+)CUSD: [01],&quot;.*[Ss]tanje"
             />
             <post
                     request="AT+CUSD=0"
