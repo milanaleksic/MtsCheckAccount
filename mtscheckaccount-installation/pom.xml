@@ -23,7 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <installation.script.location>${basedir}/src/main/nsis/Script.nsi</installation.script.location>
-        <makensis.location>c:\Program Files\NSIS\makensis.exe</makensis.location>
+        <makensis.location>c:\Program Files (x86)\NSIS\makensis.exe</makensis.location>
         <installation-resources.dir>${basedir}/src/main/installation-resources</installation-resources.dir>
         <installation-resources-win.dir>${basedir}/src/main/installation-resources-win</installation-resources-win.dir>
         <installation-resources-linux.dir>${basedir}/src/main/installation-resources-linux
